@@ -17,7 +17,7 @@ pub struct Target {
     pub(super) target_stored : bool,
     pub(super) target_name : String,
     pub(super) targetting_game_object : bool,
-    pub(super) target_component : ComponentTypes,
+    // pub(super) target_component : ComponentTypes,
     pub(super) target_locat : Vec<usize>
     
 }
