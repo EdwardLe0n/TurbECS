@@ -1,67 +1,89 @@
 // Initial imports
 
-mod turbe;
-// mod assets;
-// use kitchen::objectManager;
-
-// use crate::kitchen::objectSystem::GameObject;
-use crate::turbe::sceneManagementSystem;
-// use crate::kitchen::sceneManagementSystem::Screen;
-
 use std::collections::VecDeque;
+use std::collections::BTreeMap;
 
-turbo::init! {
+mod turbe;
+use turbe::{entity::Entity, component::{Component, ComponentLifecycle}};
+
+mod assets;
+use assets::prefabs;
+
+use turbo::{canvas::rect::Rectangle, prelude::*};
+
+#[turbo::game]
+#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+struct GameState {
     
-    // Define the GameState struct.
-    struct GameState {
-        
-        // This screen bit as a base, acts a potential scene system
-        
-        scene_data: struct SceneData {
+    entities : BTreeMap<u32, Entity<Component>>
 
-            loaded : bool,
-            //screen: Screen
-
-        } ,
-        lifetime_cycle : struct LifetimeCycleObjects {
-            new_awake : VecDeque<usize>,
-            new_start : VecDeque<usize>,
-            new_destroy : VecDeque<usize>
-        },
-        gap_data : struct GapData { 
-            empty_spaces : VecDeque<usize>,
-            recently_filled : VecDeque<usize>,
-        },
-        //current_game_objects : Vec<GameObject>,
-        current_parent_objects : Vec<Vec<usize>> 
-        
-    } = {
-        // Set the structs initial value.
-        Self {
-            scene_data : SceneData { 
-                loaded: (false), 
-                // screen: Screen::Title 
-            },
-            lifetime_cycle : LifetimeCycleObjects {
-                new_awake : VecDeque::new(),
-                new_start : VecDeque::new(),
-                new_destroy : VecDeque::new()
-            },
-            gap_data : GapData {
-                empty_spaces : VecDeque::new(),
-                recently_filled : VecDeque::new()
-            },
-            //current_game_objects : Vec::new(),
-            current_parent_objects : Vec::new()
-        }
-    }
-    
 }
 
-// This is where your main game loop code goes
-// The stuff in this block will run ~60x per sec
-turbo::go!({
+impl GameState {
+    fn new() -> Self {
 
-    text!("Hello, world!!!");
+        let mut bTree = BTreeMap::new();
 
-});
+        let mut ent = prefabs::new_rect();
+
+        bTree.insert(ent.locat, ent);
+
+        Self {entities : bTree}
+    
+    }
+
+    fn update(&mut self) {
+        // Update the game & draw stuff
+
+        self.run_lifetime();
+
+    }
+
+    /*
+
+        Lifetime System!!!
+
+     */
+
+    fn run_lifetime(&mut self) {
+
+        self.on_update();
+        self.on_render();
+
+    }
+
+    fn on_update(&mut self) {
+
+        for (id, ent) in self.entities.iter_mut() {
+
+            let mut entDraft = ent.clone();
+
+            for components in ent.components.iter_mut() {
+
+                components.on_update(&mut entDraft);
+
+            }
+
+            *ent = entDraft;
+
+        }
+
+    }
+
+    fn on_render(&mut self) {
+
+        clear(0x777777ff);
+
+        for (id, ent) in self.entities.iter_mut() {
+
+            for components in ent.components.iter_mut() {
+
+                components.render(0, 0);
+
+            }
+
+        }
+
+    }
+
+}

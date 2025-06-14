@@ -328,9 +328,9 @@ dependencies = [
 
 [[package]]
 name = "turbo-genesis-sdk"
-version = "3.0.1"
+version = "3.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "177535dee3c712ecac366eee27d667b914ac1ba7d66d1b7b215b581851775bb8"
+checksum = "a5d7578991ce928403e5a3e3f4fa10848b2233746947fdc650e11586158cb36c"
 dependencies = [
  "base64",
  "borsh",
@@ -340,6 +340,18 @@ dependencies = [
  "serde_json",
  "structstruck",
  "toml 0.8.23",
+ "turbo-macros",
+]
+
+[[package]]
+name = "turbo-macros"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3eedf9019c7701e26a9473d32d6f5b33a75c4ad4ce247407b7e22c379653d1c1"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.101",
 ]
 
 [[package]]
