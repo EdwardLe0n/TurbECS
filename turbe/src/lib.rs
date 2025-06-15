@@ -72,7 +72,7 @@ impl GameState {
 
     fn on_render(&mut self) {
 
-        clear(0x777777ff);
+        clear(0xffffffff);
 
         for (id, ent) in self.entities.iter_mut() {
 

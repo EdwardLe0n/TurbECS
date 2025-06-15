@@ -1,1 +1,1 @@
-pub mod rectangle;
+pub mod comp_rect;

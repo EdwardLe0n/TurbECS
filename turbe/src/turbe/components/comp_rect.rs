@@ -1,6 +1,6 @@
 use turbo::prelude::*;
 
-use super::super::{component::{Component, ComponentLifecycle}, transform::Transform, size::Size, border::Border};
+use super::super::{transform::Transform, size::Size, border::Border};
 
 pub fn render_rect(transform : Transform, size : Size, color : u32, border : Border, _x: i32, _y: i32) {
     

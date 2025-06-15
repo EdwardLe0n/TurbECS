@@ -1,6 +1,6 @@
 use turbo::prelude::*;
 
-use crate::turbe::components::rectangle::render_rect;
+use crate::turbe::components::comp_rect;
 
 use super::entity::Entity;
 use super::transform::Transform;
@@ -55,7 +55,7 @@ impl ComponentLifecycle for Component {
     fn render(&mut self, _x: i32, _y: i32) {
         match self {
             Self::Rectangle {transform, size, color, border } => {
-                render_rect(*transform, *size, *color, *border, _x, _y);
+                comp_rect::render_rect(*transform, *size, *color, *border, _x, _y);
             },
             Self::Text {text} => {
                 text!(text);
