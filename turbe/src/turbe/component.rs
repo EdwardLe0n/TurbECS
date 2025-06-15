@@ -1,6 +1,8 @@
 use turbo::prelude::*;
 
 use super::entity::Entity;
+use super::transform::Transform;
+use super::size::Size;
 
 pub trait ComponentLifecycle {
     fn on_init(&mut self);
@@ -18,7 +20,7 @@ pub trait ComponentLifecycle {
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub enum Component {
-    Rectangle { width: u32 },
+    Rectangle { transform: Transform, size: Size },
     Text { text: String },
 }
 
@@ -47,14 +49,14 @@ impl ComponentLifecycle for Component {
 
     fn render(&mut self, _x: i32, _y: i32) {
         match self {
-            Self::Rectangle { width } => {
+            Self::Rectangle { size, transform } => {
                 rect!(
-                    x = 112,
-                    y = 56,
-                    w = *width,
-                    h = 32,
+                    x = transform.get_x(),
+                    y = transform.get_y(),
+                    w = size.get_width() as f32 * size.get_scale_x(),
+                    h = size.get_height(),
                     color = 0x0000ffff,
-                    rotation = 45,
+                    rotation = transform.get_rotation(),
                     border_size = 2,
                     border_color = 0xffffffff,
                     border_radius = 4,
