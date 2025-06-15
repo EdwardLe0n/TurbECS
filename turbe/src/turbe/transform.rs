@@ -1,6 +1,6 @@
 use turbo::prelude::*;
 
-#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[derive(Debug, Copy, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub struct Transform {
     pub x : i32,
     pub y : i32,

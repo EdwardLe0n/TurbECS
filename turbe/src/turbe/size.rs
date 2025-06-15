@@ -1,6 +1,6 @@
 use turbo::prelude::*;
 
-#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[derive(Debug, Copy, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub struct Size {
     pub width : i32,
     pub height : i32,

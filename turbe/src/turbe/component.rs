@@ -1,8 +1,11 @@
 use turbo::prelude::*;
 
+use crate::turbe::components::rectangle::render_rect;
+
 use super::entity::Entity;
 use super::transform::Transform;
 use super::size::Size;
+use super::border::Border;
 
 pub trait ComponentLifecycle {
     fn on_init(&mut self);
@@ -20,11 +23,13 @@ pub trait ComponentLifecycle {
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub enum Component {
-    Rectangle { transform: Transform, size: Size },
+    Rectangle { transform: Transform, size: Size, color: u32, border: Border},
     Text { text: String },
 }
 
-impl Component {}
+impl Component {
+
+}
 
 impl ComponentLifecycle for Component {
     fn on_init(&mut self) {
@@ -49,18 +54,8 @@ impl ComponentLifecycle for Component {
 
     fn render(&mut self, _x: i32, _y: i32) {
         match self {
-            Self::Rectangle { size, transform } => {
-                rect!(
-                    x = transform.get_x(),
-                    y = transform.get_y(),
-                    w = size.get_width() as f32 * size.get_scale_x(),
-                    h = size.get_height(),
-                    color = 0x0000ffff,
-                    rotation = transform.get_rotation(),
-                    border_size = 2,
-                    border_color = 0xffffffff,
-                    border_radius = 4,
-                );
+            Self::Rectangle {transform, size, color, border } => {
+                render_rect(*transform, *size, *color, *border, _x, _y);
             },
             Self::Text {text} => {
                 text!(text);
