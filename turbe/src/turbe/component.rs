@@ -2,9 +2,10 @@ use std::default;
 
 use turbo::prelude::*;
 
-use crate::turbe::components::{comp_rect, comp_spr};
+use crate::turbe::components::{comp_rect, comp_spr, comp_text};
 use comp_rect::RectangleComponent;
 use comp_spr::SpriteComponent;
+use comp_text::TextComponent;
 
 use super::entity::Entity;
 use super::transform::Transform;
@@ -74,9 +75,3 @@ impl ComponentLifecycle for Component {
         }
     }
 }
-
-#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
-pub struct TextComponent {
-    text : String
-}
-

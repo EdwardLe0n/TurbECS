@@ -1,5 +1,3 @@
-use std::sync::mpsc::RecvError;
-
 use turbo::prelude::*;
 
 use super::super::{component::Component, transform::Transform, size::Size, border::Border};
