@@ -63,13 +63,13 @@ impl ComponentLifecycle for Component {
     fn render(&mut self, _x: i32, _y: i32) {
         match self {
             Self::Rectangle (rectangle_component ) => {
-                comp_rect::render_rect(rectangle_component.clone());
+                rectangle_component.render_rect();
             },
             Self::Text ( text_component) => {
                 text!(&text_component.text);
             },
             Self::Sprite ( sprite_component ) => {
-                comp_spr::render_sprite(sprite_component.clone());
+                sprite_component.render_sprite();
             },
             default => {}
         }

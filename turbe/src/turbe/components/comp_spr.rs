@@ -13,21 +13,25 @@ pub struct SpriteComponent {
     frame: usize
 }
 
-pub fn render_sprite(sprite_component : SpriteComponent) {
+impl SpriteComponent {
+    
+    pub fn render_sprite(&mut self) {
 
         sprite!(
-            sprite_component.name.as_str(),
-            x = sprite_component.position.get_x(),
-            y = sprite_component.position.get_y(),
-            w = sprite_component.size.get_width(),
-            h = sprite_component.size.get_height(),
-            color = sprite_component.color,
-            opacity = sprite_component.opacity,
-            rotation = sprite_component.position.get_rotation(),
-            scale_x = sprite_component.size.get_scale_x(),
-            scale_y = sprite_component.size.get_scale_y(),
-            flip_x = sprite_component.flip_factor.get_x(),
-            flip_y = sprite_component.flip_factor.get_y()
+            self.name.as_str(),
+            x = self.position.get_x(),
+            y = self.position.get_y(),
+            w = self.size.get_width(),
+            h = self.size.get_height(),
+            color = self.color,
+            opacity = self.opacity,
+            rotation = self.position.get_rotation(),
+            scale_x = self.size.get_scale_x(),
+            scale_y = self.size.get_scale_y(),
+            flip_x = self.flip_factor.get_x(),
+            flip_y = self.flip_factor.get_y()
         )
+
+    }
 
 }
