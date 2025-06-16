@@ -23,4 +23,10 @@ impl<T: ComponentLifecycle> Entity<T> {
 
     }
 
+    pub fn add_component (&mut self, component : T) {
+
+        self.components.push(component);
+
+    }
+
 }

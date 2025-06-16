@@ -1,6 +1,6 @@
 use turbo::prelude::*;
 
-use super::super::{transform::Transform, flip::Flip};
+use super::super::{component::Component, transform::Transform, flip::Flip};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub struct SpriteComponent {
@@ -10,6 +10,25 @@ pub struct SpriteComponent {
     opacity: f32, 
     flip_factor: Flip, 
     frame: usize
+}
+
+impl SpriteComponent {
+    
+    pub fn new(name : String) -> Component {
+
+        let spr = SpriteComponent {
+            name : name,
+            transform : Transform::new(),
+            color : 0xffffffff,
+            opacity : 1.0,
+            flip_factor : Flip::new(),
+            frame : 0
+        };
+
+        return Component::Sprite(spr);
+
+    }
+
 }
 
 impl SpriteComponent {

@@ -28,6 +28,10 @@ impl GameState {
 
         bTree.insert(ent.locat, ent);
 
+        ent = prefabs::new_spr();
+
+        bTree.insert(ent.locat, ent);
+
         Self {entities : bTree}
     
     }
