@@ -1,6 +1,14 @@
 use turbo::prelude::*;
 
-use super::super::{component::Component, position::Position};
+// Core directories
+
+use crate::turbe;
+use turbe::helpers;
+
+// Necessary imports
+
+use turbe::{component::Component};
+use helpers::{transform::Transform, position::Position};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub struct TextComponent {

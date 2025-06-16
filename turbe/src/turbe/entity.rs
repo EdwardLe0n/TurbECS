@@ -1,8 +1,11 @@
 use turbo::prelude::*;
 
-use super::component::ComponentLifecycle;
+use crate::turbe;
 
-use super::{transform::Transform};
+use turbe::component::ComponentLifecycle;
+
+use turbe::helpers;
+use helpers::{transform::Transform};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub struct Entity<T: ComponentLifecycle> {

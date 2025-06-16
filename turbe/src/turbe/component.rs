@@ -2,18 +2,20 @@ use std::default;
 
 use turbo::prelude::*;
 
-use crate::turbe::components::comp_move::MoveComponent;
-use crate::turbe::components::{comp_rect, comp_spr, comp_text};
-use crate::turbe::transform::{self, Transform};
-use comp_rect::RectangleComponent;
-use comp_spr::SpriteComponent;
-use comp_text::TextComponent;
+use crate::turbe;
 
-use super::entity::Entity;
-use super::position::Position;
-use super::size::Size;
-use super::border::Border;
+use turbe::{entity::Entity};
 
+use turbe::helpers;
+use helpers::{position::Position, size::Size, border::Border, transform::Transform};
+
+use turbe::components;
+use components::{comp_rect::RectangleComponent, comp_spr::SpriteComponent, comp_text::TextComponent};
+
+// User made components
+use crate::assets::components::comp_move::MoveComponent;
+
+// Main Lifecycle System
 pub trait ComponentLifecycle {
     fn on_init(&mut self);
 

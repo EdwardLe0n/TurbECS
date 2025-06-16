@@ -5,15 +5,14 @@ use std::collections::BTreeMap;
 use std::vec;
 
 mod turbe;
-use turbe::{entity::Entity, scene_data, component::{Component, ComponentLifecycle}};
-use scene_data::SceneData;
+use turbe::{entity::Entity, scene_data, component};
+use component::{Component, ComponentLifecycle};
+use scene_data::{SceneData, Scenes};
 
 mod assets;
 use assets::prefabs;
 
 use turbo::{canvas::rect::Rectangle, prelude::*};
-
-use crate::turbe::scene_data::Scenes;
 
 #[turbo::game]
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]

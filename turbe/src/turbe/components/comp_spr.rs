@@ -1,8 +1,14 @@
 use turbo::prelude::*;
 
-use crate::turbe::transform;
+// Core directories
 
-use super::super::{component::Component, transform::Transform, flip::Flip};
+use crate::turbe;
+use turbe::helpers;
+
+// Necessary imports
+
+use turbe::{component::Component};
+use helpers::{transform::Transform, position::Position, flip::Flip};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub struct SpriteComponent {

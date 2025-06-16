@@ -1,10 +1,11 @@
 use turbo::prelude::*;
 use std::collections::VecDeque;
 
-use crate::turbe::component::{Component, ComponentLifecycle};
-use crate::assets::prefabs;
+use crate::turbe;
+use turbe::component::{Component, ComponentLifecycle};
+use turbe::entity::Entity;
 
-use super::entity::Entity;
+use crate::assets::prefabs;
 
 #[derive(Debug, Copy, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub struct SceneData {

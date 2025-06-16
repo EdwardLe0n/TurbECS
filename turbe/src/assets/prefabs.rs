@@ -1,7 +1,16 @@
 use crate::turbe;
-use turbe::{entity::Entity, component::{Component, ComponentLifecycle}, border::Border};
+use turbe::helpers;
 
-use turbe::components::{comp_rect::RectangleComponent, comp_spr::SpriteComponent, comp_text::TextComponent, comp_move::MoveComponent};
+use turbe::{entity::Entity, component};
+use component::{Component, ComponentLifecycle};
+use helpers::{border::Border};
+
+// Standard Components
+use turbe::components::{comp_rect::RectangleComponent, comp_spr::SpriteComponent, comp_text::TextComponent};
+
+// User defined components
+use crate::assets;
+use assets::components::{comp_move::MoveComponent};
 
 pub fn new_text () -> Entity<Component> {
 
