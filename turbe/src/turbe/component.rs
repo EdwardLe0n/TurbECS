@@ -1,6 +1,10 @@
+use std::default;
+
 use turbo::prelude::*;
 
-use crate::turbe::components::comp_rect;
+use crate::turbe::components::{comp_rect, comp_spr};
+use comp_rect::RectangleComponent;
+use comp_spr::SpriteComponent;
 
 use super::entity::Entity;
 use super::transform::Transform;
@@ -23,8 +27,9 @@ pub trait ComponentLifecycle {
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub enum Component {
-    Rectangle { transform: Transform, size: Size, color: u32, border: Border},
-    Text { text: String },
+    Rectangle ( RectangleComponent ),
+    Text ( TextComponent ),
+    Sprite ( SpriteComponent )
 }
 
 impl Component {
@@ -41,7 +46,9 @@ impl ComponentLifecycle for Component {
     }
 
     fn on_start(&mut self) {
-        // todo!();
+        if let Self::Text( text) = self {
+            
+        }
     }
 
     fn on_update(&mut self, ent : &mut Entity<Component>) {
@@ -54,12 +61,22 @@ impl ComponentLifecycle for Component {
 
     fn render(&mut self, _x: i32, _y: i32) {
         match self {
-            Self::Rectangle {transform, size, color, border } => {
-                comp_rect::render_rect(*transform, *size, *color, *border, _x, _y);
+            Self::Rectangle (rectangle_component ) => {
+                comp_rect::render_rect(rectangle_component.clone());
             },
-            Self::Text {text} => {
-                text!(text);
-            }
+            Self::Text ( text_component) => {
+                text!(&text_component.text);
+            },
+            Self::Sprite ( sprite_component ) => {
+                comp_spr::render_sprite(sprite_component.clone());
+            },
+            default => {}
         }
     }
 }
+
+#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+pub struct TextComponent {
+    text : String
+}
+
