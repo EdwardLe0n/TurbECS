@@ -114,6 +114,8 @@ impl GameState {
 
             }
 
+            self.entities[i].transform = entDraft.transform;
+
         }
 
     }
@@ -125,7 +127,13 @@ impl GameState {
         for i in 0..self.render_list.len() {
             for j in 0..self.render_list[i].len(){
                 for k in 0..self.entities[self.render_list[i][j]].components.len() {
-                    self.entities[self.render_list[i][j]].components[k].render(0, 0);
+
+                    let transform = self.entities[self.render_list[i][j]].transform.clone();
+
+                    self.entities[self.render_list[i][j]].components[k].render(transform);
+
+                    self.entities[self.render_list[i][j]].transform = transform;
+
                 }
             }
         }

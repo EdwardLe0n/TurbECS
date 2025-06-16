@@ -34,6 +34,7 @@ pub fn make_title_scene () -> VecDeque<Entity<Component>> {
 
     ent_vec.push_front(prefabs::new_spr());
     ent_vec.push_front(prefabs::new_rect());
+    ent_vec.push_front(prefabs::new_text());
 
     return ent_vec;
 

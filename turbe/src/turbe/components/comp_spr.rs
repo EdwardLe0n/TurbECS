@@ -1,5 +1,7 @@
 use turbo::prelude::*;
 
+use crate::turbe::transform;
+
 use super::super::{component::Component, transform::Transform, flip::Flip};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
@@ -33,17 +35,17 @@ impl SpriteComponent {
 
 impl SpriteComponent {
     
-    pub fn render_sprite(&mut self) {
+    pub fn render_sprite(&mut self, transform : Transform) {
 
         sprite!(
             self.name.as_str(),
-            x = self.transform.get_x(),
-            y = self.transform.get_y(),
-            w = self.transform.get_width(),
-            h = self.transform.get_height(),
+            x = self.transform.get_x() + transform.get_x(),
+            y = self.transform.get_y() + transform.get_y(),
+            w = self.transform.get_width() as f32 * self.transform.get_scale_x() * transform.get_scale_x(),
+            h = self.transform.get_height() as f32 * self.transform.get_scale_y() * transform.get_scale_y(),
             color = self.color,
             opacity = self.opacity,
-            rotation = self.transform.get_rotation(),
+            rotation = self.transform.get_rotation() + transform.get_rotation(),
             scale_x = self.transform.get_scale_x(),
             scale_y = self.transform.get_scale_y(),
             flip_x = self.flip_factor.get_x(),

@@ -1,5 +1,7 @@
 use turbo::prelude::*;
 
+use crate::turbe::transform;
+
 use super::super::{component::Component, transform::Transform, border::Border};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
@@ -37,14 +39,14 @@ impl RectangleComponent {
 
 impl RectangleComponent {
     
-    pub fn render_rect(&mut self) {    
+    pub fn render_rect(&mut self, transform : Transform) {    
         rect!(
-            x = self.transform.get_x(),
-            y = self.transform.get_y(),
-            w = self.transform.get_width() as f32 * self.transform.get_scale_x(),
-            h = self.transform.get_height(),
+            x = self.transform.get_x() + transform.get_x(),
+            y = self.transform.get_y() + transform.get_y(),
+            w = self.transform.get_width() as f32 * self.transform.get_scale_x() * transform.get_scale_y(),
+            h = self.transform.get_height() as f32 * self.transform.get_scale_y() * transform.get_scale_y(),
             color = self.color,
-            rotation = self.transform.get_rotation(),
+            rotation = self.transform.get_rotation() + transform.get_rotation(),
             border_size = self.border.get_size(),
             border_color = self.border.get_color(),
             border_radius = self.border.get_radius(),

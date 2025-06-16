@@ -2,7 +2,9 @@ use std::default;
 
 use turbo::prelude::*;
 
+use crate::turbe::components::comp_move::MoveComponent;
 use crate::turbe::components::{comp_rect, comp_spr, comp_text};
+use crate::turbe::transform::{self, Transform};
 use comp_rect::RectangleComponent;
 use comp_spr::SpriteComponent;
 use comp_text::TextComponent;
@@ -23,14 +25,15 @@ pub trait ComponentLifecycle {
 
     fn on_destroy(&mut self);
 
-    fn render(&mut self, _x: i32, _y: i32);
+    fn render(&mut self, transform : Transform);
 }
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub enum Component {
     Rectangle ( RectangleComponent ),
     Text ( TextComponent ),
-    Sprite ( SpriteComponent )
+    Sprite ( SpriteComponent ),
+    Move ( MoveComponent )
 }
 
 impl Component {
@@ -53,23 +56,28 @@ impl ComponentLifecycle for Component {
     }
 
     fn on_update(&mut self, ent : &mut Entity<Component>) {
-        // todo!();
+        match self {
+            Self::Move( move_component ) => {
+                move_component.update(&mut ent.transform);
+            },
+            default => {}            
+        }
     }
 
     fn on_destroy(&mut self) {
         // todo!();
     }
 
-    fn render(&mut self, _x: i32, _y: i32) {
+    fn render(&mut self, transform : Transform) {
         match self {
             Self::Rectangle (rectangle_component ) => {
-                rectangle_component.render_rect();
+                rectangle_component.render_rect(transform);
             },
             Self::Text ( text_component) => {
-                text!(&text_component.text);
+                text_component.render();
             },
             Self::Sprite ( sprite_component ) => {
-                sprite_component.render_sprite();
+                sprite_component.render_sprite(transform);
             },
             default => {}
         }
