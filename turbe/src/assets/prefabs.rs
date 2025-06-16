@@ -1,19 +1,21 @@
 use crate::turbe;
-use turbe::{entity::Entity, component::Component, border::Border};
+use turbe::{entity::Entity, component::{Component, ComponentLifecycle}, border::Border};
 
 use turbe::components::{comp_rect::RectangleComponent, comp_spr::SpriteComponent};
 
-pub fn new_rect() -> Entity<Component> {
+pub fn new_rect () -> Entity<Component> {
     
-    return Entity::new("Some rect".to_string(), 
-        vec![
-            RectangleComponent::new_rect(10, 10, 0x12345ff)
-        ]
-    );
+    let mut ent = Entity::new("some rect".to_string(), vec![]);
+
+    ent.add_component(RectangleComponent::new_rect(10, 25, 0x123456ff));
+
+    ent.set_layer(3);
+
+    return ent;
 
 }
 
-pub fn new_spr() -> Entity<Component> {
+pub fn new_spr () -> Entity<Component> {
 
     let mut ent = Entity::new("some image".to_string(), vec![]);
 
