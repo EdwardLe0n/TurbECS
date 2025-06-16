@@ -1,5 +1,5 @@
 use crate::turbe;
-use turbe::{entity::Entity, component::Component, transform::Transform, size::Size, border::Border};
+use turbe::{entity::Entity, component::Component, position::Position, size::Size, border::Border};
 
 use turbe::components::{comp_rect};
 

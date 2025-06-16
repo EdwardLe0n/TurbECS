@@ -8,7 +8,7 @@ use comp_spr::SpriteComponent;
 use comp_text::TextComponent;
 
 use super::entity::Entity;
-use super::transform::Transform;
+use super::position::Position;
 use super::size::Size;
 use super::border::Border;
 

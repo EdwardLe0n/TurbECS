@@ -1,10 +1,10 @@
 use turbo::prelude::*;
 
-use super::super::{component::Component, transform::Transform, size::Size, border::Border};
+use super::super::{component::Component, position::Position, size::Size, border::Border};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub struct RectangleComponent {
-    transform: Transform, 
+    transform: Position, 
     size: Size, 
     color: u32, 
     border: Border
@@ -13,7 +13,7 @@ pub struct RectangleComponent {
 pub fn new_base() -> RectangleComponent {
 
     return RectangleComponent {
-        transform : Transform::new(), 
+        transform : Position::new(), 
         size : Size::new(),
         color : 0xffffffff,
         border : Border::new()

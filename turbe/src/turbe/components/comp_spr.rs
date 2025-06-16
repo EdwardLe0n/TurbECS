@@ -1,11 +1,11 @@
 use turbo::prelude::*;
 
-use super::super::{transform::Transform, flip::Flip, size::Size};
+use super::super::{position::Position, flip::Flip, size::Size};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub struct SpriteComponent {
     name: String, 
-    transform: Transform, 
+    transform: Position, 
     size: Size, 
     color: u32, 
     opacity: f32, 

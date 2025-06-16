@@ -1,23 +1,23 @@
 use turbo::prelude::*;
 
 #[derive(Debug, Copy, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
-pub struct Transform {
+pub struct Position {
     pub x : i32,
     pub y : i32,
     pub rotation : i32,
 }
 
-impl Transform {
+impl Position {
 
-    pub fn new() -> Transform {
+    pub fn new() -> Position {
 
-        return Transform { x: 0, y: 0, rotation: 0 }
+        return Position { x: 0, y: 0, rotation: 0 }
 
     }
 
-    pub fn new_with_xy(some_x : i32, some_y : i32) -> Transform {
+    pub fn new_with_xy(some_x : i32, some_y : i32) -> Position {
 
-        let mut transform = Transform::new();
+        let mut transform = Position::new();
 
         transform.set_x(some_x);
         transform.set_y(some_y);
@@ -28,7 +28,7 @@ impl Transform {
 
 }
 
-impl Transform {
+impl Position {
 
     pub fn set_x(&mut self, some_x : i32) {
         self.x = some_x;
@@ -56,7 +56,7 @@ impl Transform {
 
 }
 
-impl Transform {
+impl Position {
     
     pub fn nudge_x(&mut self, some_x : i32) {
 
