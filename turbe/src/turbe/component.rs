@@ -1,5 +1,3 @@
-use std::default;
-
 use turbo::prelude::*;
 
 use crate::turbe;
@@ -7,7 +5,7 @@ use crate::turbe;
 use turbe::{entity::Entity};
 
 use turbe::helpers;
-use helpers::{position::Position, size::Size, border::Border, transform::Transform};
+use helpers::{transform::Transform};
 
 use turbe::components;
 use components::{comp_rect::RectangleComponent, comp_spr::SpriteComponent, comp_text::TextComponent};
@@ -52,17 +50,15 @@ impl ComponentLifecycle for Component {
     }
 
     fn on_start(&mut self) {
-        if let Self::Text( text) = self {
-            
-        }
+        
     }
 
-    fn on_update(&mut self, ent : &mut Entity<Component>) {
+    fn on_update(&mut self, _ent : &mut Entity<Component>) {
         match self {
             Self::Move( move_component ) => {
-                move_component.update(&mut ent.transform);
+                move_component.update(&mut _ent.transform);
             },
-            default => {}            
+            _default => {}            
         }
     }
 
@@ -70,18 +66,18 @@ impl ComponentLifecycle for Component {
         // todo!();
     }
 
-    fn render(&self, transform : Transform) {
+    fn render(&self, _transform : Transform) {
         match self {
             Self::Rectangle (rectangle_component ) => {
-                rectangle_component.render_rect(transform);
+                rectangle_component.render_rect(_transform);
             },
             Self::Text ( text_component) => {
-                text_component.render();
+                text_component.render(_transform);
             },
             Self::Sprite ( sprite_component ) => {
-                sprite_component.render_sprite(transform);
+                sprite_component.render_sprite(_transform);
             },
-            default => {}
+            _default => {}
         }
     }
 }

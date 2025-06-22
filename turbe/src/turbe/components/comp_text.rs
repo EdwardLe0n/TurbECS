@@ -32,7 +32,7 @@ impl TextComponent {
 
 impl TextComponent {
 
-    pub fn render(&self) {
+    pub fn render(&self, _transform : Transform) {
         text!(
             &self.text,
             x = self.position.get_x(),

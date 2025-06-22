@@ -8,7 +8,7 @@ use turbe::helpers;
 // Necessary imports
 
 use turbe::{component::Component};
-use helpers::{transform::Transform, position::Position, flip::Flip};
+use helpers::{transform::Transform, flip::Flip};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub struct SpriteComponent {

@@ -2,8 +2,7 @@ use crate::turbe;
 use turbe::helpers;
 
 use turbe::{entity::Entity, component};
-use component::{Component, ComponentLifecycle};
-use helpers::{border::Border};
+use component::{Component};
 
 // Standard Components
 use turbe::components::{comp_rect::RectangleComponent, comp_spr::SpriteComponent, comp_text::TextComponent};

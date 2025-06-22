@@ -7,8 +7,7 @@ use turbe::helpers;
 
 // Necessary imports
 
-use turbe::{component::Component};
-use helpers::{transform::Transform, position::Position, border::Border};
+use helpers::{transform::Transform, position::Position};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub struct OrbitComponent {
@@ -30,16 +29,16 @@ impl OrbitComponent {
 
 impl OrbitComponent {
 
-    pub fn update(&mut self, transform : &mut Transform) {
+    pub fn update(&mut self, _transform : &mut Transform) {
 
         self.tock += 0.1 * (rand() % 3) as f32;
-        if (self.tock > 360.0)
+        if self.tock > 360.0
         {
             self.tock = 0.0;
         }
 
-        transform.set_x(self.orbit_position.get_x() + (self.tock.sin() * self.orbit_radius) as i32);
-        transform.set_y(self.orbit_position.get_y() + (self.tock.cos() * self.orbit_radius) as i32);
+        _transform.set_x(self.orbit_position.get_x() + (self.tock.sin() * self.orbit_radius) as i32);
+        _transform.set_y(self.orbit_position.get_y() + (self.tock.cos() * self.orbit_radius) as i32);
 
     }
 

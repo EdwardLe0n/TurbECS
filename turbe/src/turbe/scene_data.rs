@@ -2,7 +2,7 @@ use turbo::prelude::*;
 use std::collections::VecDeque;
 
 use crate::turbe;
-use turbe::component::{Component, ComponentLifecycle};
+use turbe::component::{Component};
 use turbe::entity::Entity;
 
 use crate::assets::prefabs;
@@ -15,14 +15,15 @@ pub struct SceneData {
 
 #[derive(Debug, Copy, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub enum Scenes {
-    Title
+    Title,
+    Misc
 }
 
 pub fn make_scene (some_scene : Scenes) ->  VecDeque<Entity<Component>>{
 
     match some_scene {
         Scenes::Title => {make_title_scene()},
-        default => {
+        _default => {
             return VecDeque::new();
         }
     }

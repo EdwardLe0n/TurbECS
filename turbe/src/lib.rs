@@ -1,7 +1,6 @@
 // Initial imports
 
 use std::collections::VecDeque;
-use std::collections::BTreeMap;
 use std::vec;
 
 mod turbe;
@@ -10,9 +9,8 @@ use component::{Component, ComponentLifecycle};
 use scene_data::{SceneData, Scenes};
 
 mod assets;
-use assets::prefabs;
 
-use turbo::{canvas::rect::Rectangle, prelude::*};
+use turbo::prelude::*;
 
 #[turbo::game]
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
@@ -61,15 +59,15 @@ impl GameState {
 
         let mut new_ent = scene_data::make_scene(self.scene_data.active_scene);
 
-        while (new_ent.len() > 0) 
+        while new_ent.len() > 0 
         {
 
-            let mut some_ent = new_ent.front().unwrap().clone();
+            let some_ent = new_ent.front().unwrap().clone();
             new_ent.pop_front();
 
             self.entities.push(some_ent);
 
-            if (self.render_list.len() <= self.entities[self.entities.len() - 1].layer)
+            if self.render_list.len() <= self.entities[self.entities.len() - 1].layer
             {
                 while self.render_list.len() <= self.entities[self.entities.len() - 1].layer {
                     self.render_list.push(Vec::new());

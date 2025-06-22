@@ -17,7 +17,7 @@ pub struct MoveComponent {
 
 impl MoveComponent {
 
-    pub fn new(move_factor : i32 ) -> Component {
+    pub fn new(_move_factor : i32 ) -> Component {
         return Component::Move(MoveComponent{move_factor : 1});
     }
 
@@ -25,9 +25,9 @@ impl MoveComponent {
 
 impl MoveComponent {
 
-    pub fn update(&mut self, transform : &mut Transform) {
+    pub fn update(&mut self, _transform : &mut Transform) {
 
-        transform.set_rotation(transform.get_rotation() + self.move_factor);
+        _transform.set_rotation(_transform.get_rotation() + self.move_factor);
 
     }
 
