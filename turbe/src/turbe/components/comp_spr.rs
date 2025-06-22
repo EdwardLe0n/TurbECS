@@ -41,7 +41,7 @@ impl SpriteComponent {
 
 impl SpriteComponent {
     
-    pub fn render_sprite(&mut self, transform : Transform) {
+    pub fn render_sprite(&self, transform : Transform) {
 
         sprite!(
             self.name.as_str(),

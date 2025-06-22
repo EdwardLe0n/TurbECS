@@ -34,6 +34,18 @@ impl<T: ComponentLifecycle> Entity<T> {
 
 }
 
+// Lifetime Systems
+
+impl<T: ComponentLifecycle> Entity<T> {
+
+    pub fn on_render(&self) {
+        
+    }
+
+}
+
+// Layer System
+
 impl<T: ComponentLifecycle> Entity<T> {
 
     pub fn set_layer (&mut self, some_usize : usize) {

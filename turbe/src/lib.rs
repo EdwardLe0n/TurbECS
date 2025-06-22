@@ -121,7 +121,7 @@ impl GameState {
 
     fn on_render(&mut self) {
 
-        clear(0xffffffff);
+        clear(0xaaaaaaff);
 
         for i in 0..self.render_list.len() {
             for j in 0..self.render_list[i].len(){

@@ -27,7 +27,7 @@ pub trait ComponentLifecycle {
 
     fn on_destroy(&mut self);
 
-    fn render(&mut self, transform : Transform);
+    fn render(&self, transform : Transform);
 }
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
@@ -70,7 +70,7 @@ impl ComponentLifecycle for Component {
         // todo!();
     }
 
-    fn render(&mut self, transform : Transform) {
+    fn render(&self, transform : Transform) {
         match self {
             Self::Rectangle (rectangle_component ) => {
                 rectangle_component.render_rect(transform);

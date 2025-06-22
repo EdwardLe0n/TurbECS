@@ -45,7 +45,7 @@ impl RectangleComponent {
 
 impl RectangleComponent {
     
-    pub fn render_rect(&mut self, transform : Transform) {    
+    pub fn render_rect(&self, transform : Transform) {    
         rect!(
             x = self.transform.get_x() + transform.get_x(),
             y = self.transform.get_y() + transform.get_y(),
