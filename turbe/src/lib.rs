@@ -4,8 +4,8 @@ use std::collections::VecDeque;
 use std::vec;
 
 mod turbe;
-use turbe::{entity::Entity, scene_data, component};
-use component::{Component, ComponentLifecycle};
+use turbe::{entity::Entity, scene_data, component_system};
+use component_system::{component::Component, component_lifecycle::ComponentLifecycle};
 use scene_data::{SceneData, Scenes};
 
 mod assets;
@@ -16,9 +16,11 @@ use turbo::prelude::*;
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 struct GameState {
     
-    scene_data : SceneData,
-    entities : Vec<Entity<Component>>,
-    render_list : Vec<Vec<usize>>,
+    pub scene_data : SceneData,
+    pub entities : Vec<Entity<Component>>,
+    pub render_list : Vec<Vec<usize>>,
+
+    pub test_var : i32
 
 }
 
@@ -28,7 +30,7 @@ impl GameState {
         let b_tree = Vec::new();
         let render_l = Vec::new();
 
-        Self {scene_data : SceneData { active_scene: (Scenes::Title), is_loaded: (false) },entities : b_tree, render_list : render_l}
+        Self {scene_data : SceneData { active_scene: (Scenes::Title), is_loaded: (false) },entities : b_tree, render_list : render_l , test_var : 0}
     
     }
 
@@ -101,19 +103,23 @@ impl GameState {
 
     fn on_update(&mut self) {
 
-        for i in 0..self.entities.len() {
+        let mut entities = self.entities.clone();
 
-            let mut entDraft = self.entities[i].clone();
+        for entity in entities.iter_mut() {
 
-            for j in 0..self.entities[i].components.len() {
+            let mut ent_draft = entity.clone();
 
-                self.entities[i].components[j].on_update(&mut entDraft);
+            for comp in entity.components.iter_mut() {
+
+                comp.on_update(&mut ent_draft, self);
 
             }
 
-            self.entities[i].transform = entDraft.transform;
+            *entity = ent_draft;
 
         }
+
+        self.entities = entities;
 
     }
 
@@ -135,8 +141,8 @@ impl GameState {
             }
         }
 
+        text!("{}", self.test_var);
+
     }
 
 }
-
-// Other

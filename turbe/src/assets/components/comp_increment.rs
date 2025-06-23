@@ -2,7 +2,7 @@ use turbo::prelude::*;
 
 // Core directories
 
-use crate::turbe;
+use crate::{turbe, GameState};
 use turbe::helpers;
 
 // Necessary imports
@@ -10,29 +10,33 @@ use turbe::helpers;
 use helpers::{transform::Transform};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
-pub struct Template {
+pub struct IncrementComponent {
     pub count : i32
 }
 
-impl Template {
+impl IncrementComponent {
 
-    pub fn new() -> Template {
-        return Template{
+    pub fn new() -> IncrementComponent {
+        return IncrementComponent{
             count : 0};
     }
 
 }
 
-impl Template {
+impl IncrementComponent {
 
-    pub fn update(&mut self, _transform : &mut Transform) {
+    pub fn update(&mut self, state : &mut GameState) {
+
+        state.test_var += 1;
+        
+        // let mut state = GameState::new();
 
         self.count += 1;
 
     }
 
     pub fn render_increment(&self, _transform : Transform) {
-        text!("{}", self.count;);
+        // text!("{}", self.count;);
     }
 
 }

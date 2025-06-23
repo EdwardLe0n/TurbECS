@@ -7,7 +7,7 @@ use turbe::helpers;
 
 // Necessary imports
 
-use turbe::{component::Component};
+use turbe::{component_system::component::Component};
 use helpers::{transform::Transform};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
@@ -17,8 +17,8 @@ pub struct MoveComponent {
 
 impl MoveComponent {
 
-    pub fn new(_move_factor : i32 ) -> Component {
-        return Component::Move(MoveComponent{move_factor : 1});
+    pub fn new(_move_factor : i32 ) -> MoveComponent {
+        return MoveComponent{move_factor : 1};
     }
 
 }

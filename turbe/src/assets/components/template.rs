@@ -7,7 +7,7 @@ use turbe::helpers;
 
 // Necessary imports
 
-use turbe::{component::Component};
+use turbe::{component_system::component::Component};
 use helpers::{transform::Transform, position::Position, size::Size, border::Border};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]

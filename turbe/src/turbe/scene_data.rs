@@ -2,7 +2,7 @@ use turbo::prelude::*;
 use std::collections::VecDeque;
 
 use crate::turbe;
-use turbe::component::{Component};
+use turbe::component_system::component::Component;
 use turbe::entity::Entity;
 
 use crate::assets::prefabs;

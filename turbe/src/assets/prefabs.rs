@@ -1,15 +1,15 @@
 use crate::turbe;
 use turbe::helpers;
 
-use turbe::{entity::Entity, component};
-use component::{Component};
+use turbe::{entity::Entity, component_system};
+use component_system::component::{Component};
 
 // Standard Components
-use turbe::components::{comp_rect::RectangleComponent, comp_spr::SpriteComponent, comp_text::TextComponent};
+use component_system::components::{comp_rect::RectangleComponent, comp_spr::SpriteComponent, comp_text::TextComponent};
 
 // User defined components
 use crate::assets;
-use assets::components::{comp_move::MoveComponent};
+use assets::components::{comp_move::MoveComponent, comp_increment::IncrementComponent};
 
 pub fn new_text () -> Entity<Component> {
 
@@ -28,6 +28,8 @@ pub fn new_rect () -> Entity<Component> {
 
     ent.add_component(RectangleComponent::new_rect(10, 25, 0x123456ff));
     ent.add_component(MoveComponent::new(-1));
+
+    // ent.add_component(Component::Increment(IncrementComponent::new()));
 
     ent.set_layer(3);
 

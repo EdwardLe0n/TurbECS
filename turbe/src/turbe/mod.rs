@@ -1,6 +1,5 @@
 pub mod entity;
-pub mod component;
-pub mod components;
+pub mod component_system;
 
 pub mod scene_data;
 

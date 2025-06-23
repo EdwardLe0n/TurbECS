@@ -2,7 +2,7 @@ use turbo::prelude::*;
 
 use crate::turbe;
 
-use turbe::component::ComponentLifecycle;
+use turbe::component_system::component_lifecycle::ComponentLifecycle;
 
 use turbe::helpers;
 use helpers::{transform::Transform};
