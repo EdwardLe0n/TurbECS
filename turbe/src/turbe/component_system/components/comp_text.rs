@@ -7,7 +7,7 @@ use turbe::helpers;
 
 // Necessary imports
 
-use turbe::{component::Component};
+use turbe::component_system::component::{Component, ComponentData};
 use helpers::{transform::Transform, position::Position};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
@@ -25,7 +25,7 @@ impl TextComponent {
             text: some_str, position : Position::new(), color : 0xffffffff, font: "medium".to_string()
         };
 
-        return Component::Text(some_text);
+        return Component::new(ComponentData::Text(some_text));
 
     }
 }

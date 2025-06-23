@@ -34,6 +34,10 @@ pub enum ComponentData {
 
 impl Component {
 
+    pub fn new(_component_data : ComponentData) -> Component{
+        return Component { active: true, component_data: _component_data }
+    }
+
 }
 
 impl ComponentLifecycle for Component {

@@ -7,7 +7,7 @@ use turbe::helpers;
 
 // Necessary imports
 
-use turbe::{component::Component};
+use turbe::component_system::component::{Component, ComponentData};
 use helpers::{transform::Transform, border::Border};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
@@ -37,7 +37,7 @@ impl RectangleComponent {
         rectangle.transform.set_height(some_height);
         rectangle.color = some_color;
 
-        return Component::Rectangle(rectangle);
+        return Component::new(ComponentData::Rectangle(rectangle));
 
     }
 

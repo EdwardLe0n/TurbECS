@@ -7,7 +7,7 @@ use turbe::helpers;
 
 // Necessary imports
 
-use turbe::{component::Component};
+use turbe::component_system::component::{Component, ComponentData};
 use helpers::{transform::Transform, flip::Flip};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
@@ -33,7 +33,7 @@ impl SpriteComponent {
             frame : 0
         };
 
-        return Component::Sprite(spr);
+        return Component::new(ComponentData::Sprite(spr));
 
     }
 
