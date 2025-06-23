@@ -34,12 +34,6 @@ impl CameraComponent {
 
 impl CameraComponent {
 
-    pub fn update(&mut self, _transform : &mut Transform) {
-
-        
-
-    }
-
     pub fn camera_prep(&self) {
 
         camera::set_xyz(self.position.get_x(), self.position.get_y(), self.z);
