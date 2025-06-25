@@ -6,6 +6,7 @@ pub enum ComponentTypes {
     Rectangle,
     Sprite,
     Text,
+    Button,
 
     // User made structs
 

@@ -109,9 +109,10 @@ impl GameState {
 
             let mut ent_draft = entity.clone();
 
-            for comp in entity.components.iter_mut() {
+            for j in 0..entity.components.len() {
 
-                comp.on_update(&mut ent_draft, self);
+                entity.components[j].on_update(&mut ent_draft, self);
+                ent_draft.components[j] = entity.components[j].clone();
 
             }
 

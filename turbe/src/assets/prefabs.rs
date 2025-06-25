@@ -5,7 +5,7 @@ use turbe::{entity::Entity, component_system};
 use component_system::component::{Component, ComponentData};
 
 // Standard Components
-use component_system::components::{comp_rect::RectangleComponent, comp_spr::SpriteComponent, comp_text::TextComponent};
+use component_system::components::{comp_rect::RectangleComponent, comp_spr::SpriteComponent, comp_text::TextComponent, comp_butn::ButtonComponent};
 
 // User defined components
 use crate::assets;
@@ -44,6 +44,21 @@ pub fn new_spr () -> Entity<Component> {
     ent.transform.set_x(100);
 
     ent.add_component(SpriteComponent::new("smile".to_string()));
+
+    return ent;
+
+}
+
+pub fn new_button () -> Entity<Component> {
+
+    let mut ent = Entity::new("some button".to_string(), vec![]);
+
+    let mut button = ButtonComponent::new();
+
+    button.transform.set_width(30);
+    button.transform.set_height(30);
+
+    ent.add_component(Component::new(ComponentData::Button(button)));
 
     return ent;
 

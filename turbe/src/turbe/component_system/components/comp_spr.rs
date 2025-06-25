@@ -40,7 +40,7 @@ impl SpriteComponent {
 }
 
 impl SpriteComponent {
-    
+
     pub fn render_sprite(&self, transform : Transform) {
 
         sprite!(

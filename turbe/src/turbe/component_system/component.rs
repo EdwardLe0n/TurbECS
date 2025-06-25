@@ -9,7 +9,7 @@ use helpers::{transform::Transform};
 
 use turbe::component_system;
 use component_system::{components, component_lifecycle::ComponentLifecycle};
-use components::{comp_rect::RectangleComponent, comp_spr::SpriteComponent, comp_text::TextComponent};
+use components::{comp_rect::RectangleComponent, comp_spr::SpriteComponent, comp_text::TextComponent, comp_butn::ButtonComponent};
 
 // User made components
 use crate::assets::components::{comp_move::MoveComponent, comp_increment::IncrementComponent};
@@ -25,6 +25,7 @@ pub enum ComponentData {
     Rectangle ( RectangleComponent ),
     Text ( TextComponent ),
     Sprite ( SpriteComponent ),
+    Button ( ButtonComponent ),
 
     // User made components
 
@@ -55,6 +56,15 @@ impl ComponentLifecycle for Component {
 
     fn on_update(&mut self, _ent : &mut Entity<Component>, _state : &mut GameState) {
         match &mut self.component_data {
+            
+            // Standard components
+
+            ComponentData::Button( button_component ) => {
+                button_component.update(_ent, _state);
+            },
+
+            // User made components
+
             ComponentData::Move( move_component ) => {
                 move_component.update(&mut _ent.transform);
             },
@@ -79,6 +89,9 @@ impl ComponentLifecycle for Component {
             },
             ComponentData::Sprite ( sprite_component ) => {
                 sprite_component.render_sprite(_transform);
+            },
+            ComponentData::Button( button_component ) => {
+                button_component.render(_transform);
             },
 
             // User made components
