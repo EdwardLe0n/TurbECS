@@ -29,7 +29,7 @@ impl RectangleComponent {
 
     }
 
-    pub fn new_rect(some_width : i32, some_height : i32, some_color : u32) -> Component {
+    pub fn new_rect(some_width : i32, some_height : i32, some_color : u32) -> RectangleComponent {
 
         let mut rectangle = RectangleComponent::new_base();
 
@@ -37,7 +37,7 @@ impl RectangleComponent {
         rectangle.transform.set_height(some_height);
         rectangle.color = some_color;
 
-        return Component::new(ComponentData::Rectangle(rectangle));
+        return rectangle;
 
     }
 

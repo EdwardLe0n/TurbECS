@@ -26,7 +26,7 @@ pub fn new_rect () -> Entity<Component> {
     
     let mut ent = Entity::new("some rect".to_string(), vec![]);
 
-    ent.add_component(RectangleComponent::new_rect(10, 25, 0x123456ff));
+    ent.add_component(Component::new(ComponentData::Rectangle(RectangleComponent::new_rect(10, 25, 0x123456ff))));
     ent.add_component(Component::new(ComponentData::Move(MoveComponent::new(-1))));
 
     ent.add_component(Component::new(ComponentData::Increment(IncrementComponent::new())));
