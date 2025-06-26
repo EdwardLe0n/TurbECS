@@ -128,21 +128,16 @@ impl GameState {
 
         clear(0xaaaaaaff);
 
-        for i in 0..self.render_list.len() {
-            for j in 0..self.render_list[i].len(){
-                for k in 0..self.entities[self.render_list[i][j]].components.len() {
+        let render_list = self.render_list.clone();
+        let entities = self.entities.clone();
 
-                    let transform = self.entities[self.render_list[i][j]].transform.clone();
+        for i in 0..render_list.len() {
+            for j in 0..render_list[i].len(){
 
-                    self.entities[self.render_list[i][j]].components[k].render(transform);
-
-                    self.entities[self.render_list[i][j]].transform = transform;
-
-                }
+                entities[render_list[i][j]].on_render(self);
+                
             }
         }
-
-        text!("{}", self.test_var);
 
     }
 

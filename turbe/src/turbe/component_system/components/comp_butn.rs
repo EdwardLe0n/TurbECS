@@ -233,9 +233,7 @@ impl ButtonComponent {
         
         match &self.button_type {
             ButtonTypes::Test => {
-                
                 test_butn::on_hold(self, _ent, _state);
-
             }
             _default => {
 

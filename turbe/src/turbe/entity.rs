@@ -1,8 +1,8 @@
 use turbo::prelude::*;
 
-use crate::turbe;
+use crate::{turbe, GameState};
 
-use turbe::component_system::component_lifecycle::ComponentLifecycle;
+use turbe::component_system::{component::Component, component_lifecycle::ComponentLifecycle};
 
 use turbe::helpers;
 use helpers::{transform::Transform};
@@ -13,7 +13,7 @@ pub struct Entity<T: ComponentLifecycle> {
     pub components: Vec<T>,
     pub transform: Transform,
     pub layer: usize,
-    pub locat: u32,
+    pub locat: usize,
 }
 
 impl<T: ComponentLifecycle> Entity<T> {
@@ -21,8 +21,14 @@ impl<T: ComponentLifecycle> Entity<T> {
     pub fn new (name : String, vec : Vec<T>) -> Self {
 
         Self { 
-            name: name, components: vec, transform: Transform::new(), layer: 0, locat: rand() 
+            name: name, components: vec, transform: Transform::new(), layer: 0, locat: 0 
         }
+
+    }
+
+    pub fn new_base (_name : String) -> Entity<T> {
+
+        return Entity::new(_name, vec![]);
 
     }
 
@@ -38,7 +44,45 @@ impl<T: ComponentLifecycle> Entity<T> {
 
 impl<T: ComponentLifecycle> Entity<T> {
 
-    pub fn on_render(&self) {
+    pub fn on_init(&self, _state : &mut GameState) {
+
+    }
+
+    pub fn on_awake(&self, _state : &mut GameState) {
+    
+    }
+    
+    pub fn on_start(&self, _state : &mut GameState) {
+
+    }
+
+    pub fn on_update(&self, _state : &mut GameState) {
+
+    }
+
+    pub fn on_destroy(&self, _state : &mut GameState) {
+        
+        let mut ent_draft = self.clone();
+
+        for i in 0..self.components.len() {
+
+            self.components[i].on_update(&mut ent_draft, _state);
+            ent_draft.components[i] = self.components[i].clone();
+
+        }
+
+        self = ent_draft;
+    }
+
+    pub fn on_render(&self, _state : &mut GameState) {
+
+        let transform = self.transform.clone();
+
+        for i in 0..self.components.len() {
+
+            self.components[i].render(transform, _state);
+
+        }
         
     }
 

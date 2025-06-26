@@ -19,5 +19,5 @@ pub trait ComponentLifecycle {
 
     fn on_destroy(&mut self);
 
-    fn render(&self, transform : Transform);
+    fn render(&self, transform : Transform,  _state : &mut GameState);
 }

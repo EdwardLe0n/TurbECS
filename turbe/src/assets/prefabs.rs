@@ -14,7 +14,7 @@ use assets::components::{comp_move::MoveComponent, comp_increment::IncrementComp
 
 pub fn new_text () -> Entity<Component> {
 
-    let mut ent = Entity::new("some text".to_string(), vec![]);
+    let mut ent = Entity::new_base("some text".to_string());
     ent.set_layer(10);
 
     ent.add_component(TextComponent::new("some text".to_string()));
@@ -25,7 +25,7 @@ pub fn new_text () -> Entity<Component> {
 
 pub fn new_rect () -> Entity<Component> {
     
-    let mut ent = Entity::new("some rect".to_string(), vec![]);
+    let mut ent = Entity::new_base("some rect".to_string());
 
     ent.add_component(Component::new(ComponentData::Rectangle(RectangleComponent::new_rect(10, 25, 0x123456ff))));
     ent.add_component(Component::new(ComponentData::Move(MoveComponent::new(-1))));
@@ -40,7 +40,7 @@ pub fn new_rect () -> Entity<Component> {
 
 pub fn new_spr () -> Entity<Component> {
 
-    let mut ent = Entity::new("some image".to_string(), vec![]);
+    let mut ent = Entity::new_base("some image".to_string());
 
     ent.transform.set_x(100);
 
@@ -52,7 +52,7 @@ pub fn new_spr () -> Entity<Component> {
 
 pub fn new_button () -> Entity<Component> {
 
-    let mut ent = Entity::new("some button".to_string(), vec![]);
+    let mut ent = Entity::new_base("some button".to_string());
 
     let mut button = ButtonComponent::new();
 

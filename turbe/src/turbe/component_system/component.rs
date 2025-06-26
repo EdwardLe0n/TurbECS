@@ -79,7 +79,7 @@ impl ComponentLifecycle for Component {
         // todo!();
     }
 
-    fn render(&self, _transform : Transform) {
+    fn render(&self, _transform : Transform, _state : &mut GameState) {
         match &self.component_data {
             ComponentData::Rectangle (rectangle_component ) => {
                 rectangle_component.render_rect(_transform);
