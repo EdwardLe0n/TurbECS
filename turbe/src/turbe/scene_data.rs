@@ -51,6 +51,8 @@ pub fn make_title_scene () -> VecDeque<Entity> {
 
     ent_vec.push_front(prefabs::new_button());
 
+    ent_vec.push_front(prefabs::new_to_title_2());
+
     return ent_vec;
 
 }
@@ -59,7 +61,7 @@ pub fn make_title_2_scene () -> VecDeque<Entity> {
 
     let mut ent_vec = VecDeque::new();
 
-
+    ent_vec.push_front(prefabs::new_to_title());
     
     return ent_vec;
 

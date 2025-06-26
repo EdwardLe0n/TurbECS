@@ -11,6 +11,8 @@ mod assets;
 
 use turbo::prelude::*;
 
+use crate::turbe::helpers::active_states::ActiveStates;
+
 #[turbo::game]
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 struct GameState {
@@ -61,6 +63,15 @@ impl GameState {
             return;
 
         }
+
+        for i in 0..self.entities.len() {
+            if (self.entities[i].state != ActiveStates::Destroyed) {
+                self.lifetime_data.new_destroy.push_back(i);
+            }
+        }
+
+        log!("space");
+        self.on_destroy();
 
         let mut new_ent = scene_data::make_scene(self.scene_data.active_scene);
 

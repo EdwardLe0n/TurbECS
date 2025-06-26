@@ -5,7 +5,7 @@ use crate::{turbe, GameState};
 use turbe::component_system::{component::Component};
 
 use turbe::helpers;
-use helpers::{transform::Transform};
+use helpers::{transform::Transform, active_states::ActiveStates};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub struct Entity {
@@ -14,6 +14,7 @@ pub struct Entity {
     pub transform: Transform,
     pub layer: usize,
     pub locat: usize,
+    pub state: ActiveStates
 }
 
 impl Entity {
@@ -21,7 +22,7 @@ impl Entity {
     pub fn new (name : String, vec : Vec<Component>) -> Self {
 
         Self { 
-            name: name, components: vec, transform: Transform::new(), layer: 0, locat: 0 
+            name: name, components: vec, transform: Transform::new(), layer: 0, locat: 0, state : ActiveStates::Inactive
         }
 
     }
@@ -51,6 +52,12 @@ impl Entity {
     }
 
     pub fn on_awake(&mut self, _state : &mut GameState) {
+
+        if self.state == ActiveStates::Destroyed{
+            return;
+        }
+
+        self.state = ActiveStates::Active;
 
         let mut ent_draft = self.clone();
 
@@ -82,6 +89,10 @@ impl Entity {
 
     pub fn on_update(&mut self, _state : &mut GameState) {
 
+        if self.state != ActiveStates::Active {
+            return;
+        }
+
         let mut ent_draft = self.clone();
 
         for i in 0..self.components.len() {
@@ -97,6 +108,10 @@ impl Entity {
 
     pub fn on_destroy(&mut self, _state : &mut GameState) {
 
+        self.state = ActiveStates::Destroyed;
+
+        log!("destroying");
+
         for i in 0..self.components.len() {
 
             self.components[i].on_destroy(_state);
@@ -105,6 +120,10 @@ impl Entity {
     }
 
     pub fn on_render(&self, _state : &mut GameState) {
+
+        if self.state != ActiveStates::Active {
+            return;
+        }
 
         let transform = self.transform.clone();
 

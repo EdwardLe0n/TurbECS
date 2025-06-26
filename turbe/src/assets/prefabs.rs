@@ -65,3 +65,41 @@ pub fn new_button () -> Entity {
     return ent;
 
 }
+
+pub fn new_to_title() -> Entity {
+
+    let mut ent = Entity::new_base("some button".to_string());
+
+    let mut button = ButtonComponent::new();
+
+    ent.transform.set_x(60);
+
+    button.transform.set_width(30);
+    button.transform.set_height(30);
+
+    button.button_type = ButtonTypes::Title;
+
+    ent.add_component(Component::new(ComponentData::Button(button)));
+
+    return ent;
+
+}
+
+pub fn new_to_title_2() -> Entity {
+
+    let mut ent = Entity::new_base("some button".to_string());
+
+    ent.transform.set_x(60);
+
+    let mut button = ButtonComponent::new();
+
+    button.transform.set_width(30);
+    button.transform.set_height(30);
+
+    button.button_type = ButtonTypes::Title2;
+
+    ent.add_component(Component::new(ComponentData::Button(button)));
+
+    return ent;
+
+}

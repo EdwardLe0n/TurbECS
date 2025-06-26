@@ -61,7 +61,9 @@ impl ButtonComponent {
 
         let bounds = Bounds::with_size(self.transform.get_width() as f32 * self.transform.get_scale_x(), 
                                             self.transform.get_height() as f32 * self.transform.get_scale_y())
-                                    .anchor_center(&canvas_bounds);
+                                    .anchor_center(&canvas_bounds)
+                                    .translate_x(_ent.transform.get_x())
+                                    .translate_y(_ent.transform.get_y());
 
         let p = pointer();
 
