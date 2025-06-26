@@ -34,9 +34,9 @@ pub fn make_title_scene () -> VecDeque<Entity<Component>> {
 
     let mut ent_vec = VecDeque::new();
 
-    // ent_vec.push_front(prefabs::new_spr());
-    // ent_vec.push_front(prefabs::new_rect());
-    // ent_vec.push_front(prefabs::new_text());
+    ent_vec.push_front(prefabs::new_spr());
+    ent_vec.push_front(prefabs::new_rect());
+    ent_vec.push_front(prefabs::new_text());
 
     ent_vec.push_front(prefabs::new_button());
 
