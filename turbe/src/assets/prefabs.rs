@@ -12,7 +12,7 @@ use component_system::components::buttons::button_types::ButtonTypes;
 use crate::assets;
 use assets::components::{comp_move::MoveComponent, comp_increment::IncrementComponent};
 
-pub fn new_text () -> Entity<Component> {
+pub fn new_text () -> Entity {
 
     let mut ent = Entity::new_base("some text".to_string());
     ent.set_layer(10);
@@ -23,7 +23,7 @@ pub fn new_text () -> Entity<Component> {
 
 }
 
-pub fn new_rect () -> Entity<Component> {
+pub fn new_rect () -> Entity {
     
     let mut ent = Entity::new_base("some rect".to_string());
 
@@ -38,7 +38,7 @@ pub fn new_rect () -> Entity<Component> {
 
 }
 
-pub fn new_spr () -> Entity<Component> {
+pub fn new_spr () -> Entity {
 
     let mut ent = Entity::new_base("some image".to_string());
 
@@ -50,7 +50,7 @@ pub fn new_spr () -> Entity<Component> {
 
 }
 
-pub fn new_button () -> Entity<Component> {
+pub fn new_button () -> Entity {
 
     let mut ent = Entity::new_base("some button".to_string());
 

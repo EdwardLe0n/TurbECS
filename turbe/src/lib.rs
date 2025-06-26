@@ -5,7 +5,7 @@ use std::vec;
 
 mod turbe;
 use turbe::{entity::Entity, scene_data, component_system};
-use component_system::{component::Component, component_lifecycle::ComponentLifecycle};
+use component_system::{component::Component};
 use scene_data::{SceneData, Scenes};
 
 mod assets;
@@ -17,7 +17,7 @@ use turbo::prelude::*;
 struct GameState {
     
     pub scene_data : SceneData,
-    pub entities : Vec<Entity<Component>>,
+    pub entities : Vec<Entity>,
     pub render_list : Vec<Vec<usize>>,
 
     pub test_var : i32
@@ -107,16 +107,7 @@ impl GameState {
 
         for entity in entities.iter_mut() {
 
-            let mut ent_draft = entity.clone();
-
-            for j in 0..entity.components.len() {
-
-                entity.components[j].on_update(&mut ent_draft, self);
-                ent_draft.components[j] = entity.components[j].clone();
-
-            }
-
-            *entity = ent_draft;
+            entity.on_update(self);
 
         }
 
@@ -135,7 +126,7 @@ impl GameState {
             for j in 0..render_list[i].len(){
 
                 entities[render_list[i][j]].on_render(self);
-                
+
             }
         }
 

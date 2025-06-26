@@ -19,7 +19,7 @@ pub enum Scenes {
     Misc
 }
 
-pub fn make_scene (some_scene : Scenes) ->  VecDeque<Entity<Component>>{
+pub fn make_scene (some_scene : Scenes) ->  VecDeque<Entity>{
 
     match some_scene {
         Scenes::Title => {make_title_scene()},
@@ -30,7 +30,7 @@ pub fn make_scene (some_scene : Scenes) ->  VecDeque<Entity<Component>>{
 
 }
 
-pub fn make_title_scene () -> VecDeque<Entity<Component>> {
+pub fn make_title_scene () -> VecDeque<Entity> {
 
     let mut ent_vec = VecDeque::new();
 

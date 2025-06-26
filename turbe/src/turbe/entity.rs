@@ -2,23 +2,23 @@ use turbo::prelude::*;
 
 use crate::{turbe, GameState};
 
-use turbe::component_system::{component::Component, component_lifecycle::ComponentLifecycle};
+use turbe::component_system::{component::Component};
 
 use turbe::helpers;
 use helpers::{transform::Transform};
 
 #[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
-pub struct Entity<T: ComponentLifecycle> {
+pub struct Entity {
     pub name: String,
-    pub components: Vec<T>,
+    pub components: Vec<Component>,
     pub transform: Transform,
     pub layer: usize,
     pub locat: usize,
 }
 
-impl<T: ComponentLifecycle> Entity<T> {
+impl Entity {
 
-    pub fn new (name : String, vec : Vec<T>) -> Self {
+    pub fn new (name : String, vec : Vec<Component>) -> Self {
 
         Self { 
             name: name, components: vec, transform: Transform::new(), layer: 0, locat: 0 
@@ -26,13 +26,13 @@ impl<T: ComponentLifecycle> Entity<T> {
 
     }
 
-    pub fn new_base (_name : String) -> Entity<T> {
+    pub fn new_base (_name : String) -> Entity {
 
         return Entity::new(_name, vec![]);
 
     }
 
-    pub fn add_component (&mut self, component : T) {
+    pub fn add_component (&mut self, component : Component) {
 
         self.components.push(component);
 
@@ -42,26 +42,55 @@ impl<T: ComponentLifecycle> Entity<T> {
 
 // Lifetime Systems
 
-impl<T: ComponentLifecycle> Entity<T> {
+impl Entity {
 
-    pub fn on_init(&self, _state : &mut GameState) {
+    pub fn on_init(&mut self, _state : &mut GameState) {
+
+        let mut ent_draft = self.clone();
+
+        for i in 0..self.components.len() {
+
+            self.components[i].on_init(&mut ent_draft, _state);
+            ent_draft.components[i] = self.components[i].clone();
+
+        }
+
+        *self = ent_draft;
 
     }
 
-    pub fn on_awake(&self, _state : &mut GameState) {
+    pub fn on_awake(&mut self, _state : &mut GameState) {
+
+        let mut ent_draft = self.clone();
+
+        for i in 0..self.components.len() {
+
+            self.components[i].on_awake(&mut ent_draft, _state);
+            ent_draft.components[i] = self.components[i].clone();
+
+        }
+
+        *self = ent_draft;
     
     }
     
-    pub fn on_start(&self, _state : &mut GameState) {
+    pub fn on_start(&mut self, _state : &mut GameState) {
+
+        let mut ent_draft = self.clone();
+
+        for i in 0..self.components.len() {
+
+            self.components[i].on_start(&mut ent_draft, _state);
+            ent_draft.components[i] = self.components[i].clone();
+
+        }
+
+        *self = ent_draft;
 
     }
 
-    pub fn on_update(&self, _state : &mut GameState) {
+    pub fn on_update(&mut self, _state : &mut GameState) {
 
-    }
-
-    pub fn on_destroy(&self, _state : &mut GameState) {
-        
         let mut ent_draft = self.clone();
 
         for i in 0..self.components.len() {
@@ -71,7 +100,17 @@ impl<T: ComponentLifecycle> Entity<T> {
 
         }
 
-        self = ent_draft;
+        *self = ent_draft;
+
+    }
+
+    pub fn on_destroy(&mut self, _state : &mut GameState) {
+
+        for i in 0..self.components.len() {
+
+            self.components[i].on_destroy(_state);
+
+        }
     }
 
     pub fn on_render(&self, _state : &mut GameState) {
@@ -90,7 +129,7 @@ impl<T: ComponentLifecycle> Entity<T> {
 
 // Layer System
 
-impl<T: ComponentLifecycle> Entity<T> {
+impl Entity {
 
     pub fn set_layer (&mut self, some_usize : usize) {
         self.layer = some_usize;

@@ -1,4 +1,4 @@
-pub mod component_lifecycle;
+
 pub mod component;
 pub mod component_types;
 

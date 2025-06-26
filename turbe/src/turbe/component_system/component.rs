@@ -8,7 +8,7 @@ use turbe::helpers;
 use helpers::{transform::Transform};
 
 use turbe::component_system;
-use component_system::{components, component_lifecycle::ComponentLifecycle};
+use component_system::{components};
 use components::{comp_rect::RectangleComponent, comp_spr::SpriteComponent, comp_text::TextComponent, comp_butn::ButtonComponent};
 
 // User made components
@@ -41,20 +41,20 @@ impl Component {
 
 }
 
-impl ComponentLifecycle for Component {
-    fn on_init(&mut self) {
+impl Component {
+    pub fn on_init(&mut self, _ent : &mut Entity, _state : &mut GameState) {
         // todo!();
     }
 
-    fn on_awake(&mut self) {
+    pub fn on_awake(&mut self, _ent : &mut Entity, _state : &mut GameState) {
         // todo!();
     }
 
-    fn on_start(&mut self) {
+    pub fn on_start(&mut self, _ent : &mut Entity, _state : &mut GameState) {
         
     }
 
-    fn on_update(&mut self, _ent : &mut Entity<Component>, _state : &mut GameState) {
+    pub fn on_update(&mut self, _ent : &mut Entity, _state : &mut GameState) {
         match &mut self.component_data {
             
             // Standard components
@@ -75,11 +75,11 @@ impl ComponentLifecycle for Component {
         }
     }
 
-    fn on_destroy(&mut self) {
+    pub fn on_destroy(&mut self, _state : &mut GameState) {
         // todo!();
     }
 
-    fn render(&self, _transform : Transform, _state : &mut GameState) {
+    pub fn render(&self, _transform : Transform, _state : &mut GameState) {
         match &self.component_data {
             ComponentData::Rectangle (rectangle_component ) => {
                 rectangle_component.render_rect(_transform);

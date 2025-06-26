@@ -55,7 +55,7 @@ impl ButtonComponent {
 
 impl ButtonComponent {
 
-    pub fn update(&mut self, _ent : &mut Entity<Component>, _state : &mut GameState) {
+    pub fn update(&mut self, _ent : &mut Entity, _state : &mut GameState) {
 
         let canvas_bounds = bounds::canvas();
 
@@ -116,7 +116,7 @@ impl ButtonComponent {
 
 impl ButtonComponent {
 
-    pub fn handle_hover(&mut self, _ent : &mut Entity<Component>, _state : &mut GameState) {
+    pub fn handle_hover(&mut self, _ent : &mut Entity, _state : &mut GameState) {
 
         if self.state == ButtonStates::None {
 
@@ -138,7 +138,7 @@ impl ButtonComponent {
                 
     }
 
-    pub fn handle_press(&mut self, _ent : &mut Entity<Component>, _state : &mut GameState) {
+    pub fn handle_press(&mut self, _ent : &mut Entity, _state : &mut GameState) {
 
         let p = pointer();
 
@@ -154,7 +154,7 @@ impl ButtonComponent {
 
     }
 
-    pub fn handle_away(&mut self, _ent : &mut Entity<Component>, _state : &mut GameState) {
+    pub fn handle_away(&mut self, _ent : &mut Entity, _state : &mut GameState) {
 
         // Add state specific stuff for the end later
 
@@ -175,7 +175,7 @@ impl ButtonComponent {
 
     // Hover based functions
 
-    pub fn on_enter(&mut self, _ent : &mut Entity<Component>, _state : &mut GameState) {
+    pub fn on_enter(&mut self, _ent : &mut Entity, _state : &mut GameState) {
 
         match &self.button_type {
             ButtonTypes::Test => {
@@ -188,7 +188,7 @@ impl ButtonComponent {
 
     }
 
-    pub fn on_hover(&mut self, _ent : &mut Entity<Component>, _state : &mut GameState) {
+    pub fn on_hover(&mut self, _ent : &mut Entity, _state : &mut GameState) {
         
         match &self.button_type {
             ButtonTypes::Test => {
@@ -201,7 +201,7 @@ impl ButtonComponent {
 
     }
 
-    pub fn on_exit(&mut self, _ent : &mut Entity<Component>, _state : &mut GameState) {
+    pub fn on_exit(&mut self, _ent : &mut Entity, _state : &mut GameState) {
         
         match &self.button_type {
             ButtonTypes::Test => {
@@ -216,7 +216,7 @@ impl ButtonComponent {
 
     // Click sensitive functions
 
-    pub fn on_click(&mut self, _ent : &mut Entity<Component>, _state : &mut GameState) {
+    pub fn on_click(&mut self, _ent : &mut Entity, _state : &mut GameState) {
 
         match &self.button_type {
             ButtonTypes::Test => {
@@ -229,7 +229,7 @@ impl ButtonComponent {
 
     }
 
-    pub fn on_hold(&mut self, _ent : &mut Entity<Component>, _state : &mut GameState) {
+    pub fn on_hold(&mut self, _ent : &mut Entity, _state : &mut GameState) {
         
         match &self.button_type {
             ButtonTypes::Test => {
@@ -242,7 +242,7 @@ impl ButtonComponent {
 
     }
 
-    pub fn on_release(&mut self, _ent : &mut Entity<Component>, _state : &mut GameState) {
+    pub fn on_release(&mut self, _ent : &mut Entity, _state : &mut GameState) {
 
         match &self.button_type {
             ButtonTypes::Test => {
@@ -257,7 +257,7 @@ impl ButtonComponent {
 
     // The not over case
 
-    pub fn on_away(&mut self, _ent : &mut Entity<Component>, _state : &mut GameState){
+    pub fn on_away(&mut self, _ent : &mut Entity, _state : &mut GameState){
 
         match &self.button_type {
             ButtonTypes::Test => {
