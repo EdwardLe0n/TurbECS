@@ -20,7 +20,7 @@ use helpers::{transform::Transform, border::Border, substates::SubStates};
 // Any button func files go here!
 
 use component_system::components::buttons;
-use buttons::test_butn;
+use buttons::{test_butn, title_butn, title2_butn};
 
 // Custom states to deal with the three main instances
 
@@ -180,7 +180,7 @@ impl ButtonComponent {
         match &self.button_type {
             ButtonTypes::Test => {
                 test_butn::on_enter(self, _ent, _state);
-            }
+            },
             _default => {
 
             }
@@ -193,7 +193,7 @@ impl ButtonComponent {
         match &self.button_type {
             ButtonTypes::Test => {
                 test_butn::on_hover(self, _ent, _state);
-            }
+            },
             _default => {
 
             }
@@ -206,7 +206,7 @@ impl ButtonComponent {
         match &self.button_type {
             ButtonTypes::Test => {
                 test_butn::on_exit(self, _ent, _state);
-            }
+            },
             _default => {
 
             }
@@ -221,7 +221,13 @@ impl ButtonComponent {
         match &self.button_type {
             ButtonTypes::Test => {
                 test_butn::on_click(self, _ent, _state);
-            }
+            },
+            ButtonTypes::Title => {
+                title_butn::on_click(self, _ent, _state);
+            },
+            ButtonTypes::Title2 => {
+                title2_butn::on_click(self, _ent, _state);
+            },
             _default => {
 
             }
@@ -234,7 +240,7 @@ impl ButtonComponent {
         match &self.button_type {
             ButtonTypes::Test => {
                 test_butn::on_hold(self, _ent, _state);
-            }
+            },
             _default => {
 
             }
@@ -247,7 +253,7 @@ impl ButtonComponent {
         match &self.button_type {
             ButtonTypes::Test => {
                 test_butn::on_release(self, _ent, _state);
-            }
+            },
             _default => {
 
             }
@@ -262,7 +268,7 @@ impl ButtonComponent {
         match &self.button_type {
             ButtonTypes::Test => {
                 test_butn::on_away(self, _ent, _state);
-            }
+            },
             _default => {
 
             }

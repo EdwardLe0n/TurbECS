@@ -12,7 +12,6 @@ use turbe::entity::Entity;
 use turbe::component_system;
 
 use component_system::components::comp_butn::ButtonComponent;
-use component_system::component::Component;
 
 // Hover based functions
 

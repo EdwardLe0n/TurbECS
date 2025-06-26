@@ -46,16 +46,7 @@ impl Entity {
 
     pub fn on_init(&mut self, _state : &mut GameState) {
 
-        let mut ent_draft = self.clone();
-
-        for i in 0..self.components.len() {
-
-            self.components[i].on_init(&mut ent_draft, _state);
-            ent_draft.components[i] = self.components[i].clone();
-
-        }
-
-        *self = ent_draft;
+        
 
     }
 
