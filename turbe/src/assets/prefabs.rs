@@ -6,6 +6,7 @@ use component_system::component::{Component, ComponentData};
 
 // Standard Components
 use component_system::components::{comp_rect::RectangleComponent, comp_spr::SpriteComponent, comp_text::TextComponent, comp_butn::ButtonComponent};
+use component_system::components::buttons::button_types::ButtonTypes;
 
 // User defined components
 use crate::assets;
@@ -57,6 +58,7 @@ pub fn new_button () -> Entity<Component> {
 
     button.transform.set_width(30);
     button.transform.set_height(30);
+    button.button_type = ButtonTypes::Test;
 
     ent.add_component(Component::new(ComponentData::Button(button)));
 

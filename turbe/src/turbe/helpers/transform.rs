@@ -85,6 +85,10 @@ impl Transform {
     pub fn get_scale_y(&self) -> f32 {
         return self.size.get_scale_y();
     }
+
+    pub fn get_scale(&self) -> f32 {
+        return (self.get_scale_x() + self.get_scale_y())/2.0;
+    }
     
 }
 
