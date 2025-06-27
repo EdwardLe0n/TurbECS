@@ -70,11 +70,18 @@ impl GameState {
             }
         }
 
-        log!("space");
+        // Sanity check
+
+        log!("number of entities: {:?}", self.entities.len());
+        log!("number of entities to be destroyed : {:?}", self.lifetime_data.new_destroy.len());
+
         self.on_destroy();
 
         let mut new_ent = scene_data::make_scene(self.scene_data.active_scene);
 
+        log!("number of new entities : {:?}", new_ent.len());
+
+        // Sanity check
         self.new_entities(&mut new_ent);
 
         self.scene_data.is_loaded = true;

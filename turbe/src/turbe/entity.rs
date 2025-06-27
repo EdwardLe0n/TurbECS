@@ -45,12 +45,6 @@ impl Entity {
 
 impl Entity {
 
-    pub fn on_init(&mut self, _state : &mut GameState) {
-
-        
-
-    }
-
     pub fn on_awake(&mut self, _state : &mut GameState) {
 
         if self.state == ActiveStates::Destroyed{
@@ -109,8 +103,6 @@ impl Entity {
     pub fn on_destroy(&mut self, _state : &mut GameState) {
 
         self.state = ActiveStates::Destroyed;
-
-        log!("destroying");
 
         for i in 0..self.components.len() {
 
