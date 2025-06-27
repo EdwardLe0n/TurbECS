@@ -17,7 +17,7 @@ pub fn new_text () -> Entity {
     let mut ent = Entity::new_base("some text".to_string());
     ent.set_layer(10);
 
-    ent.add_component(TextComponent::new("some text".to_string()));
+    ent.add_component(Component::new(ComponentData::Text(TextComponent::new("some text".to_string()))));
 
     return ent;
 

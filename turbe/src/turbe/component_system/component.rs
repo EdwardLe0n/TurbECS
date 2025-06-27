@@ -42,15 +42,42 @@ impl Component {
 }
 
 impl Component {
-    pub fn on_init(&mut self, _ent : &mut Entity, _state : &mut GameState) {
-        // todo!();
-    }
 
     pub fn on_awake(&mut self, _ent : &mut Entity, _state : &mut GameState) {
-        // todo!();
+
+        match &mut self.component_data {
+
+            ComponentData::Button( button_component ) => {
+                button_component.on_awake(_ent, _state);
+            },
+
+            // User made components
+
+            
+
+            // Space for edge case
+
+            _default => {}
+        }
+
     }
 
     pub fn on_start(&mut self, _ent : &mut Entity, _state : &mut GameState) {
+
+        match &mut self.component_data {
+
+            ComponentData::Button( button_component ) => {
+                button_component.on_start(_ent, _state);
+            },
+
+            // User made components
+
+            
+
+            // Space for edge case
+
+            _default => {}
+        }
         
     }
 

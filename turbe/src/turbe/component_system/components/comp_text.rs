@@ -61,7 +61,7 @@ impl TextComponent {
             text!(
                 &self.text,
                 x = self.position.get_x() + _transform.get_x(),
-                y = self.position.get_y() + _transform.get_y(),
+                y =  -self.position.get_y() -_transform.get_y(),
                 color = self.color,
                 font = &self.font
             )
@@ -73,17 +73,7 @@ impl TextComponent {
 
             let mut bounds = Bounds::with_size(1, 1);
 
-            match self.position.horizontal {
-                Horizonontal::Left => {bounds = bounds.anchor_left(&canvas_bounds);},
-                Horizonontal::Center => {bounds = bounds.anchor_center_x(&canvas_bounds);},
-                Horizonontal::Right => {bounds = bounds.anchor_right(&canvas_bounds);}
-            }
-
-            match self.position.vertical {
-                Vertical::Top => {bounds = bounds.anchor_top(&canvas_bounds);},
-                Vertical::Center => {bounds = bounds.anchor_center_y(&canvas_bounds);},
-                Vertical::Bottom => {bounds = bounds.anchor_bottom(&canvas_bounds);}
-            }
+            bounds = self.position.get_adjusted_bounds(bounds, canvas_bounds);
 
             let some_offset = TextComponent::get_text_offset(&self.text, &self.font);
 
@@ -93,7 +83,7 @@ impl TextComponent {
             text!(
                 &self.text,
                 x = self.position.get_x() + _transform.get_x() + bounds.x() - x_off,
-                y = self.position.get_y() + _transform.get_y() + bounds.y() - y_off,
+                y = -self.position.get_y() - _transform.get_y() + bounds.y() - y_off,
                 color = self.color,
                 font = &self.font
             )

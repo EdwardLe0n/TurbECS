@@ -1,3 +1,5 @@
+use std::default;
+
 use turbo::prelude::*;
 
 // Core directories
@@ -11,8 +13,6 @@ use crate::GameState;
 
 use turbe::entity::Entity;
 use turbe::component_system;
-
-use component_system::component::Component;
 
 use component_system::components::buttons::button_types::ButtonTypes;
 use helpers::{transform::Transform, border::Border, substates::SubStates};
@@ -54,6 +54,22 @@ impl ButtonComponent {
 }
 
 impl ButtonComponent {
+
+    pub fn on_awake (&mut self, _ent : &mut Entity, _state : &mut GameState) {
+
+        match &mut self.button_type {
+            _default => {}
+        }
+
+    }
+
+    pub fn on_start (&mut self, _ent : &mut Entity, _state : &mut GameState) {
+
+        match &mut self.button_type {
+            _default => {}
+        }
+        
+    }
 
     pub fn update(&mut self, _ent : &mut Entity, _state : &mut GameState) {
 
