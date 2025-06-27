@@ -1,17 +1,23 @@
 use turbo::prelude::*;
 
+use super::ui_pref::{Horizonontal, Vertical};
+
 #[derive(Debug, Copy, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
 pub struct Position {
     pub x : i32,
     pub y : i32,
     pub rotation : i32,
+    pub is_ui : bool,
+    pub horizontal : Horizonontal,
+    pub vertical : Vertical
 }
 
 impl Position {
 
     pub fn new() -> Position {
 
-        return Position { x: 0, y: 0, rotation: 0 }
+        return Position { x: 0, y: 0, rotation: 0, is_ui : false,
+                        horizontal : Horizonontal::Center, vertical : Vertical::Center }
 
     }
 

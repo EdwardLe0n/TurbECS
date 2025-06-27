@@ -25,7 +25,7 @@ impl CameraComponent {
 
     pub fn new_with_xy(_x : i32, _y : i32) -> CameraComponent {
         return CameraComponent {
-            position : Position { x: _x, y: _y, rotation: 0 },
+            position : Position::new_with_xy(_x, _y),
             z : 0.0
         };
     }

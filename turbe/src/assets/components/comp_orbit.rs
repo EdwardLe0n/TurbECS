@@ -20,7 +20,7 @@ impl OrbitComponent {
 
     pub fn new(orbit_rad : f32 ) -> OrbitComponent {
         return OrbitComponent{
-            orbit_position : Position { x: 0, y: 0, rotation: 0 },
+            orbit_position : Position::new(),
             orbit_radius : orbit_rad,
             tock : 0.0};
     }
