@@ -8,7 +8,7 @@ use turbe::helpers;
 use helpers::{transform::Transform};
 
 use turbe::component_system;
-use component_system::{components};
+use component_system::{components, component_types::ComponentTypes};
 use components::{comp_rect::RectangleComponent, comp_spr::SpriteComponent, comp_text::TextComponent, comp_butn::ButtonComponent};
 
 // User made components
@@ -39,6 +39,19 @@ impl Component {
 
     pub fn new(_component_data : ComponentData) -> Component{
         return Component { active: true, component_data: _component_data }
+    }
+
+    pub fn get_comp_type(&self) -> ComponentTypes{
+        match &self.component_data {
+            ComponentData::Button(_) => {
+                return ComponentTypes::Button;
+            },
+            _default => {
+                return ComponentTypes::Other;
+            }
+        }
+
+
     }
 
 }

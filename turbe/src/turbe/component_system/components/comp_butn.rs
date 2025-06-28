@@ -77,17 +77,16 @@ impl ButtonComponent {
 
         let canvas_bounds = bounds::canvas();
 
-        let bounds = Bounds::with_size(self.transform.get_width() as f32 * self.transform.get_scale_x(), 
-                                            self.transform.get_height() as f32 * self.transform.get_scale_y())
-                                    .anchor_center(&canvas_bounds)
-                                    .translate_x(_ent.transform.get_x())
-                                    .translate_y(_ent.transform.get_y());
+        let mut bounds = Bounds::with_size(self.transform.get_width() as f32 * self.transform.get_scale_x() * _ent.transform.get_scale_x(), 
+                                            self.transform.get_height() as f32 * self.transform.get_scale_y() * _ent.transform.get_scale_y());
+
+        bounds = self.transform.position.get_adjusted_bounds(bounds, canvas_bounds);
+
+        bounds = bounds.translate(self.transform.get_x() + _ent.transform.get_x(),  -self.transform.get_y() + -_ent.transform.get_y());
 
         let p = pointer::screen();
 
         let is_btn_over = p.intersects(bounds.x(), bounds.y(), bounds.w(), bounds.h());
-        
-        //xy().intersects_bounds(bounds);
 
         if is_btn_over {
             
@@ -118,10 +117,12 @@ impl ButtonComponent {
 
         let canvas_bounds = bounds::canvas();
 
-        let bounds = Bounds::with_size(self.transform.get_width() as f32 * self.transform.get_scale_x() * _transform.get_scale_x(), 
-                                            self.transform.get_height() as f32 * self.transform.get_scale_y() * _transform.get_scale_y())
-                                    .anchor_center(&canvas_bounds)
-                                    .translate(self.transform.get_x() + _transform.get_x(),  -self.transform.get_y() + -_transform.get_y());
+        let mut bounds = Bounds::with_size(self.transform.get_width() as f32 * self.transform.get_scale_x() * _transform.get_scale_x(), 
+                                            self.transform.get_height() as f32 * self.transform.get_scale_y() * _transform.get_scale_y());
+
+        bounds = self.transform.position.get_adjusted_bounds(bounds, canvas_bounds);
+
+        bounds = bounds.translate(self.transform.get_x() + _transform.get_x(),  -self.transform.get_y() + -_transform.get_y());
 
         rect!(
             color = self.color,

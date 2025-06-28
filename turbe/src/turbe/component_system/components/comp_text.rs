@@ -42,12 +42,15 @@ impl TextComponent {
 
         match some_font.clone() {
             val if val == "medium".to_string() => {position.set_x(((some_string.len() as i32 / 2) as f32 * 4.5) as i32);},
+            val if val == "large".to_string() => {position.set_x(((some_string.len() as i32 / 2) as f32 * 7.2) as i32);},
             _default => {position.set_x((some_string.len() as i32 / 2) * 3);}
         }
 
         // Handles the y offset
 
-        match some_font {
+        match some_font.clone() {
+            val if val == "medium".to_string() => {position.set_y(3);},
+            val if val == "large".to_string() => {position.set_y(5);},
             _default => {position.set_y(2);}
         }
 
@@ -72,7 +75,7 @@ impl TextComponent {
 
             let canvas_bounds = bounds::canvas();
 
-            let mut bounds = Bounds::with_size(1, 1);
+            let mut bounds = Bounds::with_size(0, 1);
 
             bounds = self.position.get_adjusted_bounds(bounds, canvas_bounds);
 

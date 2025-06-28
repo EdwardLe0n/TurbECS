@@ -2,7 +2,7 @@ use turbo::*;
 
 use crate::{turbe, GameState};
 
-use turbe::component_system::{component::Component};
+use turbe::component_system::{component::Component, component_types::ComponentTypes};
 
 use turbe::helpers;
 use helpers::{transform::Transform, active_states::ActiveStates};
@@ -37,6 +37,43 @@ impl Entity {
     pub fn add_component (&mut self, component : Component) {
 
         self.components.push(component);
+
+    }
+
+    pub fn find_component (&self, comp_type : ComponentTypes) -> usize {
+
+        let mut i = 0;
+
+        for j in 0..self.components.len() {
+
+            if self.components[j].get_comp_type() == comp_type {
+                return i;
+            }
+
+            i += 1;
+
+        }
+
+        return i;
+
+    }
+
+    pub fn check_component (&self, comp_type : ComponentTypes, locat : usize) -> bool {
+
+        if self.components.len() <= locat {
+            return false;
+        }
+        else if self.components[locat].get_comp_type() == comp_type {
+            return true;
+        }
+
+        return false;
+
+    }
+
+    pub fn has_component (&self, comp_type : ComponentTypes) -> bool {
+
+        return self.check_component(comp_type.clone(), self.find_component(comp_type));
 
     }
 
