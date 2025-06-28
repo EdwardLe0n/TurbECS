@@ -1,6 +1,7 @@
-use turbo::prelude::*;
+use turbo::*;
 
-#[derive(Debug, Copy, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(Copy, PartialEq)]
 pub struct Size {
     pub width : i32,
     pub height : i32,

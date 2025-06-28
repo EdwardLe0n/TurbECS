@@ -1,13 +1,13 @@
-use std::default;
-
-use turbo::prelude::*;
+use turbo::mouse::screen;
+use turbo::*;
 
 // Core directories
 
 use crate::turbe;
+use crate::GameState;
 use turbe::helpers;
 
-use crate::GameState;
+use crate::pointer;
 
 // Necessary imports
 
@@ -24,14 +24,16 @@ use buttons::{test_butn, title_butn, title2_butn};
 
 // Custom states to deal with the three main instances
 
-#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(PartialEq)]
 pub enum ButtonStates {
     None,
     Hover,
     Press
 }
 
-#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(PartialEq)]
 pub struct ButtonComponent {
     pub transform : Transform,
     pub border : Border,
@@ -81,9 +83,11 @@ impl ButtonComponent {
                                     .translate_x(_ent.transform.get_x())
                                     .translate_y(_ent.transform.get_y());
 
-        let p = pointer();
+        let p = pointer::screen();
 
-        let is_btn_over = p.xy().intersects_bounds(bounds);
+        let is_btn_over = p.intersects(bounds.x(), bounds.y(), bounds.w(), bounds.h());
+        
+        //xy().intersects_bounds(bounds);
 
         if is_btn_over {
             
@@ -158,7 +162,7 @@ impl ButtonComponent {
 
     pub fn handle_press(&mut self, _ent : &mut Entity, _state : &mut GameState) {
 
-        let p = pointer();
+        let p = pointer::screen();
 
         if p.just_pressed() {
             self.on_click(_ent, _state);

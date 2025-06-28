@@ -1,8 +1,9 @@
-use turbo::prelude::*;
+use turbo::*;
 
 use super::ui_pref::{Horizonontal, Vertical};
 
-#[derive(Debug, Copy, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(Copy, PartialEq)]
 pub struct Position {
     pub x : i32,
     pub y : i32,

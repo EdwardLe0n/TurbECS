@@ -1,6 +1,7 @@
-use turbo::prelude::*;
+use turbo::*;
 
-#[derive(Debug, Copy, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(Copy, PartialEq)]
 
 pub enum Horizonontal {
     Left,
@@ -8,7 +9,8 @@ pub enum Horizonontal {
     Right
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(Copy, PartialEq)]
 
 pub enum Vertical {
     Top,

@@ -1,4 +1,4 @@
-use turbo::prelude::*;
+use turbo::*;
 
 use crate::{turbe, GameState};
 
@@ -14,13 +14,15 @@ use components::{comp_rect::RectangleComponent, comp_spr::SpriteComponent, comp_
 // User made components
 use crate::assets::components::{comp_move::MoveComponent, comp_increment::IncrementComponent};
 
-#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(PartialEq)]
 pub struct Component {
     pub active : bool,
     pub component_data : ComponentData
 }
 
-#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(PartialEq)]
 pub enum ComponentData {
     Rectangle ( RectangleComponent ),
     Text ( TextComponent ),

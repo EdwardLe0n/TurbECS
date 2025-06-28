@@ -1,4 +1,5 @@
-use turbo::prelude::*;
+use turbo::*;
+use turbo::random;
 
 // Core directories
 
@@ -9,7 +10,8 @@ use turbe::helpers;
 
 use helpers::{transform::Transform, position::Position};
 
-#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(PartialEq)]
 pub struct OrbitComponent {
     pub orbit_position : Position,
     pub orbit_radius : f32,
@@ -31,7 +33,7 @@ impl OrbitComponent {
 
     pub fn update(&mut self, _transform : &mut Transform) {
 
-        self.tock += 0.1 * (rand() % 3) as f32;
+        self.tock += 0.1 * (random::rand() % 3) as f32;
         if self.tock > 360.0
         {
             self.tock = 0.0;

@@ -1,4 +1,4 @@
-use turbo::prelude::*;
+use turbo::*;
 
 // Core directories
 
@@ -10,7 +10,8 @@ use turbe::helpers;
 use turbe::{component_system::component::Component};
 use helpers::{transform::Transform, position::Position, size::Size, border::Border};
 
-#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(PartialEq)]
 pub struct Template {
     pub some_vals : i32
 }

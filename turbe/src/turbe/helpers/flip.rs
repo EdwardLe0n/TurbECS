@@ -1,6 +1,7 @@
-use turbo::prelude::*;
+use turbo::*;
 
-#[derive(Debug, Copy, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(Copy, PartialEq)]
 pub struct Flip {
     pub x : bool,
     pub y : bool,

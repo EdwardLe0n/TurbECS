@@ -1,4 +1,4 @@
-use turbo::prelude::*;
+use turbo::*;
 
 // Core directories
 
@@ -9,7 +9,8 @@ use turbe::helpers;
 
 use helpers::{transform::Transform, border::Border};
 
-#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(PartialEq)]
 pub struct RectangleComponent {
     transform: Transform, 
     color: u32, 

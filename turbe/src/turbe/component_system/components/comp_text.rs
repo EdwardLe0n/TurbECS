@@ -1,4 +1,4 @@
-use turbo::prelude::*;
+use turbo::*;
 
 // Core directories
 
@@ -11,7 +11,8 @@ use helpers::{transform::Transform, position::Position, ui_pref};
 
 use ui_pref::{Horizonontal, Vertical};
 
-#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(PartialEq)]
 pub struct TextComponent {
     pub text : String,
     pub position : Position,

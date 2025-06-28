@@ -1,6 +1,7 @@
-use turbo::prelude::*;
+use turbo::*;
 
-#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(PartialEq)]
 pub enum ButtonTypes {
     Default,
     Test,

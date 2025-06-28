@@ -1,4 +1,4 @@
-use turbo::prelude::*;
+use turbo::*;
 
 // Core directories
 
@@ -10,7 +10,8 @@ use turbe::helpers;
 use turbe::component_system::component::{Component, ComponentData};
 use helpers::{transform::Transform, flip::Flip};
 
-#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(PartialEq)]
 pub struct SpriteComponent {
     name: String, 
     transform: Transform,

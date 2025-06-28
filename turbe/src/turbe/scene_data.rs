@@ -1,4 +1,4 @@
-use turbo::prelude::*;
+use turbo::*;
 use std::collections::VecDeque;
 
 use crate::{turbe, GameState};
@@ -7,13 +7,15 @@ use turbe::entity::Entity;
 
 use crate::assets::prefabs;
 
-#[derive(Debug, Copy, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(Copy, PartialEq)]
 pub struct SceneData {
     pub active_scene : Scenes,
     pub is_loaded : bool
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(Copy, PartialEq)]
 pub enum Scenes {
     Title,
     Title2,

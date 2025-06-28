@@ -1,10 +1,11 @@
-use turbo::prelude::*;
+use turbo::*;
 
 use super::{position, size};
 use position::Position;
 use size::Size;
 
-#[derive(Debug, Copy, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(Copy, PartialEq)]
 pub struct Transform {
     pub position : Position,
     pub size : Size

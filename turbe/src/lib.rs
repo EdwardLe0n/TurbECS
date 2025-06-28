@@ -9,12 +9,12 @@ use scene_data::{SceneData, Scenes};
 
 mod assets;
 
-use turbo::prelude::*;
+use turbo::*;
 
 use crate::turbe::helpers::active_states::ActiveStates;
 
 #[turbo::game]
-#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[derive(PartialEq)]
 struct GameState {
     
     pub scene_data : SceneData,

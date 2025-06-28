@@ -1,6 +1,6 @@
 use std::collections::VecDeque;
 
-use turbo::prelude::*;
+use turbo::*;
 
 use crate::{turbe, GameState};
 
@@ -9,7 +9,8 @@ use turbe::component_system::{component::Component};
 use turbe::helpers;
 use helpers::{transform::Transform};
 
-#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(PartialEq)]
 pub struct GapData {
     pub empty_spaces : VecDeque<usize>,
     pub recently_filled : VecDeque<usize>
