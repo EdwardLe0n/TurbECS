@@ -75,18 +75,17 @@ impl ButtonComponent {
 
     pub fn update(&mut self, _ent : &mut Entity, _state : &mut GameState) {
 
-        let canvas_bounds = bounds::canvas();
-
-        let mut bounds = Bounds::with_size(self.transform.get_width() as f32 * self.transform.get_scale_x() * _ent.transform.get_scale_x(), 
+        let mut some_bounds = Bounds::with_size(self.transform.get_width() as f32 * self.transform.get_scale_x() * _ent.transform.get_scale_x(), 
                                             self.transform.get_height() as f32 * self.transform.get_scale_y() * _ent.transform.get_scale_y());
 
-        bounds = self.transform.position.get_adjusted_bounds(bounds, canvas_bounds);
+        let offset = self.transform.get_xy_offset(false);
 
-        bounds = bounds.translate(self.transform.get_x() + _ent.transform.get_x(),  -self.transform.get_y() + -_ent.transform.get_y());
+        some_bounds = some_bounds.position(offset.0 + _ent.transform.get_x_offset(), -offset.1 - _ent.transform.get_y_offset());
+        some_bounds = some_bounds.translate(-(some_bounds.w() as f32) / 2.0, -(some_bounds.h() as f32) / 2.0);
 
-        let p = pointer::screen();
+        let p = pointer::world();
 
-        let is_btn_over = p.intersects(bounds.x(), bounds.y(), bounds.w(), bounds.h());
+        let is_btn_over = p.intersects(some_bounds.x(), some_bounds.y(), some_bounds.w(), some_bounds.h());
 
         if is_btn_over {
             
@@ -115,19 +114,19 @@ impl ButtonComponent {
 
     pub fn render(&self, _transform : Transform) {
 
-        let canvas_bounds = bounds::canvas();
-
-        let mut bounds = Bounds::with_size(self.transform.get_width() as f32 * self.transform.get_scale_x() * _transform.get_scale_x(), 
+        let mut some_bounds = Bounds::with_size(self.transform.get_width() as f32 * self.transform.get_scale_x() * _transform.get_scale_x(), 
                                             self.transform.get_height() as f32 * self.transform.get_scale_y() * _transform.get_scale_y());
 
-        bounds = self.transform.position.get_adjusted_bounds(bounds, canvas_bounds);
+        let offset = self.transform.get_xy_offset(false);
 
-        bounds = bounds.translate(self.transform.get_x() + _transform.get_x(),  -self.transform.get_y() + -_transform.get_y());
+        some_bounds = some_bounds.position_xy((offset.0 + _transform.get_x_offset(), -offset.1 - _transform.get_y_offset()));
 
         rect!(
             color = self.color,
-            xy = bounds.xy(),
-            wh = bounds.wh(),
+            x = some_bounds.x() - some_bounds.w() as i32 / 2,
+            y = some_bounds.y() - some_bounds.h() as i32 / 2,
+            w = some_bounds.w(),
+            h = some_bounds.h(),
             border_size = self.border.get_size() * self.transform.get_scale() as u32,
             border_color = self.border.get_color(),
             border_radius = self.border.get_radius()

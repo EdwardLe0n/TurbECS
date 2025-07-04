@@ -7,9 +7,9 @@ use turbe::helpers;
 
 // Necessary imports
 
-use helpers::{transform::Transform, position::Position, ui_pref};
+use helpers::{transform::Transform, position::Position, bound_data};
 
-use ui_pref::{Horizonontal, Vertical};
+use bound_data::{Horizonontal, Vertical};
 
 #[turbo::serialize]
 #[derive(PartialEq)]
@@ -60,39 +60,18 @@ impl TextComponent {
 
     pub fn render(&self, _transform : Transform) {
 
-        if !self.position.get_ui_status() {
+        let some_offset = TextComponent::get_text_offset(&self.text, &self.font);
 
-            text!(
-                &self.text,
-                x = self.position.get_x() + _transform.get_x(),
-                y =  -self.position.get_y() -_transform.get_y(),
-                color = self.color,
-                font = &self.font
-            )
+        let x_off = some_offset.get_x();
+        let y_off = some_offset.get_y();
 
-        }
-        else {
-
-            let canvas_bounds = bounds::canvas();
-
-            let mut bounds = Bounds::with_size(0, 1);
-
-            bounds = self.position.get_adjusted_bounds(bounds, canvas_bounds);
-
-            let some_offset = TextComponent::get_text_offset(&self.text, &self.font);
-
-            let x_off = some_offset.get_x();
-            let y_off = some_offset.get_y();
-
-            text!(
-                &self.text,
-                x = self.position.get_x() + _transform.get_x() + bounds.x() - x_off,
-                y = -self.position.get_y() - _transform.get_y() + bounds.y() - y_off,
-                color = self.color,
-                font = &self.font
-            )
-
-        }
+        text!(
+            &self.text,
+            x = -self.position.get_x_offset(0,0) + _transform.get_x_offset() - x_off,
+            y =  -self.position.get_y_offset(0, 0) -_transform.get_y_offset() - y_off,
+            color = self.color,
+            font = &self.font
+        );
 
     }
 

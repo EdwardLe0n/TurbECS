@@ -94,3 +94,27 @@ impl Transform {
 }
 
 // Other
+
+impl Transform {
+    pub fn get_xy_offset(&self, some_bool : bool) -> (i32, i32) {
+
+        if some_bool {
+            return self.position.get_xy_offset(0, 0);
+        }
+
+        return self.position.get_xy_offset(self.get_width(), self.get_height());
+
+    }
+
+    pub fn get_x_offset(&self) -> i32 {
+
+        return self.position.get_x_offset(self.get_width(), self.get_height());
+
+    }
+
+    pub fn get_y_offset(&self) -> i32 {
+
+        return self.position.get_y_offset(self.get_width(), self.get_height());
+
+    }
+}

@@ -47,8 +47,8 @@ impl RectangleComponent {
     
     pub fn render_rect(&self, transform : Transform) {    
         rect!(
-            x = self.transform.get_x() + transform.get_x(),
-            y = self.transform.get_y() + transform.get_y(),
+            x = self.transform.get_x_offset() + transform.get_x_offset(),
+            y = self.transform.get_y_offset() + transform.get_y_offset(),
             w = self.transform.get_width() as f32 * self.transform.get_scale_x() * transform.get_scale_y(),
             h = self.transform.get_height() as f32 * self.transform.get_scale_y() * transform.get_scale_y(),
             color = self.color,
