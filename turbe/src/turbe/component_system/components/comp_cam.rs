@@ -7,8 +7,7 @@ use turbe::helpers;
 
 // Necessary imports
 
-use turbe::{component_system::component::Component};
-use helpers::{transform::Transform, position::Position, size::Size, border::Border};
+use helpers::{position::Position};
 
 #[turbo::serialize]
 #[derive(PartialEq)]

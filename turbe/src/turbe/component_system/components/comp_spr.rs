@@ -7,23 +7,22 @@ use turbe::helpers;
 
 // Necessary imports
 
-use turbe::component_system::component::{Component, ComponentData};
 use helpers::{transform::Transform, flip::Flip};
 
 #[turbo::serialize]
 #[derive(PartialEq)]
 pub struct SpriteComponent {
-    name: String, 
-    transform: Transform,
-    color: u32, 
-    opacity: f32, 
-    flip_factor: Flip, 
-    frame: usize
+    pub name: String, 
+    pub transform: Transform,
+    pub color: u32, 
+    pub opacity: f32, 
+    pub flip_factor: Flip, 
+    pub frame: usize
 }
 
 impl SpriteComponent {
     
-    pub fn new(name : String) -> Component {
+    pub fn new(name : String) -> Self {
 
         let spr = SpriteComponent {
             name : name,
@@ -34,7 +33,17 @@ impl SpriteComponent {
             frame : 0
         };
 
-        return Component::new(ComponentData::Sprite(spr));
+        return spr;
+
+    }
+
+}
+
+impl SpriteComponent {
+
+    pub fn update_sprite_file(&mut self, some_file : String) {
+
+        self.name = some_file;
 
     }
 

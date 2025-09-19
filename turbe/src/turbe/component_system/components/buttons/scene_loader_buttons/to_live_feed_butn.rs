@@ -17,6 +17,6 @@ pub fn on_click (_button : &mut ButtonComponent, _ent : &mut Entity, _state : &m
 
     // Toss some code in here!
 
-    _state.scene_data.load_scene(Scenes::Title);
+    _state.scene_data.load_scene(Scenes::LiveFeed);
 
 }

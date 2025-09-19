@@ -7,9 +7,7 @@ use turbe::helpers;
 
 // Necessary imports
 
-use helpers::{transform::Transform, position::Position, bound_data};
-
-use bound_data::{Horizonontal, Vertical};
+use helpers::{transform::Transform, position::Position};
 
 #[turbo::serialize]
 #[derive(PartialEq)]
@@ -41,16 +39,24 @@ impl TextComponent {
         // Handles the x offset
 
         match some_font.clone() {
-            val if val == "medium".to_string() => {position.set_x(((some_string.len() as i32 / 2) as f32 * 4.5) as i32);},
-            val if val == "large".to_string() => {position.set_x(((some_string.len() as i32 / 2) as f32 * 7.2) as i32);},
+            val if val == "medium".to_string() => {position.set_x(((some_string.len() as i32 / 2) as f32 * 7.0) as i32);},
+            val if val == "large".to_string() => {position.set_x(((some_string.len() as i32 / 2) as f32 * 12.0) as i32);},
+
+            val if val == "TinyUnicodeMedium".to_string() => {position.set_x(((some_string.len() as i32 / 2) as f32 * 12.0) as i32);},
+            val if val == "TinyUnicodeLarge".to_string() => {position.set_x(((some_string.len() as i32 / 2) as f32 * 24.0) as i32);},
+
             _default => {position.set_x((some_string.len() as i32 / 2) * 3);}
         }
 
         // Handles the y offset
 
         match some_font.clone() {
-            val if val == "medium".to_string() => {position.set_y(3);},
-            val if val == "large".to_string() => {position.set_y(5);},
+            val if val == "medium".to_string() => {position.set_y(4);},
+            val if val == "large".to_string() => {position.set_y(6);},
+
+            val if val == "TinyUnicodeMedium".to_string() => {position.set_y(8);},
+            val if val == "TinyUnicodeLarge".to_string() => {position.set_y(12);},
+
             _default => {position.set_y(2);}
         }
 
@@ -67,8 +73,8 @@ impl TextComponent {
 
         text!(
             &self.text,
-            x = -self.position.get_x_offset(0,0) + _transform.get_x_offset() - x_off,
-            y =  -self.position.get_y_offset(0, 0) -_transform.get_y_offset() - y_off,
+            x = self.position.get_x_offset(0,0) + _transform.get_x_offset() - x_off,
+            y =  self.position.get_y_offset(0, 0) + _transform.get_y_offset() + y_off,
             color = self.color,
             font = &self.font
         );

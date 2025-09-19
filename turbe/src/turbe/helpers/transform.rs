@@ -53,6 +53,11 @@ impl Transform {
         self.size.set_scale_y(some_scale_y);
     }
 
+    pub fn set_scale(&mut self, some_scale : f32) {
+        self.set_scale_x(some_scale);
+        self.set_scale_y(some_scale);
+    }
+
 }
 
 // Getters
@@ -91,6 +96,20 @@ impl Transform {
         return (self.get_scale_x() + self.get_scale_y())/2.0;
     }
     
+}
+
+// Nudging
+
+impl Transform {
+
+    pub fn nudge_x(&mut self, some_i32 : i32) {
+        self.position.nudge_x(some_i32);
+    }
+
+    pub fn nudge_y(&mut self, some_i32 : i32) {
+        self.position.nudge_y(some_i32);
+    }
+
 }
 
 // Other

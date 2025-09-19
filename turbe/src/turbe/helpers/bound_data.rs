@@ -57,6 +57,18 @@ pub enum Horizonontal {
     Right
 }
 
+impl Horizonontal {
+    pub fn get_string(&self) -> String {
+
+        match self {
+            Horizonontal::Left => {return "left".to_string();},
+            Horizonontal::Center => {return "center".to_string();},
+            Horizonontal::Right => {return "right".to_string();},
+        }
+
+    }
+}
+
 #[turbo::serialize]
 #[derive(Copy, PartialEq)]
 

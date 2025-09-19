@@ -12,9 +12,9 @@ use helpers::{transform::Transform, border::Border};
 #[turbo::serialize]
 #[derive(PartialEq)]
 pub struct RectangleComponent {
-    transform: Transform, 
-    color: u32, 
-    border: Border
+    pub transform: Transform, 
+    pub color: u32, 
+    pub border: Border
 }
 
 impl RectangleComponent {

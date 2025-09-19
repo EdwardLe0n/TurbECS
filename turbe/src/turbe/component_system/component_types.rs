@@ -1,5 +1,3 @@
-use turbo::*;
-
 #[turbo::serialize]
 #[derive(PartialEq)]
 pub enum ComponentTypes {
@@ -7,13 +5,20 @@ pub enum ComponentTypes {
     Rectangle,
     Sprite,
     Text,
+    TextBox,
     Button,
+    Particle,
 
     // User made structs
 
-    Increment,
-    Move,
-    Orbit,
+    Resizer,
+
+    ScreenManager,
+
+    InteractionBoostSelection,
+
+    Notification,
+    NotificationInfo,
 
     // Other
 

@@ -1,7 +1,6 @@
 pub mod button_types;
 
 pub mod template_butn;
-pub mod test_butn;
 
-pub mod title_butn;
-pub mod title2_butn;
+pub mod scene_loader_buttons;
+pub mod misc_buttons;

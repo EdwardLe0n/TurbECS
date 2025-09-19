@@ -53,7 +53,6 @@ impl Position {
         self.is_bounded = some_bool;
     }
 
-
     pub fn set_ui_status(&mut self, some_bool : bool) {
         self.bound_data.set_ui_status(some_bool);
     }
@@ -71,7 +70,7 @@ impl Position {
     }
 
     pub fn get_y(&self) -> i32 {
-        return self.y;
+        return -self.y;
     }
 
     pub fn get_rotation(&self) -> i32 {
@@ -106,7 +105,7 @@ impl Position {
 
     pub fn nudge_y(&mut self, some_y : i32) {
 
-        self.set_y(self.get_y() + some_y);
+        self.set_y(-self.get_y() + some_y);
 
     }
 
@@ -162,12 +161,12 @@ impl Position {
 
             if self.get_ui_status() {
                 
-                some_other = viewport();
+                some_other = world();
 
             }
             else {
 
-                some_other = canvas();
+                some_other = screen();
                 
             }
 
@@ -195,16 +194,17 @@ impl Position {
 
             let mut this_bounds = Bounds::new(0, 0, width, height);
 
-            let mut some_other = Bounds::new(0, 0, 0, 0);
+            let mut some_other = Bounds::new(0, 0, 1, 1);
 
             if self.get_ui_status() {
                 
-                some_other = viewport();
+                some_other = world();
 
             }
             else {
 
-                some_other = canvas();
+                // Insert code about making custom bounds here...
+                some_other = screen();
                 
             }
 

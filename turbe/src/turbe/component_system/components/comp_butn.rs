@@ -1,9 +1,9 @@
-use turbo::mouse::screen;
 use turbo::*;
 
 // Core directories
 
 use crate::turbe;
+use crate::turbe::component_system::component_types::ComponentTypes;
 use crate::GameState;
 use turbe::helpers;
 
@@ -20,7 +20,17 @@ use helpers::{transform::Transform, border::Border, substates::SubStates};
 // Any button func files go here!
 
 use component_system::components::buttons;
-use buttons::{test_butn, title_butn, title2_butn};
+
+use buttons::{scene_loader_buttons, misc_buttons};
+
+// Scene loaders <333
+
+use scene_loader_buttons::{to_battle_butn, to_ready_butn, to_intro_butn};
+use scene_loader_buttons::{play_butn, misc_butn, to_live_feed_butn};
+
+// Misc buttons
+
+use misc_buttons::{swipe_right_butn, swipe_left_butn};
 
 // Custom states to deal with the three main instances
 
@@ -40,7 +50,9 @@ pub struct ButtonComponent {
     pub color : u32, 
     pub button_type : ButtonTypes,
     pub state : ButtonStates,
-    pub sub_state : SubStates
+    pub sub_state : SubStates,
+    pub hov_count : u32,
+    pub push_count : u32
 }
 
 impl ButtonComponent {
@@ -49,7 +61,8 @@ impl ButtonComponent {
         return ButtonComponent{
             transform : Transform::new(), border : Border::new(), 
             color : 0xffffffff, button_type : ButtonTypes::Default,
-            state : ButtonStates::None, sub_state : SubStates::None
+            state : ButtonStates::None, sub_state : SubStates::None,
+            hov_count : 0, push_count : 0
         };
     }
 
@@ -75,12 +88,26 @@ impl ButtonComponent {
 
     pub fn update(&mut self, _ent : &mut Entity, _state : &mut GameState) {
 
+        if !_state.can_interact {
+
+            if !self.button_type.can_still_interact(_state) {
+
+                    if self.state != ButtonStates::None {
+                    self.state = ButtonStates::None;
+                }
+
+                return;
+
+            }
+
+        }
+
         let mut some_bounds = Bounds::with_size(self.transform.get_width() as f32 * self.transform.get_scale_x() * _ent.transform.get_scale_x(), 
                                             self.transform.get_height() as f32 * self.transform.get_scale_y() * _ent.transform.get_scale_y());
 
         let offset = self.transform.get_xy_offset(false);
 
-        some_bounds = some_bounds.position(offset.0 + _ent.transform.get_x_offset(), -offset.1 - _ent.transform.get_y_offset());
+        some_bounds = some_bounds.position_xy((offset.0 + _ent.transform.get_x_offset(), offset.1 + _ent.transform.get_y_offset()));
         some_bounds = some_bounds.translate(-(some_bounds.w() as f32) / 2.0, -(some_bounds.h() as f32) / 2.0);
 
         let p = pointer::world();
@@ -112,19 +139,39 @@ impl ButtonComponent {
 
     }
 
-    pub fn render(&self, _transform : Transform) {
+    pub fn render(&self, _transform : Transform, _state : &mut GameState) {
 
         let mut some_bounds = Bounds::with_size(self.transform.get_width() as f32 * self.transform.get_scale_x() * _transform.get_scale_x(), 
                                             self.transform.get_height() as f32 * self.transform.get_scale_y() * _transform.get_scale_y());
 
         let offset = self.transform.get_xy_offset(false);
 
-        some_bounds = some_bounds.position_xy((offset.0 + _transform.get_x_offset(), -offset.1 - _transform.get_y_offset()));
+        some_bounds = some_bounds.position_xy((offset.0 + _transform.get_x_offset(), offset.1 + _transform.get_y_offset()));
+        some_bounds = some_bounds.translate(-(some_bounds.w() as f32) / 2.0, -(some_bounds.h() as f32) / 2.0);
+
+        // Renders a shadow if necessary
+
+        if self.has_shadow() {
+
+            rect!(
+                color = 0x000000ff,
+                x = some_bounds.x() + 2,
+                y = some_bounds.y() + 2,
+                w = some_bounds.w() + 1,
+                h = some_bounds.h() + 1,
+                border_size = self.border.get_size() * self.transform.get_scale() as u32,
+                border_color = 0x000000ff,
+                border_radius = self.border.get_radius()
+            );
+
+        }
+
+        // Renders the main button
 
         rect!(
             color = self.color,
-            x = some_bounds.x() - some_bounds.w() as i32 / 2,
-            y = some_bounds.y() - some_bounds.h() as i32 / 2,
+            x = some_bounds.x(),
+            y = some_bounds.y(),
             w = some_bounds.w(),
             h = some_bounds.h(),
             border_size = self.border.get_size() * self.transform.get_scale() as u32,
@@ -134,16 +181,33 @@ impl ButtonComponent {
 
     }
 
+    pub fn has_shadow(&self) -> bool {
+
+        if self.state == ButtonStates::None {
+            return false;
+        }
+
+        match &self.button_type {
+            ButtonTypes::BattleWord => {return true;},
+            _default => {return false;}
+        }
+
+    }
+
 }
 
 impl ButtonComponent {
 
     pub fn handle_hover(&mut self, _ent : &mut Entity, _state : &mut GameState) {
 
+        self.hov_count += 1;
+
         if self.state == ButtonStates::None {
 
             self.state = ButtonStates::Hover;
             self.on_enter(_ent, _state);
+
+            self.hov_count = 1;
 
         }
         else if self.state == ButtonStates::Press{
@@ -151,7 +215,7 @@ impl ButtonComponent {
             self.state = ButtonStates::Hover;
             
             self.on_release(_ent, _state);
-
+            self.push_count = 0;
 
         }
         else {
@@ -164,10 +228,22 @@ impl ButtonComponent {
 
         let p = pointer::screen();
 
+        self.push_count += 1;
+
         if p.just_pressed() {
             self.on_click(_ent, _state);
 
+            // Adding the destroy the notif hot fix
+
+            let ent_locat = _state.find_w_component(ComponentTypes::Notification);
+
+            if ent_locat.0 {
+                _state.lifetime_data.new_destroy.push_back(ent_locat.1);
+            }
+
             self.state = ButtonStates::Press;
+
+            self.push_count = 1;
 
         }
         else if self.state == ButtonStates::Press{
@@ -189,6 +265,9 @@ impl ButtonComponent {
         self.state = ButtonStates::None;
         self.sub_state = SubStates::None;
 
+        self.hov_count = 0;
+        self.push_count = 0;
+
     }
 
 }
@@ -200,9 +279,6 @@ impl ButtonComponent {
     pub fn on_enter(&mut self, _ent : &mut Entity, _state : &mut GameState) {
 
         match &self.button_type {
-            ButtonTypes::Test => {
-                test_butn::on_enter(self, _ent, _state);
-            },
             _default => {
 
             }
@@ -213,9 +289,6 @@ impl ButtonComponent {
     pub fn on_hover(&mut self, _ent : &mut Entity, _state : &mut GameState) {
         
         match &self.button_type {
-            ButtonTypes::Test => {
-                test_butn::on_hover(self, _ent, _state);
-            },
             _default => {
 
             }
@@ -226,9 +299,6 @@ impl ButtonComponent {
     pub fn on_exit(&mut self, _ent : &mut Entity, _state : &mut GameState) {
         
         match &self.button_type {
-            ButtonTypes::Test => {
-                test_butn::on_exit(self, _ent, _state);
-            },
             _default => {
 
             }
@@ -241,15 +311,35 @@ impl ButtonComponent {
     pub fn on_click(&mut self, _ent : &mut Entity, _state : &mut GameState) {
 
         match &self.button_type {
-            ButtonTypes::Test => {
-                test_butn::on_click(self, _ent, _state);
+            ButtonTypes::SwipeLeft => {
+                swipe_left_butn::on_click(self, _ent, _state);
             },
-            ButtonTypes::Title => {
-                title_butn::on_click(self, _ent, _state);
+            ButtonTypes::SwipeRight => {
+                swipe_right_butn::on_click(self, _ent, _state);
             },
-            ButtonTypes::Title2 => {
-                title2_butn::on_click(self, _ent, _state);
+            ButtonTypes::ToReady => {
+                to_ready_butn::on_click(self, _ent, _state);
             },
+            ButtonTypes::ToBattle => {
+                to_battle_butn::on_click(self, _ent, _state);
+            },
+            ButtonTypes::ToIntro => {
+                to_intro_butn::on_click(self, _ent, _state);
+            },
+            ButtonTypes::Play => {
+                play_butn::on_click(self, _ent, _state);
+            },
+            ButtonTypes::ToLiveFeed => {
+                to_live_feed_butn::on_click(self, _ent, _state);
+            },
+
+            // Testing
+
+            ButtonTypes::Misc => {
+                misc_butn::on_click(self, _ent, _state);
+            },
+
+
             _default => {
 
             }
@@ -260,9 +350,6 @@ impl ButtonComponent {
     pub fn on_hold(&mut self, _ent : &mut Entity, _state : &mut GameState) {
         
         match &self.button_type {
-            ButtonTypes::Test => {
-                test_butn::on_hold(self, _ent, _state);
-            },
             _default => {
 
             }
@@ -273,9 +360,6 @@ impl ButtonComponent {
     pub fn on_release(&mut self, _ent : &mut Entity, _state : &mut GameState) {
 
         match &self.button_type {
-            ButtonTypes::Test => {
-                test_butn::on_release(self, _ent, _state);
-            },
             _default => {
 
             }
@@ -288,9 +372,6 @@ impl ButtonComponent {
     pub fn on_away(&mut self, _ent : &mut Entity, _state : &mut GameState){
 
         match &self.button_type {
-            ButtonTypes::Test => {
-                test_butn::on_away(self, _ent, _state);
-            },
             _default => {
 
             }
