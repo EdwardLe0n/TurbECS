@@ -1,4 +1,4 @@
-use turbo::prelude::*;
+use turbo::*;
 
 // Core directories
 
@@ -7,22 +7,22 @@ use turbe::helpers;
 
 // Necessary imports
 
-use turbe::component_system::component::{Component, ComponentData};
 use helpers::{transform::Transform, flip::Flip};
 
-#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(PartialEq)]
 pub struct SpriteComponent {
-    name: String, 
-    transform: Transform,
-    color: u32, 
-    opacity: f32, 
-    flip_factor: Flip, 
-    frame: usize
+    pub name: String, 
+    pub transform: Transform,
+    pub color: u32, 
+    pub opacity: f32, 
+    pub flip_factor: Flip, 
+    pub frame: usize
 }
 
 impl SpriteComponent {
     
-    pub fn new(name : String) -> Component {
+    pub fn new(name : String) -> Self {
 
         let spr = SpriteComponent {
             name : name,
@@ -33,7 +33,17 @@ impl SpriteComponent {
             frame : 0
         };
 
-        return Component::new(ComponentData::Sprite(spr));
+        return spr;
+
+    }
+
+}
+
+impl SpriteComponent {
+
+    pub fn update_sprite_file(&mut self, some_file : String) {
+
+        self.name = some_file;
 
     }
 
@@ -45,8 +55,8 @@ impl SpriteComponent {
 
         sprite!(
             self.name.as_str(),
-            x = self.transform.get_x() + transform.get_x(),
-            y = self.transform.get_y() + transform.get_y(),
+            x = self.transform.get_x_offset() + transform.get_x_offset(),
+            y = self.transform.get_y_offset() + transform.get_y_offset(),
             w = self.transform.get_width() as f32 * self.transform.get_scale_x() * transform.get_scale_x(),
             h = self.transform.get_height() as f32 * self.transform.get_scale_y() * transform.get_scale_y(),
             color = self.color,

@@ -1,4 +1,4 @@
-use turbo::prelude::*;
+use turbo::*;
 
 // Core directories
 
@@ -7,10 +7,10 @@ use turbe::helpers;
 
 // Necessary imports
 
-use turbe::{component_system::component::Component};
-use helpers::{transform::Transform, position::Position, size::Size, border::Border};
+use helpers::{position::Position};
 
-#[derive(Debug, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(PartialEq)]
 pub struct CameraComponent {
     pub position : Position,
     pub z : f32
@@ -25,7 +25,7 @@ impl CameraComponent {
 
     pub fn new_with_xy(_x : i32, _y : i32) -> CameraComponent {
         return CameraComponent {
-            position : Position { x: _x, y: _y, rotation: 0 },
+            position : Position::new_with_xy(_x, _y),
             z : 0.0
         };
     }

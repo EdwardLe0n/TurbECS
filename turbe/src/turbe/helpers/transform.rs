@@ -1,10 +1,11 @@
-use turbo::prelude::*;
+use turbo::*;
 
 use super::{position, size};
 use position::Position;
 use size::Size;
 
-#[derive(Debug, Copy, Clone, PartialEq, BorshSerialize, BorshDeserialize)]
+#[turbo::serialize]
+#[derive(Copy, PartialEq)]
 pub struct Transform {
     pub position : Position,
     pub size : Size
@@ -52,6 +53,11 @@ impl Transform {
         self.size.set_scale_y(some_scale_y);
     }
 
+    pub fn set_scale(&mut self, some_scale : f32) {
+        self.set_scale_x(some_scale);
+        self.set_scale_y(some_scale);
+    }
+
 }
 
 // Getters
@@ -92,4 +98,42 @@ impl Transform {
     
 }
 
+// Nudging
+
+impl Transform {
+
+    pub fn nudge_x(&mut self, some_i32 : i32) {
+        self.position.nudge_x(some_i32);
+    }
+
+    pub fn nudge_y(&mut self, some_i32 : i32) {
+        self.position.nudge_y(some_i32);
+    }
+
+}
+
 // Other
+
+impl Transform {
+    pub fn get_xy_offset(&self, some_bool : bool) -> (i32, i32) {
+
+        if some_bool {
+            return self.position.get_xy_offset(0, 0);
+        }
+
+        return self.position.get_xy_offset(self.get_width(), self.get_height());
+
+    }
+
+    pub fn get_x_offset(&self) -> i32 {
+
+        return self.position.get_x_offset(self.get_width(), self.get_height());
+
+    }
+
+    pub fn get_y_offset(&self) -> i32 {
+
+        return self.position.get_y_offset(self.get_width(), self.get_height());
+
+    }
+}
