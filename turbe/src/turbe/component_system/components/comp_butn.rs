@@ -235,12 +235,6 @@ impl ButtonComponent {
 
             // Adding the destroy the notif hot fix
 
-            let ent_locat = _state.find_w_component(ComponentTypes::Notification);
-
-            if ent_locat.0 {
-                _state.lifetime_data.new_destroy.push_back(ent_locat.1);
-            }
-
             self.state = ButtonStates::Press;
 
             self.push_count = 1;

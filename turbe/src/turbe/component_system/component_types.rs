@@ -15,11 +15,6 @@ pub enum ComponentTypes {
 
     ScreenManager,
 
-    InteractionBoostSelection,
-
-    Notification,
-    NotificationInfo,
-
     // Other
 
     Other
