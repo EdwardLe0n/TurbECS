@@ -79,10 +79,6 @@ impl TextBoxResizerComponent {
             button.transform.set_height(-size.get_y() * 3 + self.h_buffer as i32 * 2);
             button.transform.position.nudge_x(-1);
 
-            if button.button_type == ButtonTypes::ShopWord {
-                ent.transform.nudge_x(-button.transform.get_width()/2);
-            }
-
             if button.transform.get_width() > screen().w() as i32 * 8 / 10 {
                 button.transform.set_width(screen().w() as i32 * 8 / 10);
             }
