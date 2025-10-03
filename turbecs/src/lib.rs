@@ -42,14 +42,11 @@ struct GameState {
 impl GameState {
     fn new() -> Self {
 
-        let b_tree = Vec::new();
-        let render_l = Vec::new();
-
         camera::set_xy(0, 0);
 
-        Self {scene_data : SceneData { active_scene: (Scenes::Title), is_loaded: (false) }, 
+        Self {scene_data : SceneData { active_scene: (Scenes::Misc), is_loaded: (false) }, 
             gap_data : GapData::new(), lifetime_data : LifetimeData::new(),
-            entities : b_tree, new_entities : Vec::new(), render_list : render_l,
+            entities : Vec::with_capacity(100), new_entities : Vec::with_capacity(100), render_list : Vec::with_capacity(10),
             particle_manager : ParticleManager::new(),
             run_data : RunData::new(), can_interact : true}
     
@@ -58,15 +55,7 @@ impl GameState {
     fn update(&mut self) {
         // Update the game & draw stuff
 
-
-        // Sanity
-
-        // let len = borsh::to_vec(self).unwrap().len();
-        // log!("LEN = {len}");
-
         self.check_scene_state();
-
-        // log!("starting liftime");
 
         self.run_lifetime();
 
@@ -104,18 +93,14 @@ impl GameState {
 
         let mut new_ent = scene_data::make_scene(self.scene_data.active_scene);
 
+        
+        // Sanity check
         log!("number of new entities : {:?}", new_ent.len());
 
-        // Sanity check
         self.new_entities(&mut new_ent);
 
-        // Sanity
-        // log!("done done");
 
         self.scene_data.is_loaded = true;
-
-        // Sanity
-        // log!("done done done");
 
         let len = borsh::to_vec(self).unwrap().len();
         log!("LEN = {len}");
@@ -317,6 +302,7 @@ impl GameState {
 
     }
 
+    // Loops through all of the entities in the entity vector in order of newest to oldest
     fn on_update(&mut self) {
 
         let len = self.entities.len();
@@ -386,6 +372,10 @@ impl GameState {
     }
 
 }
+
+/*
+* Helper functions 
+*/
 
 // Misc
 

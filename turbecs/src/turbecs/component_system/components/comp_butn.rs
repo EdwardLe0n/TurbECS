@@ -25,8 +25,7 @@ use buttons::{scene_loader_buttons, misc_buttons};
 
 // Scene loaders <333
 
-use scene_loader_buttons::{to_battle_butn, to_ready_butn, to_intro_butn};
-use scene_loader_buttons::{play_butn, misc_butn, to_live_feed_butn};
+use scene_loader_buttons::{misc_butn};
 
 // Misc buttons
 
@@ -188,7 +187,6 @@ impl ButtonComponent {
         }
 
         match &self.button_type {
-            ButtonTypes::BattleWord => {return true;},
             _default => {return false;}
         }
 
@@ -310,21 +308,6 @@ impl ButtonComponent {
             },
             ButtonTypes::SwipeRight => {
                 swipe_right_butn::on_click(self, _ent, _state);
-            },
-            ButtonTypes::ToReady => {
-                to_ready_butn::on_click(self, _ent, _state);
-            },
-            ButtonTypes::ToBattle => {
-                to_battle_butn::on_click(self, _ent, _state);
-            },
-            ButtonTypes::ToIntro => {
-                to_intro_butn::on_click(self, _ent, _state);
-            },
-            ButtonTypes::Play => {
-                play_butn::on_click(self, _ent, _state);
-            },
-            ButtonTypes::ToLiveFeed => {
-                to_live_feed_butn::on_click(self, _ent, _state);
             },
 
             // Testing
