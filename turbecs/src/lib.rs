@@ -151,33 +151,15 @@ impl GameState {
 
     fn run_lifetime(&mut self) {
 
-        // Sanity
-        // log!("Attempting the load");
-
-        self.load_entities(); 
-
-        // Sanity
-        // log!("At awake");
+        self.load_entities();
 
         self.on_awake();
 
-        // Sanity
-        // log!("At start");
-
         self.on_start();
-
-        // Sanity
-        // log!("At update");
 
         self.on_update();
 
-        // Sanity
-        // log!("At destroy");
-
         self.on_destroy();
-
-        // Sanity
-        // log!("At render");
 
         self.on_render();
 
@@ -190,10 +172,6 @@ impl GameState {
         }
 
         for ent in self.entity_manager.new_entities.clone() {
-
-            // Sanity
-            // log!("Loading new");
-
             self.load_entity(&mut ent.clone());
         } 
 
@@ -209,9 +187,6 @@ impl GameState {
             next = self.get_next_free();
             _entity.locat = next.clone();
 
-            // Sanity
-            // log!("replacing something");
-
             self.entity_manager.entities[next] = _entity.clone();
 
         }
@@ -220,144 +195,11 @@ impl GameState {
             next = self.entity_manager.entities.len();
             _entity.locat = next.clone();
 
-            // Sanity
-            // log!("Adding something");
-
             self.entity_manager.entities.push(_entity.clone());
 
         }
 
-        // Sanity
-        // log!("Gonna log entity {} at {}", self.entities[next].name, next);
-
         self.entity_manager.lifetime_data.new_awake.push_back(next);
-    }
-
-    fn on_awake(&mut self) {
-
-        let len = self.entity_manager.lifetime_data.new_awake.len();
-
-        if len == 0 {
-            return;
-        }
-
-        // Sanity
-        // log!("Going to awake {} entities with a total of {} entities", len, self.entities.len());
-
-        for _i in 0..len {
-
-            // Sanity
-            // log!("Awakening {} with name {}", *self.lifetime_data.new_awake.front().unwrap(), "test");
-
-            let test_val = *self.entity_manager.lifetime_data.new_awake.front().unwrap();
-
-            // Sanity
-            // log!("{:?}", test_val);
-
-            let mut some_ent = self.entity_manager.entities[test_val].clone();
-
-            some_ent.on_awake(self);
-
-            self.entity_manager.entities[test_val] = some_ent;
-
-            self.entity_manager.lifetime_data.new_start.push_back(*self.entity_manager.lifetime_data.new_awake.front().unwrap());
-            self.entity_manager.lifetime_data.new_awake.pop_front();
-
-        }
-
-    }
-
-    fn on_start(&mut self) {
-
-        let len = self.entity_manager.lifetime_data.new_start.len();
-
-        if len == 0 {
-            return;
-        }
-
-        for _i in 0..len {
-
-            let locat = *self.entity_manager.lifetime_data.new_start.front().unwrap();
-
-            let mut some_ent = self.entity_manager.entities[locat].clone();
-
-            some_ent.on_start(self);
-
-            self.entity_manager.entities[locat] = some_ent;
-
-            self.entity_manager.lifetime_data.new_start.pop_front();
-
-        }
-
-    }
-
-    // Loops through all of the entities in the entity vector in order of newest to oldest
-    fn on_update(&mut self) {
-
-        let len = self.entity_manager.entities.len();
-
-        for i in 0..len {
-
-            let mut some_ent = self.entity_manager.entities[i].clone();
-
-            some_ent.on_update(self);
-
-            self.entity_manager.entities[i] = some_ent;
-
-        }
-
-        // particles!!!!
-
-        self.particle_manager.update();
-
-    }
-
-    fn on_destroy(&mut self) {
-
-        let len = self.entity_manager.lifetime_data.new_destroy.len();
-
-        if len == 0 {
-            return;
-        }
-
-        for _i in 0..len {
-
-            let locat = *self.entity_manager.lifetime_data.new_destroy.front().unwrap();
-
-            let mut some_ent = self.entity_manager.entities[locat].clone();
-
-            if !some_ent.is_destroyed() {
-
-                some_ent.on_destroy(self);
-                self.entity_manager.entities[locat] = some_ent;
-
-                self.entity_manager.gap_data.empty_spaces.push_back(locat);
-                self.entity_manager.lifetime_data.new_destroy.pop_front();
-                    
-            }
-
-        }
-
-    }
-
-    fn on_render(&mut self) {
-
-        clear(0xeeeeeeff);
-
-        let render_list = self.render_manager.clone();
-        let entities = self.entity_manager.entities.clone();
-
-        for i in 0..render_list.len() {
-
-            for j in 0..render_list[i].len(){
-
-                entities[render_list[i][j]].on_render(self);
-
-            }
-        }
-
-        self.particle_manager.draw();
-
     }
 
 }

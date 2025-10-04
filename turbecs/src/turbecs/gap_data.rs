@@ -10,7 +10,7 @@ pub struct GapData {
 impl GapData {
     
     pub fn new() -> GapData {
-        return GapData{empty_spaces : VecDeque::new(), recently_filled : VecDeque::new()};
+        return GapData{empty_spaces : VecDeque::with_capacity(100), recently_filled : VecDeque::with_capacity(100)};
     }
 
 }
