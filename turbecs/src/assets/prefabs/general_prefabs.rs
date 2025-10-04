@@ -133,16 +133,16 @@ pub fn new_title () -> Entity {
     let mut ent = Entity::new_base("Title".to_string());
     ent.set_layer(10);
 
-    ent.transform.set_y(screen().h() as i32 / 6);
-
     let mut text_box = TextBoxComponent::new("TurbECS".to_string());
 
-    text_box.font = "TinyUnicodeLarge".to_string();
-    text_box.color = 0x000000ff;
+    text_box.font = "large".to_string();
+    text_box.color = 0xff0000ff;
 
     text_box.transform.set_width(TextComponent::get_text_offset(&text_box.text, &text_box.font).get_x() * 4);
     text_box.transform.set_height(TextComponent::get_text_offset(&text_box.text, &text_box.font).get_y() as i32 * -2);
     // text_box.transform.set_scale(1.2);
+
+    ent.transform.nudge_y(text_box.transform.get_height() / 2);
 
     text_box.transform.position.set_horizontal_pref(bound_data::Horizonontal::Center);
 

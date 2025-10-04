@@ -27,3 +27,14 @@
 6. Document the systems work
 7. Proceed.
 8. Maybe target 'has' next?????
+
+# 2:00 PM - Cooking Potatoes and code
+
+### Moment notes
+
+- Come back later
+- at some point, rendering got bugged..
+
+# 3:00 PM
+- nvm forgot i got rid of a lot of old assets, and some line was referencing an asset that was deleted
+-  imma go play silk song now

@@ -56,6 +56,7 @@ pub fn make_misc_scene() -> VecDeque<Entity> {
 
     let mut ent_vec = VecDeque::new();
 
+    ent_vec.push_back(general_prefabs::new_title());
 
     return ent_vec;
 
