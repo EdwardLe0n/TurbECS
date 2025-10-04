@@ -31,17 +31,17 @@ pub fn on_click (_button : &mut ButtonComponent, _ent : &mut Entity, _state : &m
         return;
     }
 
-    let locat = _state.entities[ent_locat.1].find_component(ComponentTypes::ScreenManager);
+    let locat = _state.entity_manager.entities[ent_locat.1].find_component(ComponentTypes::ScreenManager);
 
     if !locat.0 {
         return;
     }
 
-    if let ComponentData::ScreenManager(screen_manager_data) = &mut _state.entities[ent_locat.1].components[locat.1].component_data.clone() {
+    if let ComponentData::ScreenManager(screen_manager_data) = &mut _state.entity_manager.entities[ent_locat.1].components[locat.1].component_data.clone() {
 
         if screen_manager_data.start_swipe(_state, true){
 
-            _state.entities[ent_locat.1].components[locat.1].component_data = ComponentData::ScreenManager(screen_manager_data.clone());
+            _state.entity_manager.entities[ent_locat.1].components[locat.1].component_data = ComponentData::ScreenManager(screen_manager_data.clone());
 
         }
 

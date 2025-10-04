@@ -110,14 +110,14 @@ impl Entity {
 
         }
 
-        if _state.render_list.len() <= self.layer
+        if _state.render_manager.len() <= self.layer
         {
-            while _state.render_list.len() <= self.get_layer() {
-                _state.render_list.push(Vec::new());
+            while _state.render_manager.len() <= self.get_layer() {
+                _state.render_manager.push(Vec::new());
             }
         }
 
-        _state.render_list[self.get_layer()].push(self.locat);
+        _state.render_manager[self.get_layer()].push(self.locat);
     
     }
     
@@ -167,14 +167,14 @@ impl Entity {
 
         self.state = ActiveStates::Destroyed;
 
-        for i in 0.._state.render_list[self.get_layer()].len() {
-            if self.locat == _state.render_list[self.get_layer()][i] {
+        for i in 0.._state.render_manager[self.get_layer()].len() {
+            if self.locat == _state.render_manager[self.get_layer()][i] {
 
 
                 // Sanity
                 // log!("removing element with name {}", _state.entities[self.locat].name);
 
-                _state.render_list[self.get_layer()].remove(i);
+                _state.render_manager[self.get_layer()].remove(i);
 
                 // Sanity
                 // log!("Got rid fo a reference named {}!", self.name);

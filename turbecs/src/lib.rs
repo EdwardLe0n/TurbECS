@@ -5,10 +5,11 @@ use turbo::*;
 use std::{collections::VecDeque};
 
 mod turbecs;
-use turbecs::{entity::Entity, scene_data, component_system, gap_data::GapData, lifetime_data::LifetimeData};
+use turbecs::{entity::Entity, scene_data, gap_data::GapData, lifetime_data::LifetimeData, managers};
 use turbecs::{particles::ParticleManager};
 
-use component_system::{component::Component};
+use managers::{entity_manager::EntityManager};
+
 use scene_data::{SceneData, Scenes};
 
 mod assets;
@@ -22,13 +23,10 @@ use assets::game_state::{run_data::RunData};
 struct GameState {
     
     pub scene_data : SceneData,
-    pub gap_data : GapData,
-    pub lifetime_data : LifetimeData,
-    pub entities : Vec<Entity>,
-    pub new_entities : Vec<Entity>,
-    pub render_list : Vec<Vec<usize>>,
+    pub entity_manager : EntityManager,
+    pub render_manager : Vec<Vec<usize>>,
 
-    // code from other peeps
+    // Additional libraries/manager
 
     pub particle_manager : ParticleManager,
 
@@ -44,9 +42,9 @@ impl GameState {
 
         camera::set_xy(0, 0);
 
-        Self {scene_data : SceneData { active_scene: (Scenes::Misc), is_loaded: (false) }, 
-            gap_data : GapData::new(), lifetime_data : LifetimeData::new(),
-            entities : Vec::with_capacity(100), new_entities : Vec::with_capacity(100), render_list : Vec::with_capacity(10),
+        Self {scene_data : SceneData { active_scene: (Scenes::Misc), is_loaded: (false) },
+            entity_manager : EntityManager::new(), 
+            render_manager : Vec::with_capacity(10),
             particle_manager : ParticleManager::new(),
             run_data : RunData::new(), can_interact : true}
     
@@ -78,16 +76,16 @@ impl GameState {
 
         }
 
-        for i in 0..self.entities.len() {
-            if (self.entities[i].state != ActiveStates::Destroyed) {
-                self.lifetime_data.new_destroy.push_back(i);
+        for i in 0..self.entity_manager.entities.len() {
+            if (self.entity_manager.entities[i].state != ActiveStates::Destroyed) {
+                self.entity_manager.lifetime_data.new_destroy.push_back(i);
             }
         }
 
         // Sanity check
 
-        log!("number of entities: {:?}", self.entities.len());
-        log!("number of entities to be destroyed : {:?}", self.lifetime_data.new_destroy.len());
+        log!("number of entities: {:?}", self.entity_manager.entities.len());
+        log!("number of entities to be destroyed : {:?}", self.entity_manager.lifetime_data.new_destroy.len());
 
         self.on_destroy();
 
@@ -109,14 +107,8 @@ impl GameState {
 
     pub fn new_entities(&mut self, _entities : &mut VecDeque<Entity>) {
 
-        // Sanity
-        // log!("Trying the loop");
-
         while !_entities.is_empty()
         {
-
-            // Sanity
-            // log!("Trying something");
 
             let mut some_ent = _entities.front().unwrap().clone();
             _entities.pop_front();
@@ -124,27 +116,24 @@ impl GameState {
             self.new_entity(&mut some_ent);
 
         }
-
-        // Sanity  
-        // log!("Done");  
         
     }
 
     pub fn new_entity(&mut self, _entity : &mut Entity) {
 
-        self.new_entities.push(_entity.clone());
+        self.entity_manager.new_entities.push(_entity.clone());
 
     }
 
     fn get_num_of_free_locat(&mut self) -> usize {
-        return self.gap_data.empty_spaces.len();
+        return self.entity_manager.gap_data.empty_spaces.len();
     }
 
     fn get_next_free(&mut self) -> usize {
 
-        let next = *self.gap_data.empty_spaces.front().unwrap();
+        let next = *self.entity_manager.gap_data.empty_spaces.front().unwrap();
 
-        self.gap_data.empty_spaces.pop_front();
+        self.entity_manager.gap_data.empty_spaces.pop_front();
 
         return next;
 
@@ -196,11 +185,11 @@ impl GameState {
 
     pub fn load_entities(&mut self) {
 
-        if self.new_entities.len() == 0{
+        if self.entity_manager.new_entities.len() == 0{
             return;
         }
 
-        for ent in self.new_entities.clone() {
+        for ent in self.entity_manager.new_entities.clone() {
 
             // Sanity
             // log!("Loading new");
@@ -208,7 +197,7 @@ impl GameState {
             self.load_entity(&mut ent.clone());
         } 
 
-        self.new_entities.clear();
+        self.entity_manager.new_entities.clear();
 
     }
 
@@ -223,30 +212,30 @@ impl GameState {
             // Sanity
             // log!("replacing something");
 
-            self.entities[next] = _entity.clone();
+            self.entity_manager.entities[next] = _entity.clone();
 
         }
         else {
 
-            next = self.entities.len();
+            next = self.entity_manager.entities.len();
             _entity.locat = next.clone();
 
             // Sanity
             // log!("Adding something");
 
-            self.entities.push(_entity.clone());
+            self.entity_manager.entities.push(_entity.clone());
 
         }
 
         // Sanity
         // log!("Gonna log entity {} at {}", self.entities[next].name, next);
 
-        self.lifetime_data.new_awake.push_back(next);
+        self.entity_manager.lifetime_data.new_awake.push_back(next);
     }
 
     fn on_awake(&mut self) {
 
-        let len = self.lifetime_data.new_awake.len();
+        let len = self.entity_manager.lifetime_data.new_awake.len();
 
         if len == 0 {
             return;
@@ -260,19 +249,19 @@ impl GameState {
             // Sanity
             // log!("Awakening {} with name {}", *self.lifetime_data.new_awake.front().unwrap(), "test");
 
-            let test_val = *self.lifetime_data.new_awake.front().unwrap();
+            let test_val = *self.entity_manager.lifetime_data.new_awake.front().unwrap();
 
             // Sanity
             // log!("{:?}", test_val);
 
-            let mut some_ent = self.entities[test_val].clone();
+            let mut some_ent = self.entity_manager.entities[test_val].clone();
 
             some_ent.on_awake(self);
 
-            self.entities[test_val] = some_ent;
+            self.entity_manager.entities[test_val] = some_ent;
 
-            self.lifetime_data.new_start.push_back(*self.lifetime_data.new_awake.front().unwrap());
-            self.lifetime_data.new_awake.pop_front();
+            self.entity_manager.lifetime_data.new_start.push_back(*self.entity_manager.lifetime_data.new_awake.front().unwrap());
+            self.entity_manager.lifetime_data.new_awake.pop_front();
 
         }
 
@@ -280,7 +269,7 @@ impl GameState {
 
     fn on_start(&mut self) {
 
-        let len = self.lifetime_data.new_start.len();
+        let len = self.entity_manager.lifetime_data.new_start.len();
 
         if len == 0 {
             return;
@@ -288,15 +277,15 @@ impl GameState {
 
         for _i in 0..len {
 
-            let locat = *self.lifetime_data.new_start.front().unwrap();
+            let locat = *self.entity_manager.lifetime_data.new_start.front().unwrap();
 
-            let mut some_ent = self.entities[locat].clone();
+            let mut some_ent = self.entity_manager.entities[locat].clone();
 
             some_ent.on_start(self);
 
-            self.entities[locat] = some_ent;
+            self.entity_manager.entities[locat] = some_ent;
 
-            self.lifetime_data.new_start.pop_front();
+            self.entity_manager.lifetime_data.new_start.pop_front();
 
         }
 
@@ -305,15 +294,15 @@ impl GameState {
     // Loops through all of the entities in the entity vector in order of newest to oldest
     fn on_update(&mut self) {
 
-        let len = self.entities.len();
+        let len = self.entity_manager.entities.len();
 
         for i in 0..len {
 
-            let mut some_ent = self.entities[i].clone();
+            let mut some_ent = self.entity_manager.entities[i].clone();
 
             some_ent.on_update(self);
 
-            self.entities[i] = some_ent;
+            self.entity_manager.entities[i] = some_ent;
 
         }
 
@@ -325,7 +314,7 @@ impl GameState {
 
     fn on_destroy(&mut self) {
 
-        let len = self.lifetime_data.new_destroy.len();
+        let len = self.entity_manager.lifetime_data.new_destroy.len();
 
         if len == 0 {
             return;
@@ -333,17 +322,17 @@ impl GameState {
 
         for _i in 0..len {
 
-            let locat = *self.lifetime_data.new_destroy.front().unwrap();
+            let locat = *self.entity_manager.lifetime_data.new_destroy.front().unwrap();
 
-            let mut some_ent = self.entities[locat].clone();
+            let mut some_ent = self.entity_manager.entities[locat].clone();
 
             if !some_ent.is_destroyed() {
 
                 some_ent.on_destroy(self);
-                self.entities[locat] = some_ent;
+                self.entity_manager.entities[locat] = some_ent;
 
-                self.gap_data.empty_spaces.push_back(locat);
-                self.lifetime_data.new_destroy.pop_front();
+                self.entity_manager.gap_data.empty_spaces.push_back(locat);
+                self.entity_manager.lifetime_data.new_destroy.pop_front();
                     
             }
 
@@ -355,8 +344,8 @@ impl GameState {
 
         clear(0xeeeeeeff);
 
-        let render_list = self.render_list.clone();
-        let entities = self.entities.clone();
+        let render_list = self.render_manager.clone();
+        let entities = self.entity_manager.entities.clone();
 
         for i in 0..render_list.len() {
 
@@ -383,11 +372,11 @@ impl GameState {
     
     pub fn find_w_component(&mut self, some_type : ComponentTypes) -> (bool, usize) {
 
-        for i in 0..self.entities.len() {
+        for i in 0..self.entity_manager.entities.len() {
 
-            if !self.entities[i].is_destroyed() {
+            if !self.entity_manager.entities[i].is_destroyed() {
 
-                if self.entities[i].has_component(some_type.clone()) {
+                if self.entity_manager.entities[i].has_component(some_type.clone()) {
                     return (true, i);
                 }
 

@@ -64,7 +64,7 @@ impl FadeComponent {
         }
 
         if self.frame_count >= ALIVE_TIME {
-            state.lifetime_data.new_destroy.push_back(ent.locat);
+            state.entity_manager.lifetime_data.new_destroy.push_back(ent.locat);
         }
 
     }
