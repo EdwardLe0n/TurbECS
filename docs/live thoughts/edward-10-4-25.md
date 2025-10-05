@@ -42,3 +42,11 @@
 # 5 PM
 
 - Gonna tackle the has system before the tackling the component system rework
+
+# 10 PM
+
+- Back to finidh the has system
+
+# 11:59 PM
+
+- Has system is fully implemented, may add some comments to clear up how the system works

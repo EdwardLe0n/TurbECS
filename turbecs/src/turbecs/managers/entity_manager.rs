@@ -45,24 +45,23 @@ impl GameState {
             return;
         }
 
-        // Sanity
-        // log!("Going to awake {} entities with a total of {} entities", len, self.entities.len());
-
         for _i in 0..len {
 
-            // Sanity
-            // log!("Awakening {} with name {}", *self.lifetime_data.new_awake.front().unwrap(), "test");
+            let locat = *self.entity_manager.lifetime_data.new_awake.front().unwrap();
 
-            let test_val = *self.entity_manager.lifetime_data.new_awake.front().unwrap();
+            let mut some_ent = self.entity_manager.entities[locat].clone();
 
-            // Sanity
-            // log!("{:?}", test_val);
+            if self.entity_manager.entities[locat].has.has_awake {
 
-            let mut some_ent = self.entity_manager.entities[test_val].clone();
+                some_ent.on_awake(self);
 
-            some_ent.on_awake(self);
+            }
 
-            self.entity_manager.entities[test_val] = some_ent;
+            some_ent.add_to_renderer(self);
+
+            self.entity_manager.entities[locat] = some_ent;
+
+            self.entity_manager.entities[locat].make_awoken();
 
             self.entity_manager.lifetime_data.new_start.push_back(*self.entity_manager.lifetime_data.new_awake.front().unwrap());
             self.entity_manager.lifetime_data.new_awake.pop_front();
@@ -83,11 +82,17 @@ impl GameState {
 
             let locat = *self.entity_manager.lifetime_data.new_start.front().unwrap();
 
-            let mut some_ent = self.entity_manager.entities[locat].clone();
+            if self.entity_manager.entities[locat].has.has_start {
 
-            some_ent.on_start(self);
+                let mut some_ent = self.entity_manager.entities[locat].clone();
 
-            self.entity_manager.entities[locat] = some_ent;
+                some_ent.on_start(self);
+
+                self.entity_manager.entities[locat] = some_ent;
+            
+            }
+
+            self.entity_manager.entities[locat].make_started();
 
             self.entity_manager.lifetime_data.new_start.pop_front();
 
@@ -101,6 +106,14 @@ impl GameState {
         let len = self.entity_manager.entities.len();
 
         for i in 0..len {
+
+            if !self.entity_manager.entities[i].has.has_update {
+                continue;
+            }
+
+            if !self.entity_manager.entities[i].is_active() {
+                continue;
+            }
 
             let mut some_ent = self.entity_manager.entities[i].clone();
 
@@ -128,17 +141,23 @@ impl GameState {
 
             let locat = *self.entity_manager.lifetime_data.new_destroy.front().unwrap();
 
-            let mut some_ent = self.entity_manager.entities[locat].clone();
+            if !self.entity_manager.entities[locat].is_destroyed() {
 
-            if !some_ent.is_destroyed() {
+                self.entity_manager.entities[locat].make_destroyed();
 
-                some_ent.on_destroy(self);
-                self.entity_manager.entities[locat] = some_ent;
+                if self.entity_manager.entities[locat].has.has_destroy {
+
+                    let mut some_ent = self.entity_manager.entities[locat].clone();
+                    some_ent.on_destroy(self);
+                    self.entity_manager.entities[locat] = some_ent;
+
+                }
 
                 self.entity_manager.gap_data.empty_spaces.push_back(locat);
-                self.entity_manager.lifetime_data.new_destroy.pop_front();
                     
             }
+
+            self.entity_manager.lifetime_data.new_destroy.pop_front();
 
         }
 
@@ -148,14 +167,20 @@ impl GameState {
 
         clear(0xeeeeeeff);
 
-        let render_list = self.render_manager.clone();
-        let entities = self.entity_manager.entities.clone();
+        let render_layers = self.render_manager.len();
 
-        for i in 0..render_list.len() {
+        for i in 0..render_layers {
 
-            for j in 0..render_list[i].len(){
+            let render_elements = self.render_manager[i].len();
 
-                entities[render_list[i][j]].on_render(self);
+            for j in 0..render_elements{
+
+                if !self.entity_manager.entities[self.render_manager[i][j]].has.has_render {
+                    continue;
+                }
+
+                let some_ent = self.entity_manager.entities[self.render_manager[i][j]].clone();
+                some_ent.on_render(self);
 
             }
         }

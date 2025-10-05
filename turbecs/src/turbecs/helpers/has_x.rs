@@ -34,15 +34,15 @@ impl Component {
     // Initializes a component to let it know that it has certain lifetime functions that it needs to worry about
     pub fn init_has_x(&mut self) {
 
-        self.has_awake();
-        self.has_start();
-        self.has_update();
-        self.has_render();
-        self.has_destroy();
+        self.init_awake();
+        self.init_start();
+        self.init_update();
+        self.init_render();
+        self.init_destroy();
 
     }
 
-    fn has_awake(&mut self) {
+    fn init_awake(&mut self) {
 
         match &self.component_data {
             _default => {}
@@ -50,7 +50,7 @@ impl Component {
 
     }
 
-    fn has_start(&mut self) {
+    fn init_start(&mut self) {
 
         match &self.component_data {
             _default => {}
@@ -58,7 +58,7 @@ impl Component {
 
     }
 
-    fn has_update(&mut self) {
+    fn init_update(&mut self) {
 
         match &self.component_data {
 
@@ -70,14 +70,14 @@ impl Component {
 
     }
 
-    fn has_render(&mut self) {
+    fn init_render(&mut self) {
 
         match &self.component_data {
 
             // Core functionality
             ComponentData::Button(_)        => {self.has.has_render = true;},
             ComponentData::Text(_)          => {self.has.has_render = true;},
-            ComponentData::TextBoxFiller(_) => {self.has.has_render = true;},
+            ComponentData::TextBox(_)       => {self.has.has_render = true;},
             ComponentData::Sprite(_)        => {self.has.has_render = true;},
             ComponentData::Rectangle(_)     => {self.has.has_render = true;},
             
@@ -86,7 +86,7 @@ impl Component {
 
     }
 
-    fn has_destroy(&mut self) {
+    fn init_destroy(&mut self) {
 
         match &self.component_data {
             _default => {}

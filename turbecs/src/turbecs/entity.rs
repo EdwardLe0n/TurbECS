@@ -85,17 +85,9 @@ impl Entity {
 
     pub fn on_awake(&mut self, _state : &mut GameState) {
 
-        // Sanity
-        // log!("Trying {} with state {}", self.name, self.state.get_string());
-
         if self.state != ActiveStates::NtbAwake{
             return;
         }
-        
-        // Sanity
-        // log!("Loading the {} entity!", self.name);
-
-        self.state = ActiveStates::NtbStart;
 
         self.adjust_children();
 
@@ -110,15 +102,6 @@ impl Entity {
             self.components[i] = some_copy;
 
         }
-
-        if _state.render_manager.len() <= self.layer
-        {
-            while _state.render_manager.len() <= self.get_layer() {
-                _state.render_manager.push(Vec::new());
-            }
-        }
-
-        _state.render_manager[self.get_layer()].push(self.locat);
     
     }
     
@@ -127,8 +110,6 @@ impl Entity {
         if self.state != ActiveStates::NtbStart {
             return;
         }
-
-        self.state = ActiveStates::Active;
 
         let len = self.components.len();
 
@@ -165,8 +146,6 @@ impl Entity {
     }
 
     pub fn on_destroy(&mut self, _state : &mut GameState) {
-
-        self.state = ActiveStates::Destroyed;
 
         for i in 0.._state.render_manager[self.get_layer()].len() {
             if self.locat == _state.render_manager[self.get_layer()][i] {
@@ -213,6 +192,26 @@ impl Entity {
 
 impl Entity {
 
+    pub fn add_to_renderer(&mut self, state : &mut GameState) {
+
+        if self.state != ActiveStates::NtbAwake{
+            return;
+        }
+
+        if !self.has.has_render {
+            return;
+        }
+
+        if state.render_manager.len() <= self.layer
+        {
+            while state.render_manager.len() <= self.get_layer() {
+                state.render_manager.push(Vec::new());
+            }
+        }
+
+        state.render_manager[self.get_layer()].push(self.locat);
+    }
+
     pub fn set_layer (&mut self, some_usize : usize) {
         self.layer = some_usize;
     }
@@ -254,6 +253,28 @@ impl Entity {
 
         return false;
 
+    }
+
+    pub fn make_awoken(&mut self) {
+        
+        if self.state != ActiveStates::NtbAwake{
+            return;
+        }
+
+        self.state = ActiveStates::NtbStart;
+    }
+
+    pub fn make_started(&mut self) {
+
+        if self.state != ActiveStates::NtbStart {
+            return;
+        }
+
+        self.state = ActiveStates::Active;
+    }
+
+    pub fn make_destroyed(&mut self) {
+        self.state = ActiveStates::Destroyed;
     }
 
 }
