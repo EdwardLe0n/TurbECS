@@ -110,10 +110,16 @@ impl GameState {
         while !_entities.is_empty()
         {
 
-            let mut some_ent = _entities.front().unwrap().clone();
+            let some_ent = &mut _entities.front().unwrap().clone();
             _entities.pop_front();
 
-            self.new_entity(&mut some_ent);
+            for c in &mut some_ent.components {
+                c.init_has_x();
+            }
+
+            some_ent.init_has_x();
+
+            self.new_entity(some_ent);
 
         }
         

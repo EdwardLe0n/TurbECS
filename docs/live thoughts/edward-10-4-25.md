@@ -38,3 +38,7 @@
 # 3:00 PM
 - nvm forgot i got rid of a lot of old assets, and some line was referencing an asset that was deleted
 -  imma go play silk song now
+
+# 5 PM
+
+- Gonna tackle the has system before the tackling the component system rework

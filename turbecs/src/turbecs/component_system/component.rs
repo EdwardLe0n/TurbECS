@@ -6,6 +6,7 @@ use turbecs::{entity::Entity};
 
 use turbecs::helpers;
 use helpers::{transform::Transform};
+use helpers::has_x::HasX;
 
 use turbecs::component_system;
 use component_system::{components, component_types::ComponentTypes};
@@ -25,6 +26,7 @@ use misc_components::{comp_screen_manager::ScreenManagerComponent, comp_fade::Fa
 #[derive(PartialEq)]
 pub struct Component {
     pub active : bool,
+    pub has : HasX,
     pub component_data : ComponentData
 }
 
@@ -50,7 +52,7 @@ pub enum ComponentData {
 impl Component {
 
     pub fn new(_component_data : ComponentData) -> Component{
-        return Component { active: true, component_data: _component_data }
+        return Component { active: true, has : HasX::new(), component_data: _component_data }
     }
 
     pub fn get_comp_type(&self) -> ComponentTypes{

@@ -4,7 +4,7 @@ use crate::{turbecs, GameState};
 use turbecs::component_system::{component::Component, component_types::ComponentTypes};
 
 use turbecs::helpers;
-use helpers::{transform::Transform, active_states::ActiveStates};
+use helpers::{transform::Transform, active_states::ActiveStates, has_x::HasX};
 
 #[turbo::serialize]
 #[derive(PartialEq)]
@@ -14,6 +14,7 @@ pub struct Entity {
     pub transform: Transform,
     pub layer: usize,
     pub locat: usize,
+    pub has: HasX,
     pub state: ActiveStates
 }
 
@@ -22,7 +23,7 @@ impl Entity {
     pub fn new (name : String, vec : Vec<Component>) -> Self {
 
         Self { 
-            name: name, components: vec, transform: Transform::new(), layer: 0, locat: 0, state : ActiveStates::NtbAwake
+            name: name, components: vec, transform: Transform::new(), layer: 0, locat: 0, has: HasX::new(), state : ActiveStates::NtbAwake
         }
 
     }
