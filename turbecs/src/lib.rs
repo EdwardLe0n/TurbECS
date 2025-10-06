@@ -5,7 +5,7 @@ use turbo::*;
 use std::{collections::VecDeque};
 
 mod turbecs;
-use turbecs::{entity::Entity, scene_data, gap_data::GapData, lifetime_data::LifetimeData, managers};
+use turbecs::{entity::Entity, scene_data, managers};
 use turbecs::{particles::ParticleManager};
 
 use managers::{entity_manager::EntityManager};
@@ -14,7 +14,8 @@ use scene_data::{SceneData, Scenes};
 
 mod assets;
 
-use crate::turbecs::component_system::component_types::ComponentTypes;
+use crate::turbecs::component_system;
+use component_system::{component::Component, component_types::ComponentTypes};
 use crate::turbecs::helpers::active_states::ActiveStates;
 
 use assets::game_state::{run_data::RunData};
@@ -105,12 +106,12 @@ impl GameState {
 
     } 
 
-    pub fn new_entities(&mut self, _entities : &mut VecDeque<Entity>) {
+    pub fn new_entities(&mut self, _entities : &mut VecDeque<(Entity, Vec<Component>)>) {
 
         while !_entities.is_empty()
         {
 
-            let some_ent = &mut _entities.front().unwrap().clone();
+            let some_ent = &mut _entities.front().unwrap().0.clone();
             _entities.pop_front();
 
             for c in &mut some_ent.components {
@@ -195,6 +196,8 @@ impl GameState {
 
             self.entity_manager.entities[next] = _entity.clone();
 
+            // do linkage here!
+
         }
         else {
 
@@ -202,6 +205,8 @@ impl GameState {
             _entity.locat = next.clone();
 
             self.entity_manager.entities.push(_entity.clone());
+
+            // do linkage here!
 
         }
 

@@ -89,8 +89,6 @@ impl Entity {
             return;
         }
 
-        self.adjust_children();
-
         let len = self.components.len();
 
         for i in 0..len {
@@ -226,14 +224,6 @@ impl Entity {
 
 // Misc 
 impl Entity {
-    
-    pub fn adjust_children(&mut self) {
-
-        if !self.transform.position.get_bound_status() {
-            return;
-        }
-
-    }
 
     pub fn is_active(&self) -> bool{
 

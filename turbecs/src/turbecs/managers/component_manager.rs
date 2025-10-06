@@ -15,6 +15,10 @@ pub struct ComponentManager {
 
 impl ComponentManager {
 
+    pub fn new_component(&mut self, some_comp : Component) {
 
+        
+
+    }
     
 }

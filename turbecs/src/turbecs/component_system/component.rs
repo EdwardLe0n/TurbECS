@@ -27,6 +27,7 @@ use misc_components::{comp_screen_manager::ScreenManagerComponent, comp_fade::Fa
 pub struct Component {
     pub active : bool,
     pub has : HasX,
+    pub ent_locat : usize,
     pub component_data : ComponentData
 }
 
@@ -52,7 +53,7 @@ pub enum ComponentData {
 impl Component {
 
     pub fn new(_component_data : ComponentData) -> Component{
-        return Component { active: true, has : HasX::new(), component_data: _component_data }
+        return Component { active: true, has : HasX::new(), ent_locat : 0, component_data: _component_data }
     }
 
     pub fn get_comp_type(&self) -> ComponentTypes{
