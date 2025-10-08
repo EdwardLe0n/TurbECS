@@ -15,6 +15,10 @@ pub struct ComponentManager {
 
 impl ComponentManager {
 
+    pub fn new() -> Self {
+        return Self{gap_data: GapData::new(), lifetime_data: LifetimeData::new(), components : Vec::with_capacity(300)};
+    }
+
     pub fn new_component(&mut self, some_comp : Component) {
 
         

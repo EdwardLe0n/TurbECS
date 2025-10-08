@@ -8,7 +8,7 @@ mod turbecs;
 use turbecs::{entity::Entity, scene_data, managers};
 use turbecs::{particles::ParticleManager};
 
-use managers::{entity_manager::EntityManager};
+use managers::{entity_manager::EntityManager, component_manager::ComponentManager};
 
 use scene_data::{SceneData, Scenes};
 
@@ -25,6 +25,7 @@ struct GameState {
     
     pub scene_data : SceneData,
     pub entity_manager : EntityManager,
+    pub component_manager : ComponentManager,
     pub render_manager : Vec<Vec<usize>>,
 
     // Additional libraries/manager
@@ -44,7 +45,8 @@ impl GameState {
         camera::set_xy(0, 0);
 
         Self {scene_data : SceneData { active_scene: (Scenes::Misc), is_loaded: (false) },
-            entity_manager : EntityManager::new(), 
+            entity_manager : EntityManager::new(),
+            component_manager : ComponentManager::new(),
             render_manager : Vec::with_capacity(10),
             particle_manager : ParticleManager::new(),
             run_data : RunData::new(), can_interact : true}

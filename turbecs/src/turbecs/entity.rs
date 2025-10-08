@@ -10,7 +10,8 @@ use helpers::{transform::Transform, active_states::ActiveStates, has_x::HasX};
 #[derive(PartialEq)]
 pub struct Entity {
     pub name: String,
-    pub components: Vec<Component>,
+    pub comp_num: usize,
+    pub comp_locats: Vec<usize>,
     pub transform: Transform,
     pub layer: usize,
     pub locat: usize,
@@ -20,17 +21,20 @@ pub struct Entity {
 
 impl Entity {
 
-    pub fn new (name : String, vec : Vec<Component>) -> Self {
+    pub fn new_base (name : String) -> Self {
 
         Self { 
-            name: name, components: vec, transform: Transform::new(), layer: 0, locat: 0, has: HasX::new(), state : ActiveStates::NtbAwake
+            name: name, comp_num: 0, comp_locats: Vec::with_capacity(10), transform: Transform::new(), layer: 0, locat: 0, has: HasX::new(), state : ActiveStates::NtbAwake
         }
 
     }
 
-    pub fn new_base (_name : String) -> Entity {
+    pub fn new (name : String, comp_vec : &mut Vec<Component>) -> Self {
 
-        return Entity::new(_name, vec![]);
+        let mut temp = Self::new_base(name);
+        temp.comp_num = comp_vec.len();
+
+        return temp;
 
     }
 
@@ -40,13 +44,13 @@ impl Entity {
 
     }
 
-    pub fn find_component (&self, comp_type : ComponentTypes) -> (bool, usize) {
+    pub fn find_component (&self, comp_type : ComponentTypes, state : &mut GameState) -> (bool, usize) {
 
         let mut i = 0;
 
-        for j in 0..self.components.len() {
+        for j in 0..self.comp_locats.len() {
 
-            if self.components[j].get_comp_type() == comp_type {
+            if state.component_manager.components[self.comp_locats[j]].get_comp_type() == comp_type {
                 return (true, i);
             }
 
@@ -58,9 +62,9 @@ impl Entity {
 
     }
 
-    pub fn check_component (&self, comp_type : ComponentTypes, locat : usize) -> bool {
+    pub fn check_component (&self, comp_type : ComponentTypes, locat : usize, state : &mut GameState) -> bool {
 
-        if self.components.len() <= locat {
+        if self.comp_locats.len() <= locat {
             return false;
         }
         else if self.components[locat].get_comp_type() == comp_type {
@@ -71,9 +75,9 @@ impl Entity {
 
     }
 
-    pub fn has_component (&self, comp_type : ComponentTypes) -> bool {
+    pub fn has_component (&self, comp_type : ComponentTypes, state : &mut GameState) -> bool {
 
-        return self.check_component(comp_type.clone(), self.find_component(comp_type).1);
+        return self.check_component(comp_type.clone(), self.find_component(comp_type, state).1, state);
 
     }
 
