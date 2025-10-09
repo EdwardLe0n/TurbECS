@@ -44,7 +44,7 @@ impl GameState {
 
         camera::set_xy(0, 0);
 
-        Self {scene_manager : SceneManager { active_scene: (Scenes::Misc), is_loaded: (false) },
+        Self {scene_manager : SceneManager::new(),
             entity_manager : EntityManager::new(),
             component_manager : ComponentManager::new(),
             render_manager : Vec::with_capacity(10),
