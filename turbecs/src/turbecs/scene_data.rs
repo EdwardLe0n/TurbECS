@@ -4,6 +4,7 @@ use std::collections::VecDeque;
 
 use crate::{turbecs};
 use turbecs::entity::Entity;
+use turbecs::component_system::component::Component;
 
 use crate::assets;
 
@@ -31,7 +32,7 @@ impl SceneData {
     }
 }
 
-pub fn make_scene (some_scene : Scenes) ->  VecDeque<Entity>{
+pub fn make_scene (some_scene : Scenes) ->  VecDeque<(Entity, VecDeque<Component>)>{
 
     match some_scene {
         Scenes::Misc => {return make_misc_scene()},
@@ -52,11 +53,13 @@ pub fn apply_screen_offset(some_screen_vec : &mut VecDeque<Entity>, some_x : i32
 
 }
 
-pub fn make_misc_scene() -> VecDeque<Entity> {
+pub fn make_misc_scene() -> VecDeque<(Entity, VecDeque<Component>)> {
 
     let mut ent_vec = VecDeque::new();
 
     ent_vec.push_back(general_prefabs::new_title());
+
+    ent_vec.push_back(general_prefabs::new_to_misc());
 
     return ent_vec;
 

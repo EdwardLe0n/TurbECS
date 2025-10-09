@@ -2,7 +2,7 @@
 
 use turbo::*;
 
-use crate::turbecs;
+use crate::{turbecs, GameState};
 
 use turbecs::entity::Entity;
 use turbecs::component_system;
@@ -38,10 +38,10 @@ impl ResizerComponent {
 
 impl ResizerComponent {
 
-    pub fn on_awake (&mut self, ent : &mut Entity) {
+    pub fn on_awake (&mut self, ent : &mut Entity, state : &mut GameState) {
 
-        let locat_text = ent.find_component(ComponentTypes::Text);
-        let locat_button = ent.find_component(ComponentTypes::Button);
+        let locat_text = ent.find_component_in_state(ComponentTypes::Text, state);
+        let locat_button = ent.find_component_in_state(ComponentTypes::Button, state);
 
         if !locat_text.0 {
             log!("No text!");
@@ -55,12 +55,12 @@ impl ResizerComponent {
 
         let mut size = Position::new();
 
-        if let ComponentData::Text(text) = &mut ent.components[locat_text.1].component_data {
+        if let ComponentData::Text(text) = &mut state.component_manager.components[locat_text.1].component_data {
             size = TextComponent::get_text_offset(&text.text, &text.font);
 
         }
 
-        if let ComponentData::Button(button) = &mut ent.components[locat_button.1].component_data {
+        if let ComponentData::Button(button) = &mut state.component_manager.components[locat_button.1].component_data {
 
             button.transform.set_width(size.get_x() * 2 + 3 + self.w_buffer as i32 * 2);
             button.transform.set_height(-size.get_y() * 3 + self.h_buffer as i32 * 2);

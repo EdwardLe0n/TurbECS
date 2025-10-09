@@ -100,7 +100,6 @@ impl GameState {
 
         self.new_entities(&mut new_ent);
 
-
         self.scene_data.is_loaded = true;
 
         let len = borsh::to_vec(self).unwrap().len();
@@ -108,21 +107,30 @@ impl GameState {
 
     } 
 
-    pub fn new_entities(&mut self, _entities : &mut VecDeque<(Entity, Vec<Component>)>) {
+    pub fn new_entities(&mut self, _entities : &mut VecDeque<(Entity, VecDeque<Component>)>) {
 
         while !_entities.is_empty()
         {
 
-            let some_ent = &mut _entities.front().unwrap().0.clone();
+            let mut some_ent = _entities.front().unwrap().clone();
             _entities.pop_front();
 
-            for c in &mut some_ent.components {
-                c.init_has_x();
+            while !some_ent.1.is_empty() {
+
+                some_ent.0.comp_locats.push(self.component_manager.next_comp_locat().1);
+
+                self.component_manager.new_component(some_ent.1.front().unwrap().clone());
+                some_ent.1.pop_front();
+
             }
 
-            some_ent.init_has_x();
+            for c in &some_ent.0.comp_locats {
+                self.component_manager.components[*c].init_has_x();
+            }
 
-            self.new_entity(some_ent);
+            some_ent.0.init_has_x(self);
+
+            self.new_entity(&mut some_ent.0);
 
         }
         
@@ -231,7 +239,9 @@ impl GameState {
 
             if !self.entity_manager.entities[i].is_destroyed() {
 
-                if self.entity_manager.entities[i].has_component(some_type.clone()) {
+                let ent =  self.entity_manager.entities[i].clone();
+
+                if ent.has_component(some_type.clone(), self) {
                     return (true, i);
                 }
 

@@ -38,12 +38,6 @@ impl Entity {
 
     }
 
-    pub fn add_component (&mut self, component : Component) {
-
-        self.components.push(component);
-
-    }
-
     pub fn find_component (&self, comp_type : ComponentTypes, state : &mut GameState) -> (bool, usize) {
 
         let mut i = 0;
@@ -67,11 +61,29 @@ impl Entity {
         if self.comp_locats.len() <= locat {
             return false;
         }
-        else if self.components[locat].get_comp_type() == comp_type {
+        else if state.component_manager.components[self.comp_locats[locat]].get_comp_type() == comp_type {
             return true;
         }
 
         return false;
+
+    }
+
+    pub fn find_component_in_state (&self, comp_type : ComponentTypes, state : &mut GameState) -> (bool, usize) {
+
+        let mut i = 0;
+
+        for j in 0..self.comp_locats.len() {
+
+            if state.component_manager.components[self.comp_locats[j]].get_comp_type() == comp_type {
+                return (true, self.comp_locats[j]);
+            }
+
+            i += 1;
+
+        }
+
+        return (false, i);
 
     }
 
@@ -87,92 +99,90 @@ impl Entity {
 
 impl Entity {
 
-    pub fn on_awake(&mut self, _state : &mut GameState) {
+    pub fn on_awake(&mut self, state : &mut GameState) {
 
         if self.state != ActiveStates::NtbAwake{
             return;
         }
 
-        let len = self.components.len();
+        let len = self.comp_locats.len();
 
         for i in 0..len {
 
-            let mut some_copy = self.components[i].clone();
+            if state.component_manager.components[self.comp_locats[i]].has.has_awake {
+                let mut some_copy = state.component_manager.components[self.comp_locats[i]].clone();
 
-            some_copy.on_awake(self, _state);
+                some_copy.on_awake(self, state);
 
-            self.components[i] = some_copy;
+                state.component_manager.components[self.comp_locats[i]] = some_copy;
+            }
 
         }
     
     }
     
-    pub fn on_start(&mut self, _state : &mut GameState) {
+    pub fn on_start(&mut self, state : &mut GameState) {
 
         if self.state != ActiveStates::NtbStart {
             return;
         }
 
-        let len = self.components.len();
+        let len = self.comp_locats.len();
 
         for i in 0..len {
 
-            let mut some_copy = self.components[i].clone();
+            if state.component_manager.components[self.comp_locats[i]].has.has_start {
+                let mut some_copy = state.component_manager.components[self.comp_locats[i]].clone();
 
-            some_copy.on_start(self, _state);
+                some_copy.on_start(self, state);
 
-            self.components[i] = some_copy;
+                state.component_manager.components[self.comp_locats[i]] = some_copy;
+            }
 
         }
 
     }
 
-    pub fn on_update(&mut self, _state : &mut GameState) {
+    pub fn on_update(&mut self, state : &mut GameState) {
 
         if self.state != ActiveStates::Active {
             return;
         }
 
-        let len = self.components.len();
+        let len = self.comp_locats.len();
 
         for i in 0..len {
 
-            let mut some_copy = self.components[i].clone();
+            if state.component_manager.components[self.comp_locats[i]].has.has_update {
+                let mut some_copy = state.component_manager.components[self.comp_locats[i]].clone();
 
-            some_copy.on_update(self, _state);
+                some_copy.on_update(self, state);
 
-            self.components[i] = some_copy;
-
-        }
-
-    }
-
-    pub fn on_destroy(&mut self, _state : &mut GameState) {
-
-        for i in 0.._state.render_manager[self.get_layer()].len() {
-            if self.locat == _state.render_manager[self.get_layer()][i] {
-
-
-                // Sanity
-                // log!("removing element with name {}", _state.entities[self.locat].name);
-
-                _state.render_manager[self.get_layer()].remove(i);
-
-                // Sanity
-                // log!("Got rid fo a reference named {}!", self.name);
-
-                break;
+                state.component_manager.components[self.comp_locats[i]] = some_copy;
             }
+
         }
 
-        for i in 0..self.components.len() {
+    }
 
-            self.components[i].on_destroy(_state);
+    pub fn on_destroy(&mut self, state : &mut GameState) {
+
+        let len = self.comp_locats.len();
+
+        for i in 0..len {
+
+            if state.component_manager.components[self.comp_locats[i]].has.has_destroy {
+                let mut some_copy = state.component_manager.components[self.comp_locats[i]].clone();
+
+                some_copy.on_destroy(state);
+
+                state.component_manager.components[self.comp_locats[i]] = some_copy;
+            }
 
         }
     }
 
-    pub fn on_render(&self, _state : &mut GameState) {
+    pub fn on_render(&self, state : &mut GameState) {
 
         if self.state != ActiveStates::Active {
             return;
@@ -180,9 +190,15 @@ impl Entity {
 
         let transform = self.transform.clone();
 
-        for i in 0..self.components.len() {
+        for i in 0..self.comp_locats.len() {
 
-            self.components[i].render(transform, _state);
+            if state.component_manager.components[self.comp_locats[i]].has.has_render {
+
+                let some_copy = state.component_manager.components[self.comp_locats[i]].clone();
+
+                some_copy.on_render(transform, state);
+
+            }
 
         }
         
@@ -212,6 +228,22 @@ impl Entity {
         }
 
         state.render_manager[self.get_layer()].push(self.locat);
+    }
+
+    pub fn remove_from_renderer(&mut self, state : &mut GameState) {
+
+        if !self.has.has_render {
+            return;
+        }
+
+        for i in 0..state.render_manager[self.get_layer()].len() {
+            if self.locat == state.render_manager[self.get_layer()][i] {
+
+                state.render_manager[self.get_layer()].remove(i);
+
+                break;
+            }
+        }
     }
 
     pub fn set_layer (&mut self, some_usize : usize) {
@@ -269,6 +301,14 @@ impl Entity {
 
     pub fn make_destroyed(&mut self) {
         self.state = ActiveStates::Destroyed;
+    }
+
+    pub fn handle_destroyed_components(&mut self, state : &mut GameState) {
+
+        for comp in &self.comp_locats {
+            state.component_manager.gap_data.empty_spaces.push_back(*comp);
+        }
+
     }
 
 }

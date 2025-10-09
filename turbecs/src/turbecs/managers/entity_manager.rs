@@ -107,11 +107,11 @@ impl GameState {
 
         for i in 0..len {
 
-            if !self.entity_manager.entities[i].has.has_update {
+            if !self.entity_manager.entities[i].is_active() {
                 continue;
             }
 
-            if !self.entity_manager.entities[i].is_active() {
+            if !self.entity_manager.entities[i].has.has_update {
                 continue;
             }
 
@@ -145,13 +145,17 @@ impl GameState {
 
                 self.entity_manager.entities[locat].make_destroyed();
 
-                if self.entity_manager.entities[locat].has.has_destroy {
+                let mut some_ent = self.entity_manager.entities[locat].clone();
 
-                    let mut some_ent = self.entity_manager.entities[locat].clone();
+                some_ent.remove_from_renderer(self);
+
+                if some_ent.has.has_destroy {
                     some_ent.on_destroy(self);
-                    self.entity_manager.entities[locat] = some_ent;
-
                 }
+                
+                some_ent.handle_destroyed_components(self);
+
+                self.entity_manager.entities[locat] = some_ent;
 
                 self.entity_manager.gap_data.empty_spaces.push_back(locat);
                     

@@ -1,4 +1,4 @@
-use crate::turbecs;
+use crate::{turbecs, GameState};
 use turbecs::{entity::Entity,component_system::component};
 use component::{Component, ComponentData};
 
@@ -45,6 +45,9 @@ impl Component {
     fn init_awake(&mut self) {
 
         match &self.component_data {
+            // Extra functionality
+            ComponentData::TextBoxResizer(_)=> {self.has.has_awake = true;},
+
             _default => {}
         }
 
@@ -80,6 +83,8 @@ impl Component {
             ComponentData::TextBox(_)       => {self.has.has_render = true;},
             ComponentData::Sprite(_)        => {self.has.has_render = true;},
             ComponentData::Rectangle(_)     => {self.has.has_render = true;},
+
+            // Extra functionality
             
             _default => {}
         }
@@ -100,29 +105,29 @@ impl Entity {
 
     // Loops through all the child components to check if they need to do something
     // within a given lifetime function
-    pub fn init_has_x(&mut self) {
+    pub fn init_has_x(&mut self, state : &mut GameState) {
 
-        let len = self.components.len();
+        let len = self.comp_locats.len();
 
         for i in 0..len {
 
-            if self.components[i].has.has_awake {
+            if state.component_manager.components[self.comp_locats[i]].has.has_awake {
                 self.has.has_awake = true;
             }
 
-            if self.components[i].has.has_start {
+            if state.component_manager.components[self.comp_locats[i]].has.has_start {
                 self.has.has_start = true;
             }
 
-            if self.components[i].has.has_update {
+            if state.component_manager.components[self.comp_locats[i]].has.has_update {
                 self.has.has_update = true;
             }
 
-            if self.components[i].has.has_destroy {
+            if state.component_manager.components[self.comp_locats[i]].has.has_destroy {
                 self.has.has_destroy = true;
             }
 
-            if self.components[i].has.has_render {
+            if state.component_manager.components[self.comp_locats[i]].has.has_render {
                 self.has.has_render = true;
             }
 
