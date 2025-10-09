@@ -9,7 +9,6 @@ use crate::GameState;
 
 use turbecs::entity::Entity;
 use turbecs::component_system;
-use turbecs::scene_data::Scenes;
 
 use component_system::components::comp_butn::ButtonComponent;
 use component_system::component_types::ComponentTypes;

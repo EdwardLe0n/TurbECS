@@ -5,12 +5,12 @@ use turbo::*;
 use std::{collections::VecDeque};
 
 mod turbecs;
-use turbecs::{entity::Entity, scene_data, managers};
+use turbecs::{entity::Entity, managers};
 use turbecs::{particles::ParticleManager};
 
-use managers::{entity_manager::EntityManager, component_manager::ComponentManager};
+use managers::{entity_manager::EntityManager, component_manager::ComponentManager, scene_manager};
 
-use scene_data::{SceneData, Scenes};
+use scene_manager::{SceneManager, Scenes};
 
 mod assets;
 
@@ -23,7 +23,7 @@ use assets::game_state::{run_data::RunData};
 #[turbo::game]
 struct GameState {
     
-    pub scene_data : SceneData,
+    pub scene_manager : SceneManager,
     pub entity_manager : EntityManager,
     pub component_manager : ComponentManager,
     pub render_manager : Vec<Vec<usize>>,
@@ -44,7 +44,7 @@ impl GameState {
 
         camera::set_xy(0, 0);
 
-        Self {scene_data : SceneData { active_scene: (Scenes::Misc), is_loaded: (false) },
+        Self {scene_manager : SceneManager { active_scene: (Scenes::Misc), is_loaded: (false) },
             entity_manager : EntityManager::new(),
             component_manager : ComponentManager::new(),
             render_manager : Vec::with_capacity(10),
@@ -73,7 +73,7 @@ impl GameState {
     
     fn check_scene_state(&mut self) {
 
-        if self.scene_data.is_loaded {
+        if self.scene_manager.is_loaded {
 
             return;
 
@@ -92,7 +92,7 @@ impl GameState {
 
         self.on_destroy();
 
-        let mut new_ent = scene_data::make_scene(self.scene_data.active_scene);
+        let mut new_ent = scene_manager::make_scene(self.scene_manager.active_scene);
 
         
         // Sanity check
@@ -100,7 +100,7 @@ impl GameState {
 
         self.new_entities(&mut new_ent);
 
-        self.scene_data.is_loaded = true;
+        self.scene_manager.is_loaded = true;
 
         let len = borsh::to_vec(self).unwrap().len();
         log!("LEN = {len}");
