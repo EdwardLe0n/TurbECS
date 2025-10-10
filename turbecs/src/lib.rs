@@ -54,17 +54,10 @@ impl GameState {
             
             // Core managers for turbecs
 
+            scene_manager : SceneManager::new(),
             entity_manager : EntityManager::new(),
             component_manager : ComponentManager::new(),
             render_manager : Vec::with_capacity(10),
-            particle_manager : ParticleManager::new(),
-            run_data : RunData::new(), can_interact : true}
-    
-
-    fn update(&mut self) {
-        // Update the game & draw stuff
-
-        self.check_scene_state();
             
             // Community integrated work/managers
 
