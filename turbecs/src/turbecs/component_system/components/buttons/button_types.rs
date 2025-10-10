@@ -5,6 +5,7 @@ use crate::GameState;
 pub enum ButtonTypes {
     Default,
 
+    Title,
     Misc,
     Test,
 

@@ -11,7 +11,11 @@ pub struct LifetimeData {
 impl LifetimeData {
     
     pub fn new() -> LifetimeData {
-        return LifetimeData{new_awake : VecDeque::new(), new_start : VecDeque::new(), new_destroy : VecDeque::new()};
+        return LifetimeData{
+            new_awake : VecDeque::with_capacity(50), 
+            new_start : VecDeque::with_capacity(50), 
+            new_destroy : VecDeque::with_capacity(50)
+        };
     }
 
 }

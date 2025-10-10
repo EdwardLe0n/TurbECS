@@ -36,11 +36,11 @@ impl FadeComponent {
 
         self.frame_count += 1;
 
-        let t_box_locat = ent.find_component(ComponentTypes::TextBox);
+        let t_box_locat = ent.find_component_in_state(ComponentTypes::TextBox, state);
 
         if t_box_locat.0 {
 
-            if let ComponentData::TextBox(some_t_box_comp) = &mut ent.components[t_box_locat.1].component_data {
+            if let ComponentData::TextBox(some_t_box_comp) = &mut state.component_manager.components[t_box_locat.1].component_data {
 
                 some_t_box_comp.color &= 0xffffff00;
                 
@@ -50,11 +50,11 @@ impl FadeComponent {
 
         }
 
-        let rect_locat = ent.find_component(ComponentTypes::Rectangle);
+        let rect_locat = ent.find_component_in_state(ComponentTypes::Rectangle, state);
 
         if rect_locat.0 {
 
-            if let ComponentData::Rectangle(rect_comp) = &mut ent.components[rect_locat.1].component_data {
+            if let ComponentData::Rectangle(rect_comp) = &mut state.component_manager.components[rect_locat.1].component_data {
 
                 rect_comp.color &= 0xffffff00;
                 rect_comp.color += self.da_tween.get() as u32;
@@ -64,7 +64,7 @@ impl FadeComponent {
         }
 
         if self.frame_count >= ALIVE_TIME {
-            state.lifetime_data.new_destroy.push_back(ent.locat);
+            state.entity_manager.lifetime_data.new_destroy.push_back(ent.locat);
         }
 
     }

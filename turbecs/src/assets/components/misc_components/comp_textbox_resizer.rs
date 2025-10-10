@@ -2,7 +2,7 @@
 
 use turbo::*;
 
-use crate::turbecs::{self, component_system::components::buttons::button_types::ButtonTypes};
+use crate::{turbecs::{self, component_system::components::buttons::button_types::ButtonTypes}, GameState};
 
 use turbecs::entity::Entity;
 use turbecs::component_system;
@@ -38,10 +38,10 @@ impl TextBoxResizerComponent {
 
 impl TextBoxResizerComponent {
 
-    pub fn on_awake (&mut self, ent : &mut Entity) {
+    pub fn on_awake (&mut self, ent : &mut Entity, state : &mut GameState) {
 
-        let locat_text = ent.find_component(ComponentTypes::TextBox);
-        let locat_button = ent.find_component(ComponentTypes::Button);
+        let locat_text = ent.find_component_in_state(ComponentTypes::TextBox, state);
+        let locat_button = ent.find_component_in_state(ComponentTypes::Button, state);
 
         if !locat_text.0 {
             log!("No text box!");
@@ -55,7 +55,7 @@ impl TextBoxResizerComponent {
 
         let mut size = Position::new();
 
-        if let ComponentData::TextBox(text_box) = &mut ent.components[locat_text.1].component_data {
+        if let ComponentData::TextBox(text_box) = &mut state.component_manager.components[locat_text.1].component_data {
             size = TextComponent::get_text_offset(&text_box.text, &text_box.font);
 
             if text_box.text.len() <= 3 as usize {
@@ -73,7 +73,9 @@ impl TextBoxResizerComponent {
 
         }
 
-        if let ComponentData::Button(button) = &mut ent.components[locat_button.1].component_data {
+        if let ComponentData::Button(button) = &mut state.component_manager.components[locat_button.1].component_data {
+
+            log!("updated button");
 
             button.transform.set_width(size.get_x() * 2 + 3 + self.w_buffer as i32 * 2);
             button.transform.set_height(-size.get_y() * 3 + self.h_buffer as i32 * 2);

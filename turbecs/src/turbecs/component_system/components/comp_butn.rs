@@ -3,7 +3,6 @@ use turbo::*;
 // Core directories
 
 use crate::turbecs;
-use crate::turbecs::component_system::component_types::ComponentTypes;
 use crate::GameState;
 use turbecs::helpers;
 
@@ -25,7 +24,7 @@ use buttons::{scene_loader_buttons, misc_buttons};
 
 // Scene loaders <333
 
-use scene_loader_buttons::{misc_butn};
+use scene_loader_buttons::{to_misc, to_title};
 
 // Misc buttons
 
@@ -313,9 +312,11 @@ impl ButtonComponent {
             // Testing
 
             ButtonTypes::Misc => {
-                misc_butn::on_click(self, _ent, _state);
+                to_misc::on_click(self, _ent, _state);
             },
-
+            ButtonTypes::Title => {
+                to_title::on_click(self, _ent, _state);
+            },
 
             _default => {
 

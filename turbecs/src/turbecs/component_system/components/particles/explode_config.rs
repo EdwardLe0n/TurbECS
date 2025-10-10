@@ -1,6 +1,6 @@
 use crate::turbecs;
 
-use turbecs::particles::{BurstConfig, BurstSource, Shape};
+use turbecs::managers::particlemanager::{BurstConfig, BurstSource, Shape};
 
 pub fn explosion() -> BurstConfig {
     BurstConfig {

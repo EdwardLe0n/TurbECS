@@ -6,6 +6,7 @@ use turbecs::{entity::Entity};
 
 use turbecs::helpers;
 use helpers::{transform::Transform};
+use helpers::has_x::HasX;
 
 use turbecs::component_system;
 use component_system::{components, component_types::ComponentTypes};
@@ -25,6 +26,8 @@ use misc_components::{comp_screen_manager::ScreenManagerComponent, comp_fade::Fa
 #[derive(PartialEq)]
 pub struct Component {
     pub active : bool,
+    pub has : HasX,
+    pub ent_locat : usize,
     pub component_data : ComponentData
 }
 
@@ -50,7 +53,7 @@ pub enum ComponentData {
 impl Component {
 
     pub fn new(_component_data : ComponentData) -> Component{
-        return Component { active: true, component_data: _component_data }
+        return Component { active: true, has : HasX::new(), ent_locat : 0, component_data: _component_data }
     }
 
     pub fn get_comp_type(&self) -> ComponentTypes{
@@ -97,26 +100,26 @@ impl Component {
 
 impl Component {
 
-    pub fn on_awake(&mut self, _ent : &mut Entity, _state : &mut GameState) {
+    pub fn on_awake(&mut self, ent : &mut Entity, state : &mut GameState) {
 
         match &mut self.component_data {
 
             ComponentData::Button( button_component ) => {
-                button_component.on_awake(_ent, _state);
+                button_component.on_awake(ent, state);
             },
 
             // User made components
 
             ComponentData::Resizer( resizer_component ) => {
-                resizer_component.on_awake(_ent );
+                resizer_component.on_awake(ent, state);
             },
 
             ComponentData::TextBoxResizer( textbox_resizer_component ) => {
-                textbox_resizer_component.on_awake(_ent);
+                textbox_resizer_component.on_awake(ent, state);
             },
 
             ComponentData::TextBoxFiller(tb_filler_component) => {
-                tb_filler_component.on_awake(_ent);
+                tb_filler_component.on_awake(ent, state);
             },
 
             // Space for edge case
@@ -126,12 +129,12 @@ impl Component {
 
     }
 
-    pub fn on_start(&mut self, _ent : &mut Entity, _state : &mut GameState) {
+    pub fn on_start(&mut self, ent : &mut Entity, state : &mut GameState) {
 
         match &mut self.component_data {
 
             ComponentData::Button( button_component ) => {
-                button_component.on_start(_ent, _state);
+                button_component.on_start(ent, state);
             },
 
             // User made components
@@ -145,41 +148,41 @@ impl Component {
         
     }
 
-    pub fn on_update(&mut self, _ent : &mut Entity, _state : &mut GameState) {
+    pub fn on_update(&mut self, ent : &mut Entity, state : &mut GameState) {
         match &mut self.component_data {
             
             // Standard components
 
             ComponentData::Button( button_component ) => {
-                button_component.update(_ent, _state);
+                button_component.update(ent, state);
             },
 
             // User made components
 
             ComponentData::TextBoxFiller(tb_filler_component) => {
-                tb_filler_component.update(_ent);
+                tb_filler_component.update(ent, state);
             },
 
             ComponentData::ScreenManager(screen_manager_component) => {
-                screen_manager_component.update(_state);
+                screen_manager_component.update(state);
             },
 
             ComponentData::Fade(fade_component) => {
-                fade_component.update(_ent, _state);
+                fade_component.update(ent, state);
             },
             
             _default => {}            
         }
     }
 
-    pub fn on_destroy(&mut self, _state : &mut GameState) {
+    pub fn on_destroy(&mut self, state : &mut GameState) {
         // todo!();
     }
 
-    pub fn render(&self, _transform : Transform, _state : &mut GameState) {
+    pub fn on_render(&self, _transform : Transform, state : &mut GameState) {
         match &self.component_data {
             ComponentData::Button( button_component ) => {
-                button_component.render(_transform, _state);
+                button_component.render(_transform, state);
             },
             ComponentData::Rectangle (rectangle_component ) => {
                 rectangle_component.render_rect(_transform);

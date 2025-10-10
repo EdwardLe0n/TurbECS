@@ -5,4 +5,4 @@ authors = ["Edward Leon"]
 
 [canvas]
 width = 256
-height = 144
+height = 256

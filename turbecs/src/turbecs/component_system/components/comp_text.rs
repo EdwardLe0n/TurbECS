@@ -76,7 +76,8 @@ impl TextComponent {
             x = self.position.get_x_offset(0,0) + _transform.get_x_offset() - x_off,
             y =  self.position.get_y_offset(0, 0) + _transform.get_y_offset() + y_off,
             color = self.color,
-            font = &self.font
+            font = &self.font,
+            fixed = _transform.position.get_ui_status() || self.position.get_ui_status()
         );
 
     }

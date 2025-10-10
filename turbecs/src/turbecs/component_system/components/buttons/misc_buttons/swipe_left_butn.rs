@@ -9,7 +9,6 @@ use crate::GameState;
 
 use turbecs::entity::Entity;
 use turbecs::component_system;
-use turbecs::scene_data::Scenes;
 
 use component_system::components::comp_butn::ButtonComponent;
 use component_system::component_types::ComponentTypes;
@@ -31,17 +30,19 @@ pub fn on_click (_button : &mut ButtonComponent, _ent : &mut Entity, _state : &m
         return;
     }
 
-    let locat = _state.entities[ent_locat.1].find_component(ComponentTypes::ScreenManager);
+    let screen_ent = _state.entity_manager.entities[ent_locat.1].clone();
+
+    let locat = screen_ent.find_component(ComponentTypes::ScreenManager, _state);
 
     if !locat.0 {
         return;
     }
 
-    if let ComponentData::ScreenManager(screen_manager_data) = &mut _state.entities[ent_locat.1].components[locat.1].component_data.clone() {
+    if let ComponentData::ScreenManager(screen_manager_data) = &mut _state.component_manager.components[screen_ent.comp_locats[locat.1]].component_data.clone() {
 
         if screen_manager_data.start_swipe(_state, false){
 
-            _state.entities[ent_locat.1].components[locat.1].component_data = ComponentData::ScreenManager(screen_manager_data.clone());
+            _state.component_manager.components[screen_ent.comp_locats[locat.1]].component_data = ComponentData::ScreenManager(screen_manager_data.clone());
 
         }
 
