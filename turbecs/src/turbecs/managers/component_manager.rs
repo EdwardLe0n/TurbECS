@@ -1,6 +1,6 @@
 use crate::{turbecs};
 
-use turbecs::{component_system, gap_data::GapData};
+use turbecs::{component_system, helpers::gap_data::GapData};
 use component_system::component::{Component};
 
 

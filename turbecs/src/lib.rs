@@ -16,7 +16,7 @@ use managers::component_manager::ComponentManager;
 use managers::scene_manager::SceneManager;
 
 // Community work/manager imports
-use turbecs::{particles::ParticleManager};
+use managers::particlemanager::ParticleManager;
 
 // Game specific elements that need to be in the GameState
 

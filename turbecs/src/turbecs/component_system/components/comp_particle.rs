@@ -1,6 +1,6 @@
 use crate::{turbecs, GameState};
 
-use turbecs::particles::{BurstConfig, BurstSource};
+use turbecs::managers::particlemanager::{BurstConfig, BurstSource};
 use super::particles::{particle_types::ParticleType};
 
 use turbecs::helpers::{position::Position, transform::Transform};

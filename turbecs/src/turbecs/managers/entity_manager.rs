@@ -1,8 +1,10 @@
 use turbo::*;
 use crate::{turbecs, GameState};
 
-use turbecs::{entity::Entity, gap_data::GapData, lifetime_data::LifetimeData};
+use turbecs::entity::Entity;
 
+use turbecs::helpers;
+use helpers::{gap_data::GapData, lifetime_data::LifetimeData};
 
 #[turbo::serialize]
 #[derive(PartialEq)]
