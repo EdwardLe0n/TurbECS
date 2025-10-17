@@ -2,6 +2,7 @@ use turbo::*;
 use crate::{turbecs, GameState};
 
 use turbecs::entity::Entity;
+use turbecs::{component_system::component_types::ComponentTypes};
 
 use turbecs::helpers;
 use helpers::{gap_data::GapData, lifetime_data::LifetimeData};
@@ -31,12 +32,10 @@ impl EntityManager {
 }
 
 /*
-* Loading of new entities
-*/
-
-/*
 * Lifetime functions
 */
+
+/// Entity lifetime driver for all on_awake functionality
 
 impl GameState {
     pub fn on_awake(&mut self) {
@@ -72,6 +71,8 @@ impl GameState {
 
     }
 
+    /// Entity lifetime driver for all on_start functionality
+
     pub fn on_start(&mut self) {
 
         let len = self.entity_manager.lifetime_data.new_start.len();
@@ -102,7 +103,7 @@ impl GameState {
 
     }
 
-    // Loops through all of the entities in the entity vector in order of newest to oldest
+    /// Entity lifetime driver for all on_update functionality
     pub fn on_update(&mut self) {
 
         let len = self.entity_manager.entities.len();
@@ -125,11 +126,14 @@ impl GameState {
 
         }
 
-        // particles!!!!
+        // Particle manager call to update particles
+        // Code by Alex Feigenbaum
 
         self.particle_manager.update();
 
     }
+
+    /// Entity lifetime driver for all on_destroy functionality
 
     pub fn on_destroy(&mut self) {
 
@@ -169,6 +173,8 @@ impl GameState {
 
     }
 
+    /// Entity lifetime driver for all on_render functionality
+
     pub fn on_render(&mut self) {
 
         clear(0xeeeeeeff);
@@ -193,5 +199,103 @@ impl GameState {
 
         self.particle_manager.draw();
 
+    }
+}
+
+
+impl GameState {
+
+    /// Pushes mutable entity to be instantiated at the next possible time
+    pub fn new_entity(&mut self, _entity : &mut Entity) {
+
+        self.entity_manager.new_entities.push(_entity.clone());
+
+    }
+
+    /// gets the number of available free spaces
+    pub fn get_num_of_free_locat(&mut self) -> usize {
+        return self.entity_manager.gap_data.empty_spaces.len();
+    }
+
+    /// Gets the next free available space, then pops the reference
+    /// Assumes that there is is another available space
+    pub fn get_next_free(&mut self) -> usize {
+
+        let next = *self.entity_manager.gap_data.empty_spaces.front().unwrap();
+
+        self.entity_manager.gap_data.empty_spaces.pop_front();
+
+        return next;
+
+    }
+ 
+    /// Loops through the entire GameState to find a entity with a certain component
+    /// If not found, the first element it returns will be false
+    pub fn find_w_component(&mut self, some_type : ComponentTypes) -> (bool, usize) {
+
+        for i in 0..self.entity_manager.entities.len() {
+
+            if !self.entity_manager.entities[i].is_destroyed() {
+
+                let ent =  self.entity_manager.entities[i].clone();
+
+                if ent.has_component(some_type.clone(), self) {
+                    return (true, i);
+                }
+
+            }
+
+        }
+
+        return (false, 0);
+
+    }
+}
+
+/// Loading new entities functions
+impl GameState {
+
+    /// Loops through all the entities that need to be loaded,
+    /// until everything has been loaded
+    pub fn load_entities(&mut self) {
+
+        if self.entity_manager.new_entities.len() == 0{
+            return;
+        }
+
+        for ent in self.entity_manager.new_entities.clone() {
+            self.load_entity(&mut ent.clone());
+        } 
+
+        self.entity_manager.new_entities.clear();
+
+    }
+
+    /// Loads the next immediate entity
+    pub fn load_entity(&mut self, _entity : &mut Entity) {
+        let mut next : usize = 0;
+
+        if self.get_num_of_free_locat() > 0 {
+
+            next = self.get_next_free();
+            _entity.locat = next.clone();
+
+            self.entity_manager.entities[next] = _entity.clone();
+
+            // do linkage here!
+
+        }
+        else {
+
+            next = self.entity_manager.entities.len();
+            _entity.locat = next.clone();
+
+            self.entity_manager.entities.push(_entity.clone());
+
+            // do linkage here!
+
+        }
+
+        self.entity_manager.lifetime_data.new_awake.push_back(next);
     }
 }

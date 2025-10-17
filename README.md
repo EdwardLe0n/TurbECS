@@ -6,7 +6,7 @@ Welcome to the TurbECS repository, an open-source codebase that works on making 
 
 Natively, TurbECS works with the Turbo game state to keep track of any entities and components, and store their data easily. 
 
-This is done two main steps. The vectors and structs tossed into the gamestate, and the lifetime functions built into the engine.
+This is done two main steps. The vectors and structs tossed into the GameState, and the lifetime functions built into the engine.
 
 ### The extra data
 
@@ -28,7 +28,7 @@ struct GameState {
 
 ### The lifetime cycle
 
-On top of this, through the TurbECS lifecycle, the code will iterate through each lifetime function every frame, and an entity has a component that is within that lifetime function, then the code will complete the assocaited function for the attached components!
+On top of this, through the TurbECS lifecycle, the code will iterate through each lifetime function every frame, and an entity has a component that is within that lifetime function, then the code will complete the associated function for the attached components!
 
 To look at some code...
 
@@ -72,7 +72,7 @@ impl GameState {
 But to sum that code down:
 
 1. The code starts in the basic Turbo update loop every frame
-2. Within that update loop, the gamestate will run all lifetime functions in order:
+2. Within that update loop, the GameState will run all lifetime functions in order:
     1. load_entities()
     2. on_awake()
     3. on_start()
@@ -109,7 +109,7 @@ Of the two paths, this is pretty easy!
 
 All you need to do is download the main turbecs folder [(this is the folder for reference)](./turbecs/), drop the folder in a preferred directory, and start adding your own work from there!
 
-- Note: it is heavily reccomended that you rename the two folders titled turbecs to the name of your project!
+- Note: it is heavily recommended that you rename the two folders titled turbecs to the name of your project!
 
 ### Implementing TurbECS into an existing Turbo Project 
 

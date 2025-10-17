@@ -84,26 +84,6 @@ impl GameState {
         
     }
 
-    pub fn new_entity(&mut self, _entity : &mut Entity) {
-
-        self.entity_manager.new_entities.push(_entity.clone());
-
-    }
-
-    fn get_num_of_free_locat(&mut self) -> usize {
-        return self.entity_manager.gap_data.empty_spaces.len();
-    }
-
-    fn get_next_free(&mut self) -> usize {
-
-        let next = *self.entity_manager.gap_data.empty_spaces.front().unwrap();
-
-        self.entity_manager.gap_data.empty_spaces.pop_front();
-
-        return next;
-
-    }
-
 }
 
 /*
@@ -127,77 +107,6 @@ impl GameState {
         self.on_destroy();
 
         self.on_render();
-
-    }
-
-    pub fn load_entities(&mut self) {
-
-        if self.entity_manager.new_entities.len() == 0{
-            return;
-        }
-
-        for ent in self.entity_manager.new_entities.clone() {
-            self.load_entity(&mut ent.clone());
-        } 
-
-        self.entity_manager.new_entities.clear();
-
-    }
-
-    pub fn load_entity(&mut self, _entity : &mut Entity) {
-        let mut next : usize = 0;
-
-        if self.get_num_of_free_locat() > 0 {
-
-            next = self.get_next_free();
-            _entity.locat = next.clone();
-
-            self.entity_manager.entities[next] = _entity.clone();
-
-            // do linkage here!
-
-        }
-        else {
-
-            next = self.entity_manager.entities.len();
-            _entity.locat = next.clone();
-
-            self.entity_manager.entities.push(_entity.clone());
-
-            // do linkage here!
-
-        }
-
-        self.entity_manager.lifetime_data.new_awake.push_back(next);
-    }
-
-}
-
-/*
-* Helper functions 
-*/
-
-// Misc
-
-impl GameState {
-    
-    pub fn find_w_component(&mut self, some_type : ComponentTypes) -> (bool, usize) {
-
-        for i in 0..self.entity_manager.entities.len() {
-
-            if !self.entity_manager.entities[i].is_destroyed() {
-
-                let ent =  self.entity_manager.entities[i].clone();
-
-                if ent.has_component(some_type.clone(), self) {
-                    return (true, i);
-                }
-
-            }
-
-        }
-
-        return (false, 0);
 
     }
 
