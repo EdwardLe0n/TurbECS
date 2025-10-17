@@ -2,7 +2,7 @@
 
 ## Intro
 
-The component system functions both as a specified data container, but can be modified to have 
+The component system functions both as a specified data container, but can be modified to have their own unique functions as well!
 
 ## Directory
 

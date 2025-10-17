@@ -16,9 +16,12 @@ Welcome to the change log! Here, you'll see a list of all changes made to the re
 - (+) Implemented the change log
   - (+) New change log README was made as a general home page
   - (+) Added a change logs directory
-- (~) Added a reference to the changelog in the main README
-- (~) Added a last updated reference in more of the docs
-- (~) Added an intro to the tutorials
+- (+) Completed the component system read me
+- (+) Added how to make a new prefab
+- (+) Added sources to code snippets when applicable 
+- (+) Added a reference to the changelog in the main README
+- (+) Added a last updated reference in more of the docs
+- (+) Added an intro to the tutorials
 
 ## Change Log List
 

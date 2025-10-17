@@ -20,7 +20,7 @@ use assets::components::{misc_components};
 
 use misc_components::{comp_resizer::ResizerComponent, comp_textbox_resizer::TextBoxResizerComponent};
 use misc_components::{comp_text_box_filler::TextBoxFillerComponent};
-use misc_components::{comp_screen_manager::ScreenManagerComponent, comp_fade::FadeComponent};
+use misc_components::{comp_fade::FadeComponent};
 
 #[turbo::serialize]
 #[derive(PartialEq)]
@@ -47,7 +47,6 @@ pub enum ComponentData {
     TextBoxResizer (TextBoxResizerComponent),
     Fade (FadeComponent),
     TextBoxFiller (TextBoxFillerComponent),
-    ScreenManager (ScreenManagerComponent),
 }
 
 impl Component {
@@ -82,9 +81,7 @@ impl Component {
 
             // User made components
 
-            ComponentData::ScreenManager(_) => {
-                return ComponentTypes::ScreenManager
-            },
+            
             
             // Edge case
 
@@ -161,10 +158,6 @@ impl Component {
 
             ComponentData::TextBoxFiller(tb_filler_component) => {
                 tb_filler_component.update(ent, state);
-            },
-
-            ComponentData::ScreenManager(screen_manager_component) => {
-                screen_manager_component.update(state);
             },
 
             ComponentData::Fade(fade_component) => {

@@ -11,9 +11,6 @@ pub enum ButtonTypes {
 
     // User made buttons
 
-    SwipeLeft,
-    SwipeRight
-
 }
 
 impl ButtonTypes {
