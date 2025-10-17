@@ -7,7 +7,7 @@ pub struct BoundData {
     
     pub is_ui : bool,
     pub size : Size,
-    pub horizontal : Horizonontal,
+    pub horizontal : Horizontal,
     pub vertical : Vertical
 
 }
@@ -15,7 +15,7 @@ pub struct BoundData {
 impl BoundData {
     
     pub fn new() -> BoundData {
-        return BoundData{is_ui : false, size : Size::new(), horizontal : Horizonontal::Center, vertical : Vertical::Center};
+        return BoundData{is_ui : false, size : Size::new(), horizontal : Horizontal::Center, vertical : Vertical::Center};
     }
 
 }
@@ -26,7 +26,7 @@ impl BoundData {
         self.is_ui = some_bool;
     }
 
-    pub fn set_horizontal_pref(&mut self, some_pref : Horizonontal) {
+    pub fn set_horizontal_pref(&mut self, some_pref : Horizontal) {
         self.horizontal = some_pref;
     }
 
@@ -38,7 +38,7 @@ impl BoundData {
         return self.is_ui;
     }
 
-    pub fn get_horizontal_pref(&self) -> Horizonontal {
+    pub fn get_horizontal_pref(&self) -> Horizontal {
         return self.horizontal;
     }
 
@@ -51,19 +51,19 @@ impl BoundData {
 #[turbo::serialize]
 #[derive(Copy, PartialEq)]
 
-pub enum Horizonontal {
+pub enum Horizontal {
     Left,
     Center,
     Right
 }
 
-impl Horizonontal {
+impl Horizontal {
     pub fn get_string(&self) -> String {
 
         match self {
-            Horizonontal::Left => {return "left".to_string();},
-            Horizonontal::Center => {return "center".to_string();},
-            Horizonontal::Right => {return "right".to_string();},
+            Horizontal::Left => {return "left".to_string();},
+            Horizontal::Center => {return "center".to_string();},
+            Horizontal::Right => {return "right".to_string();},
         }
 
     }

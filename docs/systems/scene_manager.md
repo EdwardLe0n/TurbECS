@@ -10,9 +10,11 @@ The scene manager is one of the core managers within TurbECS that allows for:
 
 ## Directory
 
-- Loading the another scene
-- Adding a new scene to the scenes enum
-- Making a new make_scene function
+- [Loading a scene](#loading-a-new-scene)
+- [Adding a new scene enum](#making-a-new-scene-enum)
+- [Making a new make_scene function](#making-a-new-make_scene-function)
+
+---
 
 ## Loading a new scene
 
@@ -37,7 +39,7 @@ pub fn on_click (_button : &mut ButtonComponent, _ent : &mut Entity, _state : &m
 }
 ```
 
-## Making a new scene enum
+## Adding a new scene enum
 
 Located withing the scene_manager file, there'll be an enum that looks like this:
 
@@ -96,3 +98,6 @@ pub fn make_scene (some_scene : Scenes) ->  VecDeque<(Entity, VecDeque<Component
 
 }
 ```
+
+---
+Last updated: 10/16/2025

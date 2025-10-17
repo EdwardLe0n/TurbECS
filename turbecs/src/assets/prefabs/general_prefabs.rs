@@ -151,7 +151,7 @@ pub fn new_title () -> (Entity, VecDeque<Component>) {
 
     ent.transform.nudge_y(text_box.transform.get_height() / 2);
 
-    text_box.transform.position.set_horizontal_pref(bound_data::Horizonontal::Center);
+    text_box.transform.position.set_horizontal_pref(bound_data::Horizontal::Center);
 
     ent_queue.push_front(Component::new(ComponentData::TextBox(text_box)));
 

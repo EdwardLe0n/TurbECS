@@ -1,7 +1,7 @@
 use turbo::*;
 
 use super::bound_data;
-use bound_data::{BoundData, Horizonontal, Vertical};
+use bound_data::{BoundData, Horizontal, Vertical};
 
 #[turbo::serialize]
 #[derive(Copy, PartialEq)]
@@ -57,7 +57,7 @@ impl Position {
         self.bound_data.set_ui_status(some_bool);
     }
 
-    pub fn set_horizontal_pref(&mut self, some_pref : Horizonontal) {
+    pub fn set_horizontal_pref(&mut self, some_pref : Horizontal) {
         self.bound_data.set_horizontal_pref(some_pref);
     }
 
@@ -85,7 +85,7 @@ impl Position {
         return self.bound_data.get_ui_status();
     }
 
-    pub fn get_horizontal_pref(&self) -> Horizonontal {
+    pub fn get_horizontal_pref(&self) -> Horizontal {
         return self.bound_data.get_horizontal_pref();
     }
 
@@ -125,9 +125,9 @@ impl Position {
         let mut b2 = other_bounds.clone();
 
         match self.get_horizontal_pref() {
-            Horizonontal::Left => {b1 = b1.anchor_left(&b2);},
-            Horizonontal::Center => {b1 = b1.anchor_center_x(&b2);},
-            Horizonontal::Right => {b1 = b1.anchor_right(&b2);}
+            Horizontal::Left => {b1 = b1.anchor_left(&b2);},
+            Horizontal::Center => {b1 = b1.anchor_center_x(&b2);},
+            Horizontal::Right => {b1 = b1.anchor_right(&b2);}
         }
 
         match self.get_vertical_pref() {
@@ -171,9 +171,9 @@ impl Position {
             }
 
             match self.get_horizontal_pref() {
-                Horizonontal::Left => {this_bounds = this_bounds.anchor_left(&some_other);},
-                Horizonontal::Center => {this_bounds = this_bounds.anchor_center_x(&some_other);},
-                Horizonontal::Right => {this_bounds = this_bounds.anchor_right(&some_other);},
+                Horizontal::Left => {this_bounds = this_bounds.anchor_left(&some_other);},
+                Horizontal::Center => {this_bounds = this_bounds.anchor_center_x(&some_other);},
+                Horizontal::Right => {this_bounds = this_bounds.anchor_right(&some_other);},
             }
 
             result += this_bounds.x();
