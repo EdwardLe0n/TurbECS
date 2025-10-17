@@ -52,16 +52,6 @@ pub fn make_scene (some_scene : Scenes) ->  VecDeque<(Entity, VecDeque<Component
 
 }
 
-pub fn apply_screen_offset(some_screen_vec : &mut VecDeque<(Entity, VecDeque<Component>)>, some_x : i32) {
-
-    for ent in some_screen_vec {
-
-        ent.0.transform.nudge_x(some_x);
-
-    }
-
-}
-
 pub fn make_title_scene() -> VecDeque<(Entity, VecDeque<Component>)> {
 
     let mut ent_vec = VecDeque::new();

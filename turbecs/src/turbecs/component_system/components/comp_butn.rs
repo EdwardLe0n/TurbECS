@@ -22,13 +22,9 @@ use component_system::components::buttons;
 
 use buttons::{scene_loader_buttons, misc_buttons};
 
-// Scene loaders <333
+// Scene loaders <3
 
 use scene_loader_buttons::{to_misc, to_title};
-
-// Misc buttons
-
-use misc_buttons::{swipe_right_butn, swipe_left_butn};
 
 // Custom states to deal with the three main instances
 
@@ -302,12 +298,6 @@ impl ButtonComponent {
     pub fn on_click(&mut self, _ent : &mut Entity, _state : &mut GameState) {
 
         match &self.button_type {
-            ButtonTypes::SwipeLeft => {
-                swipe_left_butn::on_click(self, _ent, _state);
-            },
-            ButtonTypes::SwipeRight => {
-                swipe_right_butn::on_click(self, _ent, _state);
-            },
 
             // Testing
 
