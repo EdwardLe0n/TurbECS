@@ -4,6 +4,8 @@ Welcome to the change log! Here, you'll see a list of all changes made to the re
 
 ## Directory
 
+- [Recent Updates](#most-recent-changes)
+- [Change Log List](#change-log-list)
 
 ## Most Recent Changes
 
@@ -20,7 +22,7 @@ Welcome to the change log! Here, you'll see a list of all changes made to the re
 
 ## Change Log List
 
-- 10/17/25 - The Change Log Update
+- [10/17/25 - The Change Log Update](./2025/cl-10-17-25-IGB.md)
 
 ---
 Last Updated: 10/17/25

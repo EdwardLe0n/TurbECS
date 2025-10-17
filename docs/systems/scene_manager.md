@@ -38,6 +38,7 @@ pub fn on_click (_button : &mut ButtonComponent, _ent : &mut Entity, _state : &m
 
 }
 ```
+- Source : [Click here!](../../turbecs/src/turbecs/component_system/components/buttons/scene_loader_buttons/to_misc.rs)
 
 ## Adding a new scene enum
 
@@ -52,6 +53,7 @@ pub enum Scenes {
     Misc
 }
 ```
+- Source : [Click here!](../../turbecs/src/turbecs/managers/scene_manager.rs)
 
 Feel free to add as many possible enum options as you'd like
 
@@ -82,6 +84,7 @@ pub fn make_some_scene() -> VecDeque<(Entity, VecDeque<Component>)> {
 
 }
 ```
+- Source : [Click here!](../../turbecs/src/turbecs/managers/scene_manager.rs)
 
 Also, located in [this file here](../../turbecs/src/turbecs/managers/scene_manager.rs), make sure to update the match function to include your new enum and function.
 
@@ -98,6 +101,7 @@ pub fn make_scene (some_scene : Scenes) ->  VecDeque<(Entity, VecDeque<Component
 
 }
 ```
+- Source : [Click here!](../../turbecs/src/turbecs/managers/scene_manager.rs)
 
 ---
-Last updated: 10/16/2025
+Last updated: 10/17/2025
