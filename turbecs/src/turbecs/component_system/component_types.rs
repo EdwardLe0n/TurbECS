@@ -13,8 +13,6 @@ pub enum ComponentTypes {
 
     Resizer,
 
-    ScreenManager,
-
     // Other
 
     Other

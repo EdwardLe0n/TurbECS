@@ -25,6 +25,7 @@ struct GameState {
 
 }
 ```
+- Source : [Click here!](./turbecs/src/lib.rs)
 
 ### The lifetime cycle
 
@@ -48,7 +49,9 @@ impl GameState {
 
     }
 } ...
-
+```
+- Source : [Click here!](./turbecs/src/lib.rs)
+```
 // List of everything in the lifetime system!
 
 impl GameState {
@@ -68,6 +71,7 @@ impl GameState {
 
 // Code will then go on and handle each entity as seen fit!
 ```
+- Source : [Click here!](./turbecs/src/ecs_gamestate.rs)
 
 But to sum that code down:
 
@@ -150,6 +154,7 @@ use managers::scene_manager::SceneManager;
 // Community work/manager imports
 use turbecs::{particles::ParticleManager};
 ```
+- Source : [Click here!](./turbecs/src/lib.rs)
 
 #### 4. Update your GameState to hold TurbECS
 
@@ -174,6 +179,7 @@ struct GameState {
 
 }
 ```
+- Source : [Click here!](./turbecs/src/lib.rs)
 
 #### 5. Update your new() to initialize TurbECS
 
@@ -208,6 +214,7 @@ impl GameState {
 
 }
 ```
+- Source : [Click here!](./turbecs/src/lib.rs)
 
 
 #### 6. Update your update() to hold TurbECS
@@ -235,6 +242,7 @@ impl GameState {
 
 }
 ```
+- Source : [Click here!](./turbecs/src/lib.rs)
 
 #### 7. Run the project!
 
@@ -243,7 +251,11 @@ Once all is said and done, run the project as you have before, you should be goo
 ---
 ### For extra info, check the docs!
 
-- [Click here to check them out](./docs/README.md)
+- [Click here to check the documentaion!](./docs/README.md)
+
+--- 
+### To quickly access the change log...
+- [Click here!](./docs/changelogs/README.md)
 
 --- 
 
@@ -259,4 +271,4 @@ MIT Licensed - Copyright Edward Leon (EdwardLe0n)
 
 --- 
 
-Last updated: 10/16/2025
+Last updated : 10/17/2025
