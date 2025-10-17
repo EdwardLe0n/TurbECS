@@ -243,7 +243,11 @@ Once all is said and done, run the project as you have before, you should be goo
 ---
 ### For extra info, check the docs!
 
-- [Click here to check them out](./docs/README.md)
+- [Click here to check the documentaion!](./docs/README.md)
+
+--- 
+### To quickly access the change log...
+- [Click here!](./docs/changelogs/README.md)
 
 --- 
 
@@ -259,4 +263,4 @@ MIT Licensed - Copyright Edward Leon (EdwardLe0n)
 
 --- 
 
-Last updated : 10/10/2025
+Last updated : 10/17/2025
