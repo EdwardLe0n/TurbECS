@@ -253,6 +253,10 @@ Once all is said and done, run the project as you have before, you should be goo
 - Josiah Savary
 - Alex Feigenbaum
 
+### License
+
+MIT Licensed - Copyright Edward Leon (EdwardLe0n)
+
 --- 
 
 Last updated : 10/10/2025
