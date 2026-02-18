@@ -63,8 +63,8 @@ impl TextBoxComponent {
             end = self.end as usize,
             width = self.transform.get_width(),
             height = self.transform.get_height(),
-            x = self.transform.position.get_x_offset(0,0) + _transform.get_x_offset() - self.transform.get_width() / 2,
-            y =  self.transform.position.get_y_offset(0, 0) + _transform.get_y_offset() + self.transform.get_height() / 2,
+            x = self.transform.position.get_x_offset(0,0) + _transform.get_x_offset() - (self.transform.get_width() / 2) as f32,
+            y =  self.transform.position.get_y_offset(0, 0) + _transform.get_y_offset() + (self.transform.get_height() / 2) as f32,
             color = self.color,
             align = &self.transform.position.bound_data.get_horizontal_pref().get_string()
         );

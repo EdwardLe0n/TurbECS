@@ -62,9 +62,9 @@ impl ResizerComponent {
 
         if let ComponentData::Button(button) = &mut state.component_manager.components[locat_button.1].component_data {
 
-            button.transform.set_width(size.get_x() * 2 + 3 + self.w_buffer as i32 * 2);
-            button.transform.set_height(-size.get_y() * 3 + self.h_buffer as i32 * 2);
-            button.transform.position.nudge_x(-1);
+            button.transform.set_width(size.get_x() as i32 * 2 + 3 + self.w_buffer as i32 * 2);
+            button.transform.set_height(-size.get_y() as i32 * 3 + self.h_buffer as i32 * 2);
+            button.transform.position.nudge_x(-1.0);
 
         }
 
