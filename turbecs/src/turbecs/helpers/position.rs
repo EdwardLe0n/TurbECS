@@ -6,9 +6,9 @@ use bound_data::{BoundData, Horizontal, Vertical};
 #[turbo::serialize]
 #[derive(Copy, PartialEq)]
 pub struct Position {
-    pub x : i32,
-    pub y : i32,
-    pub rotation : i32,
+    pub x : f32,
+    pub y : f32,
+    pub rotation : f32,
     pub is_bounded : bool,
     pub bound_data : BoundData
 }
@@ -17,12 +17,12 @@ impl Position {
 
     pub fn new() -> Position {
 
-        return Position { x: 0, y: 0, rotation: 0, is_bounded : false,
+        return Position { x: 0.0, y: 0.0, rotation: 0.0, is_bounded : false,
                         bound_data : BoundData::new() }
 
     }
 
-    pub fn new_with_xy(some_x : i32, some_y : i32) -> Position {
+    pub fn new_with_xy(some_x : f32, some_y : f32) -> Position {
 
         let mut transform = Position::new();
 
@@ -37,15 +37,15 @@ impl Position {
 
 impl Position {
 
-    pub fn set_x(&mut self, some_x : i32) {
+    pub fn set_x(&mut self, some_x : f32) {
         self.x = some_x;
     }
 
-    pub fn set_y(&mut self, some_y : i32) {
+    pub fn set_y(&mut self, some_y : f32) {
         self.y = some_y;
     }
 
-    pub fn set_rotation(&mut self, some_rotation : i32) {
+    pub fn set_rotation(&mut self, some_rotation : f32) {
         self.rotation = some_rotation;
     }
 
@@ -65,15 +65,15 @@ impl Position {
         self.bound_data.set_vertical_pref(some_pref);
     }
     
-    pub fn get_x(&self) -> i32 {
+    pub fn get_x(&self) -> f32 {
         return self.x;
     }
 
-    pub fn get_y(&self) -> i32 {
+    pub fn get_y(&self) -> f32 {
         return -self.y;
     }
 
-    pub fn get_rotation(&self) -> i32 {
+    pub fn get_rotation(&self) -> f32 {
         return self.rotation;
     }
 
@@ -97,19 +97,19 @@ impl Position {
 
 impl Position {
     
-    pub fn nudge_x(&mut self, some_x : i32) {
+    pub fn nudge_x(&mut self, some_x : f32) {
 
         self.set_x(self.get_x() + some_x);
 
     }
 
-    pub fn nudge_y(&mut self, some_y : i32) {
+    pub fn nudge_y(&mut self, some_y : f32) {
 
         self.set_y(-self.get_y() + some_y);
 
     }
 
-    pub fn nudge_rotation(&mut self, some_rotation : i32) {
+    pub fn nudge_rotation(&mut self, some_rotation : f32) {
 
         self.set_rotation(self.get_rotation() + some_rotation);
 
@@ -140,7 +140,7 @@ impl Position {
 
     }
 
-    pub fn get_xy_offset(&self, width : i32, height : i32) -> (i32, i32) {
+    pub fn get_xy_offset(&self, width : i32, height : i32) -> (f32, f32) {
 
         let x = self.get_x_offset(width, height);
         let y = self.get_y_offset(width, height);
@@ -149,9 +149,9 @@ impl Position {
 
     }
 
-    pub fn get_x_offset(&self, width : i32, height : i32) -> i32 {
+    pub fn get_x_offset(&self, width : i32, height : i32) -> f32 {
 
-        let mut result = 0;
+        let mut result = 0.0;
 
         if self.get_bound_status() {
 
@@ -176,7 +176,7 @@ impl Position {
                 Horizontal::Right => {this_bounds = this_bounds.anchor_right(&some_other);},
             }
 
-            result += this_bounds.x();
+            result += this_bounds.x() as f32;
 
         }
 
@@ -186,9 +186,9 @@ impl Position {
 
     }
 
-    pub fn get_y_offset(&self, width : i32, height : i32) -> i32 {
+    pub fn get_y_offset(&self, width : i32, height : i32) -> f32 {
 
-        let mut result = 0;
+        let mut result = 0.0;
 
         if self.get_bound_status() {
 
@@ -214,7 +214,7 @@ impl Position {
                 Vertical::Bottom => {this_bounds = this_bounds.anchor_bottom(&some_other);},
             }
 
-            result -= this_bounds.y();
+            result -= this_bounds.y() as f32;
 
         }
 

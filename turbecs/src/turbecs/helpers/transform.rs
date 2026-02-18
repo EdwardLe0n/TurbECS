@@ -25,15 +25,15 @@ impl Transform {
 
 impl Transform {
 
-    pub fn set_x(&mut self, some_x : i32) {
+    pub fn set_x(&mut self, some_x : f32) {
         self.position.set_x(some_x);
     }
 
-    pub fn set_y(&mut self, some_y : i32) {
+    pub fn set_y(&mut self, some_y : f32) {
         self.position.set_y(some_y);
     }
 
-    pub fn set_rotation(&mut self, some_rotation : i32) {
+    pub fn set_rotation(&mut self, some_rotation : f32) {
         self.position.set_rotation(some_rotation);
     }
 
@@ -64,15 +64,15 @@ impl Transform {
 
 impl Transform {
 
-    pub fn get_x(&self) -> i32 {
+    pub fn get_x(&self) -> f32 {
         return self.position.get_x();
     }
 
-    pub fn get_y(&self) -> i32 {
+    pub fn get_y(&self) -> f32 {
         return self.position.get_y();
     }
 
-    pub fn get_rotation(&self) -> i32 {
+    pub fn get_rotation(&self) -> f32 {
         return self.position.get_rotation();
     }
 
@@ -102,12 +102,12 @@ impl Transform {
 
 impl Transform {
 
-    pub fn nudge_x(&mut self, some_i32 : i32) {
-        self.position.nudge_x(some_i32);
+    pub fn nudge_x(&mut self, some_f32 : f32) {
+        self.position.nudge_x(some_f32);
     }
 
-    pub fn nudge_y(&mut self, some_i32 : i32) {
-        self.position.nudge_y(some_i32);
+    pub fn nudge_y(&mut self, some_f32 : f32) {
+        self.position.nudge_y(some_f32);
     }
 
 }
@@ -115,7 +115,7 @@ impl Transform {
 // Other
 
 impl Transform {
-    pub fn get_xy_offset(&self, some_bool : bool) -> (i32, i32) {
+    pub fn get_xy_offset(&self, some_bool : bool) -> (f32, f32) {
 
         if some_bool {
             return self.position.get_xy_offset(0, 0);
@@ -125,13 +125,13 @@ impl Transform {
 
     }
 
-    pub fn get_x_offset(&self) -> i32 {
+    pub fn get_x_offset(&self) -> f32 {
 
         return self.position.get_x_offset(self.get_width(), self.get_height());
 
     }
 
-    pub fn get_y_offset(&self) -> i32 {
+    pub fn get_y_offset(&self) -> f32 {
 
         return self.position.get_y_offset(self.get_width(), self.get_height());
 

@@ -32,33 +32,41 @@ impl TextComponent {
 
 impl TextComponent {
 
-    pub fn get_text_offset(some_string : &String, some_font : &String) -> Position {
+    fn get_preferred_width(some_font : &str) -> f32 {
+
+        match some_font {
+            "medium"    => {return 7.0;},
+            "large"     => {return 12.0;},
+            _default => {},
+        }
+
+        return 10.0;
+
+    }
+
+    fn get_preferred_height(some_font : &str) -> f32 {
+
+        match some_font {
+            "medium"    => {return 4.0;},
+            "large"     => {return 6.0;},
+            _default => {},
+        }
+
+        return 10.0;
+
+    }
+
+    pub fn get_text_offset(some_string : &String, some_font : &str) -> Position {
 
         let mut position = Position::new();
 
         // Handles the x offset
 
-        match some_font.clone() {
-            val if val == "medium".to_string() => {position.set_x(((some_string.len() as i32 / 2) as f32 * 7.0) as i32);},
-            val if val == "large".to_string() => {position.set_x(((some_string.len() as i32 / 2) as f32 * 12.0) as i32);},
-
-            val if val == "TinyUnicodeMedium".to_string() => {position.set_x(((some_string.len() as i32 / 2) as f32 * 12.0) as i32);},
-            val if val == "TinyUnicodeLarge".to_string() => {position.set_x(((some_string.len() as i32 / 2) as f32 * 24.0) as i32);},
-
-            _default => {position.set_x((some_string.len() as i32 / 2) * 3);}
-        }
+        position.set_x((some_string.len() as f32 / 2.0) * TextComponent::get_preferred_width(some_font));
 
         // Handles the y offset
 
-        match some_font.clone() {
-            val if val == "medium".to_string() => {position.set_y(4);},
-            val if val == "large".to_string() => {position.set_y(6);},
-
-            val if val == "TinyUnicodeMedium".to_string() => {position.set_y(8);},
-            val if val == "TinyUnicodeLarge".to_string() => {position.set_y(12);},
-
-            _default => {position.set_y(2);}
-        }
+        position.set_y(TextComponent::get_preferred_height(some_font));
 
         return position;
 

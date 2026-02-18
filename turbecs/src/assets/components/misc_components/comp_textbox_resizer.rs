@@ -59,13 +59,13 @@ impl TextBoxResizerComponent {
             size = TextComponent::get_text_offset(&text_box.text, &text_box.font);
 
             if text_box.text.len() <= 3 as usize {
-                size.set_x(7 * text_box.text.len() as i32);
+                size.set_x(7.0 * text_box.text.len() as f32);
             }
 
-            text_box.transform.set_width(size.get_x() * 3);
-            text_box.transform.set_height(size.get_y() * -2);
+            text_box.transform.set_width(size.get_x() as i32 * 3);
+            text_box.transform.set_height(size.get_y() as i32 * -2);
 
-            text_box.transform.nudge_y(-size.get_y() * 2 - self.h_buffer as i32);
+            text_box.transform.nudge_y(-size.get_y() * 2.0 - self.h_buffer as f32);
 
             if text_box.transform.get_width() > screen().w() as i32 * 8 / 10 {
                 text_box.transform.set_width(screen().w() as i32 * 8 / 10);
@@ -77,9 +77,9 @@ impl TextBoxResizerComponent {
 
             log!("updated button");
 
-            button.transform.set_width(size.get_x() * 2 + 3 + self.w_buffer as i32 * 2);
-            button.transform.set_height(-size.get_y() * 3 + self.h_buffer as i32 * 2);
-            button.transform.position.nudge_x(-1);
+            button.transform.set_width(size.get_x() as i32 * 2 + 3 + self.w_buffer as i32 * 2);
+            button.transform.set_height(-size.get_y() as i32 * 3 + self.h_buffer as i32 * 2);
+            button.transform.position.nudge_x(-1.0);
 
             if button.transform.get_width() > screen().w() as i32 * 8 / 10 {
                 button.transform.set_width(screen().w() as i32 * 8 / 10);
